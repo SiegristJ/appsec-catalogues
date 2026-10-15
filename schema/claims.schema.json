@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsec.complects.com/schema/claims.schema.json",
+  "title": "Claims (data/claims/*.yaml)",
+  "description": "Audit-register claims records, one file per area section plus front.yaml, per SETUP-INSTRUCTIONS 4.5. Grouped rows are split one record per ID with split_from carrying the original ID cell verbatim. tier is an integer, or null when the export cell was '-'; non-numeric tier content goes to tier_text (neither occurs in the import).",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^(([TC]-(A|B|P)\\d{1,2}-\\d+)|(F-\\d+))$"
+      },
+      "split_from": { "type": "string" },
+      "claim": { "type": "string" },
+      "sources": { "type": "array", "items": { "type": "string", "pattern": "^R-\\d+$" } },
+      "tier": { "type": ["integer", "null"] },
+      "tier_text": { "type": "string" },
+      "verification": { "type": "string" },
+      "last_verified": { "type": "string", "format": "date" },
+      "verified_by": { "type": "string" },
+      "origin": { "type": "string" },
+      "decision": { "type": "string" },
+      "status": { "type": "string" }
+    },
+    "required": ["id", "claim", "sources", "tier", "verification", "last_verified", "verified_by", "origin", "decision", "status"],
+    "additionalProperties": false
+  }
+}

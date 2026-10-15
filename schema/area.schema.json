@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsec.complects.com/schema/area.schema.json",
+  "title": "Area file (data/areas/*.yaml)",
+  "description": "Schema for one area of the corpus, per SETUP-INSTRUCTIONS 4.1. Field order in the YAML follows 4.1; this schema fixes required fields, types, ID patterns, enums and nullable fields.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[ABP]\\d{1,2}$",
+      "description": "Area ID as in the catalogue heading, unpadded (A3, B14 would be invalid: max two digits)."
+    },
+    "title": { "type": "string" },
+    "group": { "enum": ["application", "hosting", "process"] },
+    "lead": { "type": "string" },
+    "applies_when": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "universal": { "type": "boolean" },
+        "features": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }
+        }
+      },
+      "required": ["text", "universal", "features"],
+      "additionalProperties": false
+    },
+    "cross_references": {
+      "type": ["string", "null"],
+      "description": "Optional paragraph after the threats table; null when the area has none."
+    },
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^T-(A|B|P)\\d{1,2}-\\d+$" },
+          "name": { "type": "string" },
+          "mechanism": { "type": "string" },
+          "references": { "type": "array", "items": { "type": "string" } },
+          "last_changed": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[A-Za-z0-9.]+)?$" },
+          "status": { "enum": ["current", "retired"] },
+          "replaced_by": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "name", "mechanism", "references", "last_changed", "status", "replaced_by"],
+        "additionalProperties": false
+      }
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^C-(A|B|P)\\d{1,2}-\\d+$" },
+          "statement": { "type": "string" },
+          "addresses": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^T-(A|B|P)\\d{1,2}-\\d+$" }
+          },
+          "asvs": { "type": "array", "items": { "type": "string" } },
+          "type": { "enum": ["baseline", "conditional", "defence_in_depth"] },
+          "type_text": { "type": "string" },
+          "trigger": {
+            "type": ["object", "null"],
+            "properties": {
+              "text": { "type": ["string", "null"] },
+              "rule": { "type": ["string", "null"] }
+            },
+            "required": ["text", "rule"],
+            "additionalProperties": false
+          },
+          "disputed": { "type": "boolean" },
+          "requirement": { "type": ["string", "null"] },
+          "verify": { "type": ["string", "null"] },
+          "last_changed": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[A-Za-z0-9.]+)?$" },
+          "status": { "enum": ["current", "retired"] },
+          "replaced_by": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "statement", "addresses", "asvs", "type", "type_text", "disputed", "requirement", "verify", "last_changed", "status", "replaced_by"],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": { "properties": { "type": { "const": "conditional" } } },
+            "then": { "required": ["trigger"] }
+          }
+        ]
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" } },
+    "residual_risk": { "type": "string" },
+    "residual_rating": { "type": "string" },
+    "residual_summary": { "type": "string" },
+    "facts": { "type": "array", "items": { "type": "string", "pattern": "^F-\\d+$" } },
+    "sources": { "type": "array", "items": { "type": "string", "pattern": "^R-\\d+$" } },
+    "last_reviewed": { "type": "string", "format": "date" },
+    "watch": { "type": "string" },
+    "extra_tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": ["string", "null"] },
+          "rows": {
+            "type": "array",
+            "items": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "required": ["rows"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["id", "title", "group", "lead", "applies_when", "threats", "controls", "notes", "residual_risk", "residual_rating", "residual_summary", "facts", "sources", "last_reviewed", "watch", "extra_tables"],
+  "additionalProperties": false
+}

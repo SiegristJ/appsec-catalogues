@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsec.complects.com/schema/facts.schema.json",
+  "title": "Facts (data/facts.yaml)",
+  "description": "All Appendix A tables merged into one list sorted numerically by ID, per SETUP-INSTRUCTIONS 4.2. used_in items are normally area IDs; five facts carry record IDs verbatim from the export's 'Used in' cells (see IMPORT-NOTES), so both forms are allowed.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "string", "pattern": "^F-\\d+$" },
+      "fact": { "type": "string" },
+      "value": { "type": "string" },
+      "as_of": { "type": "string" },
+      "sources": { "type": "array", "items": { "type": "string", "pattern": "^R-\\d+$" } },
+      "used_in": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^(([ABP]\\d{1,2})|([TC]-(A|B|P)\\d{1,2}-\\d+))$"
+        }
+      },
+      "used_in_text": { "type": "string" },
+      "last_changed": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[A-Za-z0-9.]+)?$" },
+      "status": { "enum": ["current", "retired"] },
+      "replaced_by": { "type": "array", "items": { "type": "string" } }
+    },
+    "required": ["id", "fact", "value", "as_of", "sources", "used_in", "used_in_text", "last_changed", "status", "replaced_by"],
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://appsec.complects.com/schema/catalogue.schema.json",
+  "title": "Generated AI catalogue (build/ai/catalogue.json)",
+  "description": "Schema of the AI-optimised edition emitted by tools/generate.py, per SETUP-INSTRUCTIONS 5.1. Every threat, control and fact record is self-contained: a control embeds the names and mechanisms of the threats it addresses plus its area title, residual risk, claim verification status, evidence tier and source URLs. Key names for fields the spec describes but does not name are fixed here so the generator has a contract; stage 6 may extend records (additionalProperties are allowed) but not drop these fields.",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "commit": { "type": "string" },
+        "built": { "type": "string" },
+        "content_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "required": ["version", "commit", "built", "content_sha256"],
+      "additionalProperties": false
+    },
+    "usage_contract": { "type": "string" },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "label": { "type": "string" },
+          "pulls": { "type": "array", "items": { "type": "string", "pattern": "^[ABP]\\d{1,2}$" } },
+          "pulls_text": { "type": "string" },
+          "question": { "type": ["string", "null"] },
+          "guidance": { "type": ["string", "null"] },
+          "last_changed": { "type": "string" },
+          "status": { "enum": ["current", "retired"] },
+          "replaced_by": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "label", "pulls", "pulls_text", "last_changed", "status", "replaced_by"]
+      }
+    },
+    "areas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^[ABP]\\d{1,2}$" },
+          "title": { "type": "string" },
+          "group": { "enum": ["application", "hosting", "process"] },
+          "lead": { "type": "string" },
+          "applies_when": {
+            "type": "object",
+            "properties": {
+              "text": { "type": "string" },
+              "universal": { "type": "boolean" },
+              "features": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["text", "universal", "features"]
+          },
+          "cross_references": { "type": ["string", "null"] },
+          "threats": { "type": "array", "items": { "type": "string" } },
+          "controls": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "array", "items": { "type": "string" } },
+          "residual_risk": { "type": "string" },
+          "residual_rating": { "type": "string" },
+          "residual_summary": { "type": "string" },
+          "facts": { "type": "array", "items": { "type": "string" } },
+          "sources": { "type": "array", "items": { "type": "string" } },
+          "last_reviewed": { "type": "string" },
+          "watch": { "type": "string" },
+          "extra_tables": { "type": "array" }
+        },
+        "required": ["id", "title", "group", "lead", "applies_when", "threats", "controls", "residual_risk", "residual_rating", "residual_summary", "facts", "sources", "last_reviewed", "watch"]
+      }
+    },
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^T-(A|B|P)\\d{1,2}-\\d+$" },
+          "type": { "const": "threat" },
+          "name": { "type": "string" },
+          "mechanism": { "type": "string" },
+          "references": { "type": "array", "items": { "type": "string" } },
+          "area": { "type": "string", "pattern": "^[ABP]\\d{1,2}$" },
+          "area_title": { "type": "string" },
+          "claim_verification": { "type": "string" },
+          "evidence_tier": { "type": ["integer", "null"] },
+          "source_urls": { "type": "array", "items": { "type": ["string", "null"] } },
+          "last_changed": { "type": "string" },
+          "status": { "enum": ["current", "retired"] },
+          "replaced_by": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "name", "mechanism", "area", "area_title", "claim_verification", "evidence_tier", "source_urls", "last_changed", "status", "replaced_by"]
+      }
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^C-(A|B|P)\\d{1,2}-\\d+$" },
+          "type": { "const": "control" },
+          "statement": { "type": "string" },
+          "addresses": {
+            "type": "array",
+            "description": "Embedded, self-contained threat records.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string", "pattern": "^T-(A|B|P)\\d{1,2}-\\d+$" },
+                "name": { "type": "string" },
+                "mechanism": { "type": "string" }
+              },
+              "required": ["id", "name", "mechanism"]
+            }
+          },
+          "asvs": { "type": "array", "items": { "type": "string" } },
+          "control_type": { "enum": ["baseline", "conditional", "defence_in_depth"] },
+          "type_text": { "type": "string" },
+          "trigger": {
+            "type": ["object", "null"],
+            "properties": {
+              "text": { "type": ["string", "null"] },
+              "rule": { "type": ["string", "null"] }
+            }
+          },
+          "disputed": { "type": "boolean" },
+          "requirement": { "type": ["string", "null"] },
+          "verify": { "type": ["string", "null"] },
+          "area": { "type": "string", "pattern": "^[ABP]\\d{1,2}$" },
+          "area_title": { "type": "string" },
+          "residual_risk": { "type": "string" },
+          "residual_rating": { "type": "string" },
+          "claim_verification": { "type": "string" },
+          "evidence_tier": { "type": ["integer", "null"] },
+          "source_urls": { "type": "array", "items": { "type": ["string", "null"] } },
+          "last_changed": { "type": "string" },
+          "status": { "enum": ["current", "retired"] },
+          "replaced_by": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "statement", "addresses", "asvs", "control_type", "type_text", "disputed", "requirement", "verify", "area", "area_title", "residual_risk", "residual_rating", "claim_verification", "evidence_tier", "source_urls", "last_changed", "status", "replaced_by"]
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^F-\\d+$" },
+          "type": { "const": "fact" },
+          "fact": { "type": "string" },
+          "value": { "type": "string" },
+          "as_of": { "type": "string" },
+          "sources": { "type": "array", "items": { "type": "string", "pattern": "^R-\\d+$" } },
+          "source_urls": { "type": "array", "items": { "type": ["string", "null"] } },
+          "used_in": { "type": "array", "items": { "type": "string" } },
+          "claim_verification": { "type": "string" },
+          "evidence_tier": { "type": ["integer", "null"] },
+          "last_changed": { "type": "string" },
+          "status": { "enum": ["current", "retired"] },
+          "replaced_by": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["id", "fact", "value", "as_of", "sources", "used_in", "claim_verification", "evidence_tier", "last_changed", "status", "replaced_by"]
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^R-\\d+$" },
+          "title": { "type": "string" },
+          "url": { "type": ["string", "null"] },
+          "issuer": { "type": "string" },
+          "edition": { "type": "string" },
+          "tier": { "type": "integer" },
+          "tier_note": { "type": ["string", "null"] },
+          "snapshot": { "type": ["object", "null"] }
+        },
+        "required": ["id", "title", "url", "issuer", "edition", "tier"]
+      }
+    },
+    "disputes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "topic": { "type": "string" },
+          "position_a": { "type": "string" },
+          "position_b": { "type": "string" },
+          "stance": { "type": "string" },
+          "ids": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["topic", "position_a", "position_b", "stance", "ids"]
+      }
+    }
+  },
+  "required": ["meta", "usage_contract", "features", "areas", "controls", "threats", "facts", "references", "disputes"],
+  "additionalProperties": false
+}

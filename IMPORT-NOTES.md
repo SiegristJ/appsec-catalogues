@@ -198,6 +198,135 @@ as they arise, one numbered item per decision, most recent last.
     remains, and nothing outside the eight logged groups needed splitting.
     The parser rejects any deviation, so a future remnant cannot pass
     silently.
+26. **Warning 1 has two halves; both are implemented** (2026-10-16,
+    stage 5). §6 warning 1 reads "`used_in` and 'Cited by' values differ
+    from the regenerated values"; the stage-5 brief's summary lists only
+    `used_in`. §6 is the law for this stage, so `check.py` reports both,
+    labelled `1 (used_in)` and `1 (cited by)`. Rule-classified by R6
+    (fidelity-over-tidiness: the divergence is the register recording
+    stale derived columns) and, for the five literal facts, R1.
+27. **`used_in` regeneration and comparison** (2026-10-16, stage 5).
+    Regeneration scans `data/areas/`, `data/front/*.md` and
+    `data/maintenance.md` for F-IDs (§5.6). Only area IDs enter the
+    regenerated `used_in` list; front-matter and maintenance sections are
+    reported in the warning text ("also referenced in: …"), because §4.2
+    defines `used_in` as the parsed "Used in" cell, whose ID kind is the
+    area. The comparison is against the whole stored list, so the five
+    record-ID cells fire (F-3, F-4, F-29, F-34, F-45 — R1 verbatim, R6
+    warns). **18 facts differ in total**: those five, F-1 (A7 cites it
+    too), and twelve whose cells name only "Reference stack"/"Threat
+    evidence" while areas also list them in Facts and sources (F-5, F-8,
+    F-9, F-11, F-12, F-20, F-22, F-23, F-24, F-25, F-27, F-28). Not an
+    import error: the stored values are the export's cells verbatim (R1);
+    §5.6 makes the regenerated value the forward truth and the mismatch a
+    reportable signal (R6). The comparison is order-sensitive (regenerated
+    values are sorted); no stored list is unsorted. Text mentions and
+    `facts:`-list membership give identical regenerated sets (checked both
+    ways), so the count does not depend on that choice.
+28. **"Cited by" regeneration granularity** (2026-10-16, stage 5). §5.7
+    fixes the inputs (area `sources`, claims `sources`, fact `sources`)
+    but not the output form. Regeneration reports each citation at the
+    finest granularity available: the citing record when one exists,
+    otherwise the area whose `sources` list the reference. Stored cells
+    are parsed into citation tokens with same-prefix "X to Y" ranges
+    expanded (three cells use ranges: R-4, R-6, R-22); prose ("ASVS
+    column, all areas", "Principles", "Superseded by R-2") is not a
+    citation token; a bare area token counts only when it is a real area
+    ID and not part of a longer ID. **107 of 144 references differ**: the
+    export's Appendix B column compresses citations to area tokens
+    (R-31 "A1" for T-A1-6; C-A1-6), omits citing records (R-115, R-118,
+    R-121, R-129, R-134), and names records that no longer cite them
+    (R-126, R-140, R-143). Kept verbatim (R1); reported, not fixed (R6).
+29. **Retirement with an empty `replaced_by` is not an error**
+    (2026-10-16, stage 5). §6 rule 6 constrains `replaced_by` one way
+    ("non-empty only on retired records") and §4.1 says "empty if none",
+    so `status: retired` with `replaced_by: []` passes. The stage-5
+    brief's red-first seed list includes that case; it is recorded here as
+    deliberately not firing. Both clauses that §6 does state fire and are
+    proved in the red matrix (a live record carrying `replaced_by`; a
+    `replaced_by` citing an unknown ID).
+30. **Rule 8 keywords are literal, case-sensitive substrings**
+    (2026-10-16, stage 5). §6 rule 8 names "requires", "MUST",
+    "mandatory"; matched as case-sensitive substrings of the claim text
+    ("MUST" in the RFC 2119 sense; no claim contains "must" or "MUST", so
+    nothing turns on that today). Consequence of the literal reading: two
+    claims using "required" (C-A1-1, C-B2-4) do not fire, because §6 names
+    "requires". On the imported data rule 8 flags one claim, F-53 (tier 4,
+    "Verified — secondary"); rule 7 flags none. At the stage-10 tag this
+    is the §11.10 release-mode failure class (rules 7–8 only).
+31. **Rule 5 scan scope** (2026-10-16, stage 5). §6 says "referenced
+    anywhere" without a scope. `check.py` scans everything under `data/`
+    (areas, claims, facts, references, features, disputes, compliance,
+    front matter, maintenance) plus `catalogues/*.yaml`. `register/` and
+    `archive/` are excluded: they are imported register text and the
+    frozen origin, not corpus cross-references. A one-off sweep at stage 5
+    found no unknown F-/R-ID token anywhere else in the repository either.
+32. **Schema judgments** (2026-10-16, stage 5; R2 where §4 fixes the
+    form, R4 for format-only conversions):
+    - `area.schema.json` requires every §4.1 field except
+      `cross_references` (the spec marks it optional; 15 areas carry
+      `null`); threats use `^T-` and controls `^C-` patterns (the union is
+      §6 rule 2's `^[TC]-…`); a control of `type: conditional` must carry
+      a `trigger` key (structural consequence of §4.1 — C-B4-3 and C-P4-4
+      keep `text: null`, which stays valid); `residual_rating` is a free
+      string, not an enum, because §4.1 fixes no closed set (the export
+      uses "Strong if verified", "Partial", "Closable").
+    - `references.schema.json`: `tier` integer 1–5 (1–4 occur; §7 speaks
+      of tiers 4 and 5); `url` string-or-null (R-107); `snapshot` null or
+      the object §4.3 describes (`path`/`commit`, `retrieved`, `sha256`,
+      `licence`).
+    - `claims.schema.json`: `tier` integer-or-null (§4.5 "—" → null);
+      `tier_text` and `split_from` optional.
+    - `facts.schema.json`: `used_in` accepts area IDs and T-/C- record IDs
+      (the five literal cells, R1).
+    - `catalogue.schema.json` fixes key names §5.1 describes but does not
+      name (`area_title`, `claim_verification`, `evidence_tier`,
+      `source_urls`, `control_type`); `additionalProperties` stay open in
+      its record types so stage 6 can extend records but not drop these
+      fields. It is validated as a draft 2020-12 schema and smoke-tested
+      against a minimal satisfiable `catalogue.json`.
+    - YAML dates (`last_reviewed`, `last_verified`) are normalised to ISO
+      strings before validation (R4: format conversion, no content
+      change); rule 1 reports file, path and message, sorted, so output is
+      deterministic.
+33. **No data fixes at stage 5** (2026-10-16). `check.py` reports 0 errors
+    in normal mode against the committed `data/` and `register/` trees;
+    nothing under them was modified at this stage, and no import error
+    arose. The findings in 26–28 are divergences the warnings exist to
+    report, not faults to repair.
+34. **Two check.py bugs found by the stage-5 verifier's tagged fixture**
+    (2026-10-16, fixed the same day). The repository has no previous tag,
+    so the previous-tag code paths (rules 6 and 9) were first proved with
+    stubbed git readers; the verifier re-proved them against a real tagged
+    fixture and found both stubs had missed real faults:
+    - **Rule 9 false-positived on every unchanged record once a tag
+      exists.** `previous` was rebound to the dict with `last_changed`
+      stripped before the unchanged branch compared
+      `current_records[rid]["last_changed"] != previous["last_changed"]`,
+      which is always None — 75 false positives on the untouched fixture
+      (the 53 facts plus 22 features then loaded; the threat/control
+      history was not loaded at all, see next). Restructured so the
+      content comparison uses a `content()` helper on stripped copies
+      while the `last_changed` comparison reads the original records.
+    - **`paths_at()` never returned the area files.** `git ls-tree
+      --name-only <tag> data/areas` without `-r` lists the directory's
+      own tree entry (`data/areas/`), which the `.yaml` filter dropped —
+      so no previous-tag threats or controls were ever loaded. Rule 6's
+      disappeared-ID clause was therefore unenforced for T-/C-IDs and
+      rule 9 skipped all 294 threat/control records. Fixed with
+      `git ls-tree -r --name-only <tag> -- <dir>`.
+    Also fixed while there: rule 9's dead load of `data/references.yaml`
+    (§6.9 governs threats, controls, facts and features, not references),
+    and rule 2's ID check now uses `fullmatch` rather than a `^…$`
+    `re.match`, which would admit a trailing newline. Normal-mode output
+    is byte-identical before and after (the fixed paths are dormant while
+    no tag exists): 0 errors, warnings 18 + 107 + 166 + 50 + 144 + 36 + 22.
+    Re-proved on a real tagged fixture (git init, commit, tag
+    `v1.0.0-beta.1` in a /tmp copy): pre-fix 75 rule-9 false positives on
+    the untouched tree and silence on a deleted T-/C-ID; post-fix zero
+    rule-6/rule-9 errors on the untouched tree, rule 6 firing on deleted
+    T-A3-1 and C-A3-1, rule 9 firing on a changed statement with stale
+    `last_changed` and on an unchanged record with a bumped one.
 
 ## Splits and merges
 
