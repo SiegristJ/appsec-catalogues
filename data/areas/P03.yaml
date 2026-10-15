@@ -1,0 +1,166 @@
+id: P3
+title: CI/CD and infrastructure as code
+group: process
+lead: >-
+  The pipeline holds the keys to production: source write access, signing material, cloud credentials.
+  The Shai-Hulud waves and Mini Shai-Hulud showed pipelines both as targets (rogue runners, stolen OIDC
+  tokens) and as the route by which attacker code ships with valid provenance (A11). OWASP’s CI/CD Top
+  10 is the reference list.
+applies_when:
+  text: Always, to the delivery organisation.
+  universal: false
+  features: []
+cross_references: null
+threats:
+- id: T-P3-1
+  name: Poisoned pipeline execution
+  mechanism: >-
+    Untrusted pull-request code runs with repository privileges, for example through `pull_request_target`
+  references: [CICD-SEC-4]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P3-2
+  name: Compromised third-party actions and plugins
+  mechanism: A mutable tag is repointed to malicious code
+  references: [CICD-SEC-3, CICD-SEC-8]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P3-3
+  name: Credential exposure
+  mechanism: >-
+    Long-lived secrets in variables or logs, or tokens stolen from runner memory
+  references: [CICD-SEC-6]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P3-4
+  name: Runner persistence
+  mechanism: >-
+    Persistent or self-hosted runners are compromised and reused; malware registers rogue runners
+  references: [CICD-SEC-7]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P3-5
+  name: Insufficient flow control
+  mechanism: Code reaches production without review or approval
+  references: [CICD-SEC-1]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P3-6
+  name: Infrastructure misconfiguration at scale
+  mechanism: Insecure infrastructure-as-code templates replicate across environments
+  references: ['A02:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-P3-1
+  statement: >-
+    Never check out or run untrusted pull-request code in privileged triggers; prefer separated, unprivileged
+    workflows
+  addresses: [T-P3-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P3-2
+  statement: >-
+    Pin third-party actions to full commit SHAs from the action’s own repository
+  addresses: [T-P3-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P3-3
+  statement: >-
+    Set pipeline tokens read-only by default with per-job elevation; use OIDC federation for short-lived
+    cloud credentials; keep secrets out of logs
+  addresses: [T-P3-3]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P3-4
+  statement: >-
+    Use ephemeral, isolated runners; avoid self-hosted runners for public repositories
+  addresses: [T-P3-4]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P3-5
+  statement: >-
+    Protect branches with mandatory review, require separate approval for production deployment, and separate
+    build and deploy identities
+  addresses: [T-P3-5]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P3-6
+  statement: >-
+    Scan infrastructure-as-code and enforce policy-as-code gates before apply
+  addresses: [T-P3-6]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P3-7
+  statement: >-
+    Log pipeline activity and flag anomalies such as publishes from failed workflow runs
+  addresses: [T-P3-1, T-P3-2, T-P3-3, T-P3-4]
+  asvs: [V16]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Ephemeral runners reduce but do not eliminate runner compromise. Provenance from a hijacked workflow
+  is genuine, so pipeline integrity, not attestation alone, protects downstream consumers.
+residual_rating: Strong if verified
+residual_summary: Practices that lapse; detection tuning
+facts: [F-36, F-37]
+sources: [R-52, R-53, R-108, R-109]
+last_reviewed: 2026-10-12
+watch: >-
+  CI platform security changes; OWASP CI/CD Top 10 revisions; SSDF v1.2 final (update-integrity practices).
+extra_tables: []

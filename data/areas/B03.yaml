@@ -1,0 +1,199 @@
+id: B3
+title: Containers, Kubernetes and serverless
+group: hosting
+lead: >-
+  Containers and functions shrink the unit of deployment but add a control plane, an image supply chain
+  and event sources, each with its own attack path. In Kubernetes the decisive settings are pod privileges,
+  service-account permissions and network policy. In serverless they are the function’s role and what
+  persists between invocations.
+applies_when:
+  text: >-
+    Containers or Kubernetes (T-B3-1 to T-B3-5); serverless functions (T-B3-6).
+  universal: false
+  features: [containers_kubernetes, serverless]
+cross_references: null
+threats:
+- id: T-B3-1
+  name: Vulnerable or malicious images
+  mechanism: Base or application images carry known vulnerabilities or attacker code
+  references: [CWE-1395]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B3-2
+  name: Container escape
+  mechanism: >-
+    Privileged containers, host namespaces or host mounts let a compromised workload reach the node
+  references: [CWE-250]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B3-3
+  name: Service-account and RBAC abuse
+  mechanism: >-
+    A token mounted in the pod, read through file access or file-capable SSRF, is used against the API
+    server; impact depends on the RBAC bindings granted
+  references: [CWE-269]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B3-4
+  name: Cluster add-on flaws
+  mechanism: >-
+    Admission controllers and ingress controllers become entry points (ingress-nginx CVE-2025-1974; Kyverno
+    CVE-2026-4789, which requires permission to create namespaced policies)
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B3-5
+  name: Flat pod networks
+  mechanism: Any compromised pod can reach every other service
+  references: [CWE-923]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B3-6
+  name: Serverless-specific abuse
+  mechanism: >-
+    Untrusted event data from queues, storage or streams; over-privileged function roles; secrets or user
+    data left in globals or `/tmp` leaking to later requests; cost exhaustion
+  references: [CWE-20]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-B3-1
+  statement: >-
+    Use minimal or distroless images, scan them, sign them and verify signatures at admission
+  addresses: [T-B3-1]
+  asvs: [V15]
+  type: conditional
+  type_text: 'Conditional: containers'
+  trigger:
+    text: containers
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B3-2
+  statement: >-
+    Enforce the Restricted Pod Security Standard through Pod Security Admission for application namespaces
+    (non-root, all capabilities dropped, seccomp `RuntimeDefault`, no privilege escalation), with read-only
+    root filesystems
+  addresses: [T-B3-2]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: Kubernetes'
+  trigger:
+    text: Kubernetes
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B3-3
+  statement: >-
+    Grant least-privilege RBAC; set `automountServiceAccountToken: false` for pods that do not call the
+    API; restrict API server exposure
+  addresses: [T-B3-3]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: Kubernetes'
+  trigger:
+    text: Kubernetes
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B3-4
+  statement: >-
+    Patch cluster add-ons promptly, restrict network access to admission webhooks, and migrate off unmaintained
+    components (ingress-nginx receives no fixes after March 2026; Gateway API is the recommended successor)
+  addresses: [T-B3-4]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: Kubernetes'
+  trigger:
+    text: Kubernetes
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B3-5
+  statement: >-
+    Pods accept all traffic until a NetworkPolicy selects them, so apply default-deny ingress and egress
+    policies in every namespace, allow only required flows, and confirm the network plugin enforces NetworkPolicy
+  addresses: [T-B3-5]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: Kubernetes'
+  trigger:
+    text: Kubernetes
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B3-6
+  statement: >-
+    Keep workloads of different sensitivity on separate kernels (separate hosts or clusters, or hypervisor-based
+    isolation), using sandboxed runtimes such as microVMs, gVisor or Kata Containers for untrusted or
+    multi-tenant code
+  addresses: [T-B3-2]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: untrusted workloads'
+  trigger:
+    text: untrusted workloads
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B3-7
+  statement: >-
+    Give each function its own least-privilege role; validate every event source as untrusted input; keep
+    per-request secrets and user data out of globals and `/tmp`; set concurrency and budget limits
+  addresses: [T-B3-6]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: serverless'
+  trigger:
+    text: serverless
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Unpatched runtime and kernel flaws can still allow escape, so runtime detection complements prevention.
+  Unmaintained add-ons accumulate unfixed vulnerabilities; the ingress-nginx retirement is the current
+  case (F-51).
+residual_rating: Strong if verified
+residual_summary: Runtime and kernel zero-days; unmaintained add-ons
+facts: [F-51]
+sources: [R-94, R-95, R-96, R-97, R-98, R-99, R-115, R-134]
+last_reviewed: 2026-10-12
+watch: >-
+  Kubernetes Security Response Committee announcements; Pod Security Standards revisions; cloud function
+  runtime changes.
+extra_tables: []

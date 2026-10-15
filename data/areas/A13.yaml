@@ -1,0 +1,183 @@
+id: A13
+title: Error handling, security logging and privacy
+group: application
+lead: >-
+  Errors and logs serve defenders only if they reveal nothing to attackers and record enough for investigators.
+  Security Logging & Alerting Failures (A09) and Mishandling of Exceptional Conditions (A10) are both
+  in the 2025 OWASP Top 10, the latter new. Privacy obligations add a third constraint: collect, keep
+  and expose only the personal data the purpose needs.
+applies_when:
+  text: All. C-A13-6 and C-A13-7 apply to personal data.
+  universal: true
+  features: [personal_data]
+cross_references: null
+threats:
+- id: T-A13-1
+  name: Information leakage in errors
+  mechanism: >-
+    Stack traces, queries, keys or tokens returned to the client, or debug endpoints left enabled
+  references: [CWE-209, 'A10:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A13-2
+  name: Fail-open behaviour
+  mechanism: >-
+    An exception or failed dependency lets processing continue without the check that failed
+  references: [CWE-636, 'A10:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A13-3
+  name: Insufficient security logging
+  mechanism: >-
+    Authentication, authorisation and control-bypass events go unrecorded, so attacks pass unnoticed
+  references: [CWE-778, 'A09:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A13-4
+  name: Log injection and tampering
+  mechanism: >-
+    Untrusted input forges log entries, or attackers with application access alter logs
+  references: [CWE-117]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A13-5
+  name: Sensitive data in logs
+  mechanism: >-
+    Credentials, tokens or payment data written to logs, which then become a target
+  references: [CWE-532]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A13-6
+  name: Excess personal data
+  mechanism: >-
+    Data collected, retained or returned beyond what the purpose requires, enlarging breach impact and
+    breaching privacy law
+  references: [CWE-359]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A13-1
+  statement: >-
+    Return generic messages for unexpected or security-sensitive errors, with a correlation ID; never
+    expose stack traces, queries, keys or tokens
+  addresses: [T-A13-1]
+  asvs: [V16]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A13-2
+  statement: >-
+    Fail closed: refuse the operation when validation or a dependency fails; use circuit breakers or graceful
+    degradation for external failures; install a last-resort handler for unhandled exceptions
+  addresses: [T-A13-2]
+  asvs: [V16]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A13-3
+  statement: >-
+    Log every authentication attempt, failed authorisation, attempt to bypass validation, business-logic
+    or anti-automation controls, and unexpected control failure, recording who, what, when and where in
+    a common format with synchronised UTC timestamps
+  addresses: [T-A13-3]
+  asvs: [V16]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A13-4
+  statement: >-
+    Encode untrusted data written to logs, restrict and protect log access, and ship logs to a separate
+    system the application cannot alter
+  addresses: [T-A13-4]
+  asvs: [V16]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A13-5
+  statement: >-
+    Never log credentials or payment data; hash or mask session tokens and other sensitive values
+  addresses: [T-A13-5]
+  asvs: [V16]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A13-6
+  statement: >-
+    Classify personal data, return only the minimum each function needs, keep it out of third-party trackers,
+    strip metadata from uploads, and delete it on documented retention schedules
+  addresses: [T-A13-6]
+  asvs: [V14]
+  type: conditional
+  type_text: 'Conditional: personal data'
+  trigger:
+    text: personal data
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A13-7
+  statement: >-
+    Assess privacy impact and design for data protection by default where regulation requires it (for
+    example GDPR Articles 25 and 35)
+  addresses: [T-A13-6]
+  asvs: [V14]
+  type: conditional
+  type_text: 'Conditional: personal data under regulation'
+  trigger:
+    text: personal data under regulation
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes:
+- >-
+  Detection, alerting and incident response built on these logs are process controls in P4.
+residual_risk: >-
+  Logging that is never reviewed detects nothing; alerting and correlation (P4) determine whether recorded
+  events lead to response. Masking rules must keep pace with new data fields, or sensitive values drift
+  back into logs.
+residual_rating: Strong if verified
+residual_summary: Logs that are never reviewed
+facts: [F-5]
+sources: [R-10, R-69, R-89, R-127]
+last_reviewed: 2026-10-12
+watch: >-
+  ASVS V14 and V16 updates; changes to privacy regulation affecting logging and retention.
+extra_tables: []

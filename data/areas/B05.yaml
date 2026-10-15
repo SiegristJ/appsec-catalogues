@@ -1,0 +1,174 @@
+id: B5
+title: Data stores, backups and resilience
+group: hosting
+lead: >-
+  Ransomware featured in 48% of breaches in DBIR 2026 (F-23), and many variants hunt for reachable backups
+  before encrypting. Data-store security therefore covers two questions: can an attacker reach the data,
+  and can the organisation restore it when everything reachable is lost?
+applies_when:
+  text: >-
+    Owned databases, caches, search clusters or object stores; availability or resilience obligations.
+  universal: false
+  features: [multi_tenant, owned_data_stores, availability_obligations]
+cross_references: null
+threats:
+- id: T-B5-1
+  name: Exposed data stores
+  mechanism: >-
+    Databases or search clusters reachable from the internet, sometimes without authentication
+  references: [CWE-306]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B5-2
+  name: Over-privileged application accounts
+  mechanism: One shared superuser account gives any code flaw full data access
+  references: [CWE-250]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B5-3
+  name: Ransomware and destruction of backups
+  mechanism: Attackers encrypt or delete primary data and every backup they can reach
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B5-4
+  name: Resource exhaustion
+  mechanism: Expensive queries or connection floods exhaust database capacity
+  references: [CWE-770]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B5-5
+  name: Sensitive data in server caches
+  mechanism: Load balancers or application caches retain sensitive responses
+  references: [CWE-524]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-B5-1
+  statement: >-
+    Keep data stores on private networks and require authentication for every connection
+  addresses: [T-B5-1]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-2
+  statement: >-
+    Give each service its own data-store credentials with minimal grants, short-lived where possible
+  addresses: [T-B5-2]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-3
+  statement: >-
+    Enforce tenant isolation in the database with row-level security or equivalent (C-A3-6)
+  addresses: [T-B5-2]
+  asvs: [V8]
+  type: conditional
+  type_text: 'Conditional: multi-tenant'
+  trigger:
+    text: multi-tenant
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-4
+  statement: >-
+    Encrypt data at rest, with customer-managed keys where policy requires (A9)
+  addresses: [T-B5-1]
+  asvs: [V11]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-5
+  statement: >-
+    Keep offline, encrypted backups; enable delete protection or object lock and versioning; test restoration
+    regularly against recovery-point and recovery-time objectives
+  addresses: [T-B5-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-6
+  statement: >-
+    Set connection-pool, query-timeout and resource limits in application and database
+  addresses: [T-B5-4]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-7
+  statement: >-
+    Prevent sensitive data being cached in server components, or purge it after use
+  addresses: [T-B5-5]
+  asvs: [V14]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B5-8
+  statement: >-
+    Design availability (multiple zones or regions) in proportion to criticality, following design-for-resiliency
+    guidance such as NIST SP 800-53 SA-24
+  addresses: [T-B5-3, T-B5-4]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: availability obligations'
+  trigger:
+    text: availability obligations
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Backups untested under realistic conditions often restore slower than planned or not at all. CISA cautions
+  that immutable storage can be costly when misconfigured and may not meet every compliance requirement.
+residual_rating: Strong if verified
+residual_summary: Untested restores
+facts: [F-23]
+sources: [R-16, R-21, R-68, R-69, R-103]
+last_reviewed: 2026-10-12
+watch: 'annual DBIR ransomware figures; CISA #StopRansomware guidance.'
+extra_tables: []

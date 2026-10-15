@@ -1,0 +1,108 @@
+id: P2
+title: Security testing and verification
+group: process
+lead: >-
+  Each testing method finds some flaw classes and misses others, so assurance comes from combining them
+  against a stated ASVS level. Authorisation and business-logic flaws, the highest-impact classes in A3
+  and A10, are the ones automated tools miss most.
+applies_when:
+  text: Always, to the delivery organisation.
+  universal: false
+  features: []
+cross_references: null
+threats:
+- id: T-P2-1
+  name: Undetected defects
+  mechanism: Flaw classes that the chosen methods cannot see reach production
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-P2-1
+  statement: >-
+    Verify each application against its assigned ASVS level using the OWASP Web Security Testing Guide
+  addresses: [T-P2-1]
+  asvs: [All]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P2-2
+  statement: >-
+    Combine static, composition and dynamic analysis in the pipeline and gate releases on agreed severities
+  addresses: [T-P2-1]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P2-3
+  statement: >-
+    Maintain dedicated authorisation test suites (C-A3-9) and test business-logic abuse cases (A10)
+  addresses: [T-P2-1]
+  asvs: [V8, V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P2-4
+  statement: >-
+    Commission manual review and penetration testing proportionate to risk, and retest after significant
+    change
+  addresses: [T-P2-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Coverage is bounded by the methods used; no combination guarantees absence of flaws. The method table
+  reflects the Claude source report’s synthesis and should be checked by a testing specialist.
+residual_rating: Strong if verified
+residual_summary: Practices that lapse; detection tuning
+facts: []
+sources: [R-5, R-107, R-140]
+last_reviewed: 2026-10-12
+watch: OWASP WSTG releases; ASVS updates.
+extra_tables:
+- title: null
+  rows:
+  - [Method, Finds well, Misses]
+  - - Static analysis (SAST)
+    - Injection sinks, dangerous APIs, secrets, taint flows
+    - Authorisation logic, configuration; produces false positives
+  - - Composition analysis (SCA)
+    - Known-vulnerable components
+    - Malicious packages without advisories
+  - - Dynamic scanning (DAST)
+    - Runtime misconfiguration, reflected injection, missing headers
+    - Deep logic, object-level authorisation, uncrawled paths
+  - - Interactive testing (IAST)
+    - Confirmed runtime data flows
+    - Paths not exercised
+  - [Fuzzing, Parser crashes and edge cases, Semantic logic errors]
+  - [Manual review, 'Design, logic and authorisation flaws', Scale]
+  - - Penetration testing
+    - Chained, creative exploitation
+    - Point-in-time, scope-limited
+  - - Bug bounty or disclosure programme
+    - Long-tail real-world findings
+    - Guaranteed coverage

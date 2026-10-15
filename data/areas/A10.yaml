@@ -1,0 +1,158 @@
+id: A10
+title: Business logic and automated threats
+group: application
+lead: >-
+  Logic flaws need no malformed input: every request is valid, and the attack lies in their order, timing,
+  quantity or concurrency. Generic scanners rarely find them because they do not know the business rules.
+  Automated abuse (credential stuffing, scraping, scalping, card testing) exploits the same gap at scale,
+  and OWASP lists unrestricted access to sensitive business flows as an API risk (API6:2023).
+applies_when:
+  text: >-
+    Money, inventory, quotas, rewards or other business invariants; high-value accounts or public sign-up.
+  universal: false
+  features: [public_api, business_invariants, high_value_accounts]
+cross_references: Credential stuffing as a login threat is homed in A1 (T-A1-1).
+threats:
+- id: T-A10-1
+  name: Workflow bypass
+  mechanism: Steps are skipped or reordered, e.g. confirming an order without paying
+  references: [CWE-841]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A10-2
+  name: Limit and value abuse
+  mechanism: >-
+    Negative or overflowing quantities, repeated coupon or referral redemption, client-supplied prices
+  references: [CWE-840]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A10-3
+  name: Race conditions
+  mechanism: >-
+    Concurrent requests (now easy to align with single-packet techniques) overrun limits or double-spend
+    before state updates
+  references: [CWE-362]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A10-4
+  name: Automated abuse of business flows
+  mechanism: >-
+    Bots scrape, hoard inventory, test stolen cards, create fake accounts or stuff credentials
+  references: ['API6:2023']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A10-5
+  name: Single-actor approval of high-value actions
+  mechanism: >-
+    One compromised or malicious account completes a large transfer or contract alone
+  references: [CWE-654]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A10-1
+  statement: >-
+    Document business limits and validation rules per user and application-wide, and derive abuse cases
+    from them in threat modelling (P1)
+  addresses: [T-A10-1, T-A10-2, T-A10-3, T-A10-4, T-A10-5]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A10-2
+  statement: Enforce step order server-side, for example with explicit state machines
+  addresses: [T-A10-1]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A10-3
+  statement: >-
+    Recompute prices and totals server-side and enforce documented limits on quantities, redemptions and
+    values
+  addresses: [T-A10-2]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A10-4
+  statement: >-
+    Make each business operation atomic (transactions that commit fully or roll back), lock limited resources,
+    and use idempotency keys and unique constraints against duplicates
+  addresses: [T-A10-3]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A10-5
+  statement: >-
+    Apply layered anti-automation to sensitive flows: per-identity, device and network rate limits, behavioural
+    signals, progressive challenges and business velocity limits
+  addresses: [T-A10-4]
+  asvs: [V2]
+  type: conditional
+  type_text: 'Conditional: sensitive flows'
+  trigger:
+    text: sensitive flows
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A10-6
+  statement: Require approval by more than one user for high-value actions
+  addresses: [T-A10-5]
+  asvs: [V2]
+  type: conditional
+  type_text: 'Conditional: high-value transactions'
+  trigger:
+    text: high-value transactions
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes:
+- >-
+  Privacy-preserving attestation tokens (Private State Tokens, retained by Chrome in October 2025) can
+  supplement bot defence in Chromium browsers; they are not a cross-browser control.
+residual_risk: >-
+  Bot mitigation is an arms race: challenges get solved and fingerprinting carries privacy cost, and no
+  vendor-neutral standard defines adequacy. Treat it as fraud-economics risk management with monitoring,
+  not as a solved control. Logic flaws outside documented rules surface only through abuse-case review
+  and testing.
+residual_rating: Partial
+residual_summary: Bot defence is an arms race; undocumented rules
+facts: []
+sources: [R-4, R-36, R-88]
+last_reviewed: 2026-10-12
+watch: OWASP Automated Threats project updates; ASVS V2 updates.
+extra_tables: []

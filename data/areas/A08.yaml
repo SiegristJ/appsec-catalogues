@@ -1,0 +1,170 @@
+id: A8
+title: APIs
+group: application
+lead: >-
+  APIs expose the same objects and functions as the user interface without its guard rails: clients choose
+  identifiers, fields, query shapes and request rates. The OWASP API Security Top 10 (2023) is the reference
+  list. Its authorisation risks (API1, API3, API5) are homed in A3, SSRF (API7) in A7, authentication
+  (API2) in A1, sensitive business flows (API6) in A10 and misconfiguration (API8) in B1. This area covers
+  what remains, plus protocol-specific risks of GraphQL and WebSockets.
+applies_when:
+  text: >-
+    Public, partner or internal API. C-A8-3 applies to GraphQL; C-A8-6 to WebSockets and other persistent
+    connections.
+  universal: false
+  features: [public_api, graphql, websockets, outbound_fetch]
+cross_references: null
+threats:
+- id: T-A8-1
+  name: Unrestricted resource consumption
+  mechanism: >-
+    Excessive or expensive requests exhaust bandwidth, compute, memory or storage, or run up pay-per-use
+    costs
+  references: [CWE-770, 'API4:2023']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A8-2
+  name: GraphQL query abuse
+  mechanism: >-
+    Deeply nested or very wide queries exhaust the backend; aliasing and batching turn one request into
+    thousands of guesses; introspection maps the schema for attackers
+  references: [CWE-400]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A8-3
+  name: Improper inventory
+  mechanism: >-
+    Undocumented, deprecated or debug endpoints, versions and hosts stay reachable outside current controls
+  references: ['API9:2023']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A8-4
+  name: Unsafe consumption of third-party APIs
+  mechanism: >-
+    Responses from integrated services are trusted and processed without validation, so compromising the
+    partner compromises the application
+  references: ['API10:2023']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A8-5
+  name: Cross-site WebSocket hijacking
+  mechanism: >-
+    A handshake authenticated only by cookies lets another site open a two-way channel as the victim,
+    both acting and reading responses (e.g. CVE-2024-26135)
+  references: [CWE-1385]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A8-1
+  statement: >-
+    Define APIs schema-first (OpenAPI, GraphQL SDL, protobuf) and validate requests and responses against
+    the schema, rejecting unknown fields
+  addresses: [T-A8-4, T-A3-3]
+  asvs: [V4]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A8-2
+  statement: >-
+    Limit consumption per identity: rate limits, quotas, pagination and payload caps, timeouts, and spending
+    limits on operations that incur third-party cost
+  addresses: [T-A8-1]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A8-3
+  statement: >-
+    For GraphQL: depth and amount limits, query cost analysis where needed, resolver timeouts, caps on
+    batched operations (none for credentials or one-time codes), introspection and GraphiQL off in public
+    environments, and authorisation on every resolver and field
+  addresses: [T-A8-2]
+  asvs: [V4]
+  type: conditional
+  type_text: 'Conditional: GraphQL'
+  trigger:
+    text: GraphQL
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A8-4
+  statement: >-
+    Keep a complete inventory of APIs, versions and hosts, retire deprecated versions, and remove debug
+    endpoints from production
+  addresses: [T-A8-3]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A8-5
+  statement: >-
+    Treat third-party API responses as untrusted input: validate them, set timeouts, refuse unexpected
+    redirects, require TLS
+  addresses: [T-A8-4]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A8-6
+  statement: >-
+    For WebSockets: WSS only; check `Origin` on the handshake against an allow-list; authenticate with
+    a dedicated token obtained through the authenticated HTTPS session rather than cookies alone, preferably
+    sent in the first message; authorise each message (C-A3-2)
+  addresses: [T-A8-5]
+  asvs: [V4]
+  type: conditional
+  type_text: 'Conditional: WebSockets'
+  trigger:
+    text: WebSockets
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes:
+- >-
+  An API gateway centralises authentication, throttling and inventory, but object- and function-level
+  authorisation stays in the service (A3).
+residual_risk: >-
+  Controls reach only the APIs the inventory knows about, so discovery gaps are exposure gaps. GraphQL
+  cost limits approximate real backend cost. SameSite cookies narrow but do not close WebSocket hijacking
+  from same-site origins.
+residual_rating: Strong if verified
+residual_summary: APIs missing from inventory
+facts: [F-41]
+sources: [R-2, R-4, R-67, R-70, R-71, R-72]
+last_reviewed: 2026-10-12
+watch: >-
+  revision of the OWASP API Security Top 10 (2023 edition); ASVS V4 updates.
+extra_tables: []

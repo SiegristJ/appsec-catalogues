@@ -1,0 +1,108 @@
+id: P4
+title: Detection, monitoring and incident response
+group: process
+lead: >-
+  Logs (A13) become protection only when someone correlates them, alerts on them and acts. NIST SP 800-61
+  Rev. 3 (April 2025) frames incident response as part of overall risk management under CSF 2.0 rather
+  than a standalone function.
+applies_when:
+  text: Always, to the operating organisation.
+  universal: false
+  features: []
+cross_references: null
+threats:
+- id: T-P4-1
+  name: Undetected intrusion
+  mechanism: >-
+    Events are logged but never correlated or alerted on, so attackers dwell unnoticed
+  references: ['A09:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P4-2
+  name: Ineffective response
+  mechanism: >-
+    No exercised plan, unclear roles or incomplete credential rotation after compromise
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P4-3
+  name: Recurrence
+  mechanism: Fixes address symptoms, so the same flaw class returns
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-P4-1
+  statement: >-
+    Review and correlate audit records across application, platform and cloud repositories, integrate
+    them with vulnerability and monitoring data, and organise detections by attacker technique (MITRE
+    ATT&CK)
+  addresses: [T-P4-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P4-2
+  statement: >-
+    Maintain and regularly exercise an incident response plan aligned with NIST SP 800-61 Rev. 3, including
+    full credential rotation for supply-chain incidents (C-A11-7)
+  addresses: [T-P4-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P4-3
+  statement: >-
+    Perform root-cause analysis after remediation (NIST SP 800-53 SI-02(07)) and feed findings back into
+    threat models and tests
+  addresses: [T-P4-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P4-4
+  statement: >-
+    Consider runtime application self-protection for sink-level blocking where code fixes lag, accepting
+    its overhead and language limits
+  addresses: [T-P4-1]
+  asvs: []
+  type: conditional
+  type_text: Conditional
+  trigger:
+    text: null
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Detection effectiveness depends more on tuning and staffing than on tooling. Runtime self-protection
+  is contested as a primary control.
+residual_rating: Strong if verified
+residual_summary: Practices that lapse; detection tuning
+facts: [F-12]
+sources: [R-16, R-110, R-119, R-120, R-141]
+last_reviewed: 2026-10-12
+watch: NIST CSF and SP 800-61 updates; MITRE ATT&CK releases.
+extra_tables: []

@@ -1,0 +1,160 @@
+id: B4
+title: Network and edge
+group: hosting
+lead: >-
+  The edge absorbs volumetric attacks, filters commodity exploits and hides the origin, but each of those
+  functions fails if traffic can go around it or if it parses requests differently from the application.
+  Peer-reviewed fuzzing found 1,207 WAF bypasses across five major WAFs by exploiting such parsing differences
+  (F-52).
+applies_when:
+  text: >-
+    A CDN, WAF, load balancer or reverse proxy fronts the application; availability targets apply. C-B4-5
+    applies to all.
+  universal: false
+  features: [edge_intermediaries, availability_obligations]
+cross_references: null
+threats:
+- id: T-B4-1
+  name: Denial of service
+  mechanism: Volumetric or application-layer floods exhaust capacity
+  references: [CWE-400]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B4-2
+  name: Origin bypass
+  mechanism: Attackers reach the origin directly, skipping CDN and WAF controls
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B4-3
+  name: WAF evasion
+  mechanism: >-
+    Malformed multipart, XML or JSON structure, or Unicode that the backend narrows to ASCII (“Ghost Bits”,
+    Java), passes the WAF and is reconstructed by the application
+  references: [CWE-436]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B4-4
+  name: Subdomain takeover
+  mechanism: >-
+    A DNS record still points to a deprovisioned cloud resource that an attacker claims
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B4-5
+  name: DNS hijacking and certificate mis-issuance
+  mechanism: >-
+    Registrar or DNS compromise redirects traffic or enables certificates for the attacker
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-B4-1
+  statement: >-
+    Put DDoS protection and edge rate limiting in front of public services, sized to availability targets
+  addresses: [T-B4-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B4-2
+  statement: >-
+    Lock the origin to the edge with mutual TLS, authenticated edge headers or edge IP allow-lists
+  addresses: [T-B4-2]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: CDN or WAF'
+  trigger:
+    text: CDN or WAF
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B4-3
+  statement: >-
+    Deploy an automated web-attack prevention layer (WAF or WAAP) in front of public-facing applications:
+    running, current, logging, and blocking or alerting with immediate investigation
+  addresses: [T-B4-1, T-B4-3]
+  asvs: []
+  type: conditional
+  type_text: >-
+    Conditional; mandatory for cardholder-data applications under PCI DSS v4.0.1 6.4.2 (F-53). Disputed:
+    WAF value (see Where experts differ)
+  trigger:
+    text: null
+    rule: null
+  disputed: true
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B4-4
+  statement: >-
+    Normalise requests to RFC-compliant form at ingress and use one character encoding (UTF-8) end to
+    end; never let the WAF stand in for fixes in A4 and A7
+  addresses: [T-B4-3]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B4-5
+  statement: >-
+    Delete CNAME and delegation records when the resources behind them are removed, monitor for dangling
+    records and lame delegations, sign public zones with DNSSEC (not internal zones), publish CAA records
+    naming the certificate authorities allowed to issue, and protect DNS and registrar accounts with MFA,
+    audit records against their intended targets, and monitor Certificate Transparency logs for certificates
+    you did not request
+  addresses: [T-B4-4, T-B4-5]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B4-6
+  statement: Segment internal networks and expose only required services
+  addresses: [T-B4-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  WAFs stop commodity attacks and buy time through virtual patching, but parsing-based bypasses are systematic,
+  not incidental. DDoS capacity is an arms race. DNS and registrar controls often sit outside the application
+  team and need explicit ownership.
+residual_rating: Partial
+residual_summary: WAF bypass; DDoS capacity
+facts: [F-52, F-53]
+sources: [R-100, R-101, R-102, R-117, R-118, R-135, R-136, R-137, R-138]
+last_reviewed: 2026-10-12
+watch: >-
+  WAF bypass research; PCI DSS 6.4.2 guidance; registrar and DNS security practice.
+extra_tables: []

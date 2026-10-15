@@ -1,0 +1,202 @@
+universal_areas: [A2, A3, A4, A5, A6, A9, A11, A13, B1]
+process_areas: [P1, P2, P3, P4]
+features:
+- id: user_login
+  label: User login of any kind
+  pulls: [A1, A2]
+  pulls_text: A1, A2
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: federated_login
+  label: Delegated or federated login (OAuth 2.0, OIDC, SAML, social login)
+  pulls: [A1, A2]
+  pulls_text: A1 (federation), A2 (tokens)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: multi_tenant
+  label: Multiple tenants or customer organisations in one deployment
+  pulls: [A3, B5]
+  pulls_text: A3 (tenancy), B5 (row-level security)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: public_api
+  label: Public or partner API (REST, gRPC)
+  pulls: [A8, A3, A10]
+  pulls_text: A8, A3, A10
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: graphql
+  label: GraphQL endpoint
+  pulls: [A8]
+  pulls_text: A8 (GraphQL)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: websockets
+  label: WebSockets or other persistent connections
+  pulls: [A8, A5]
+  pulls_text: A8 (WebSockets), A5
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: outbound_fetch
+  label: Server fetches URLs or calls third-party APIs
+  pulls: [A7, A8, B2]
+  pulls_text: A7 (SSRF), A8 (unsafe consumption), B2 (metadata)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: edge_intermediaries
+  label: CDN, reverse proxy, load balancer or WAF in front of the origin
+  pulls: [A7, B4]
+  pulls_text: A7 (smuggling, cache), B4
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: file_upload
+  label: File upload or user-supplied documents
+  pulls: [A4]
+  pulls_text: A4 (uploads, XXE)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: payment_pages
+  label: Payments or cardholder data on pages the app serves
+  pulls: [A11]
+  pulls_text: A11 (browser scripts), Compliance mapping (PCI DSS)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: third_party_scripts
+  label: Third-party scripts or tags in the browser
+  pulls: [A5, A11]
+  pulls_text: A5 (CSP), A11 (browser scripts)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: business_invariants
+  label: Money, inventory, quotas or other business invariants
+  pulls: [A10]
+  pulls_text: A10
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: high_value_accounts
+  label: >-
+    High-value accounts or public sign-up (fraud, scraping, credential stuffing)
+  pulls: [A10, A1]
+  pulls_text: A10, A1
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: llm_features
+  label: LLM features, agents or tool calling
+  pulls: [A12]
+  pulls_text: A12
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: ai_coding_assistants
+  label: AI coding assistants used to build the app
+  pulls: [A12, A11]
+  pulls_text: A12 (AI-generated code), A11
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: personal_data
+  label: Personal data
+  pulls: [A13, A9]
+  pulls_text: A13 (privacy), A9, Compliance mapping (GDPR)
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: public_cloud
+  label: Public cloud hosting (IaaS)
+  pulls: [B2, B6]
+  pulls_text: B2, B6
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: containers_kubernetes
+  label: Containers or Kubernetes
+  pulls: [B3]
+  pulls_text: B3
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: serverless
+  label: Serverless functions
+  pulls: [B3, B2]
+  pulls_text: B3 (serverless), B2
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: owned_data_stores
+  label: Owned databases, caches or search clusters
+  pulls: [B5]
+  pulls_text: B5
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: admin_access
+  label: Administrative consoles or operator access
+  pulls: [B6]
+  pulls_text: B6
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: availability_obligations
+  label: Availability targets or regulatory resilience obligations
+  pulls: [B4, B5]
+  pulls_text: B4, B5
+  question: null
+  guidance: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []

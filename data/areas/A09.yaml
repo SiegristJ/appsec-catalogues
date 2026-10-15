@@ -1,0 +1,198 @@
+id: A9
+title: Cryptography and data protection
+group: application
+lead: >-
+  Most cryptographic failures are configuration and lifecycle failures rather than broken algorithms:
+  legacy protocol versions left enabled, secrets committed to repositories, fast password hashes, certificates
+  that expire unnoticed. Two timelines now compress that lifecycle: public certificate lifetimes fall
+  to 47 days by 2029 (F-18), and NIST’s draft transition plan deprecates 112-bit RSA and elliptic-curve
+  algorithms after 2030 (F-46).
+applies_when:
+  text: >-
+    All. C-A9-3 applies where the application stores passwords; C-A9-7 to high-sensitivity fields.
+  universal: true
+  features: [personal_data]
+cross_references: null
+threats:
+- id: T-A9-1
+  name: Weak transport security
+  mechanism: >-
+    Legacy TLS versions, unencrypted internal hops or fallback to plaintext expose traffic
+  references: [CWE-319, CWE-326]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A9-2
+  name: Certificate lifecycle failure
+  mechanism: >-
+    Manual renewal cannot keep pace with short lifetimes, causing outages or rushed, insecure fixes
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A9-3
+  name: Weak password storage
+  mechanism: Fast or unsalted hashes let stolen password stores be cracked offline
+  references: [CWE-916]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A9-4
+  name: Leaked secrets
+  mechanism: >-
+    Keys and credentials in source, images, CI logs or configuration are harvested
+  references: [CWE-798]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A9-5
+  name: Cryptographic misuse
+  mechanism: >-
+    Weak or home-grown algorithms, nonce reuse, unauthenticated encryption or weak randomness
+  references: [CWE-327, CWE-330]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A9-6
+  name: Quantum-enabled decryption and forgery
+  mechanism: >-
+    Traffic recorded now is decrypted once a cryptographically relevant quantum computer exists (harvest
+    now, decrypt later); long-lived signature keys, including authenticator keys, become forgeable from
+    their public keys
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A9-7
+  name: Plaintext exposure to privileged parties
+  mechanism: >-
+    Database administrators, stolen application credentials or the hosting provider read sensitive fields
+    protected only by disk-level encryption
+  references: [CWE-311]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A9-1
+  statement: >-
+    Enable only current TLS versions, preferring TLS 1.3; never fall back to unencrypted protocols; encrypt
+    internal service traffic with trusted certificates, adding mutual TLS where services must authenticate
+    each other
+  addresses: [T-A9-1]
+  asvs: [V12]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A9-2
+  statement: >-
+    Automate certificate issuance and renewal (ACME), monitor expiry, and complete automation before the
+    100-day limit takes effect on 15 March 2027
+  addresses: [T-A9-2]
+  asvs: [V12]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A9-3
+  statement: >-
+    Hash passwords with Argon2id (at least 19 MiB memory, 2 iterations, parallelism 1) or scrypt; bcrypt
+    only for legacy systems (cost at least 10, 72-byte input limit); PBKDF2-HMAC-SHA-256 with at least
+    600,000 iterations where FIPS 140 is required
+  addresses: [T-A9-3]
+  asvs: [V11]
+  type: conditional
+  type_text: 'Conditional: stored passwords'
+  trigger:
+    text: stored passwords
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A9-4
+  statement: >-
+    Keep secrets in a secrets manager, never in source or build artefacts; grant least-privilege access;
+    prefer short-lived credentials; rotate on schedule; scan for secrets before commit and in CI
+  addresses: [T-A9-4]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A9-5
+  statement: >-
+    Use vetted libraries with authenticated encryption (AES-GCM, ChaCha20-Poly1305) and a cryptographically
+    secure random generator; manage keys in a KMS or HSM with envelope encryption
+  addresses: [T-A9-5]
+  asvs: [V11]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A9-6
+  statement: >-
+    Inventory cryptographic use; enable hybrid post-quantum key exchange where supported; plan signature
+    migration to ML-DSA or SLH-DSA as PKI support matures; track NIST’s transition dates
+  addresses: [T-A9-6]
+  asvs: [V11]
+  type: baseline
+  type_text: >-
+    Baseline. Disputed: hybrid versus pure post-quantum (see Where experts differ)
+  disputed: true
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A9-7
+  statement: >-
+    Encrypt high-sensitivity fields individually in the application or client before storage; use deterministic
+    encryption only where equality queries are needed, since it reveals which records share a value; tokenise
+    fields that are never queried
+  addresses: [T-A9-7]
+  asvs: [V11]
+  type: conditional
+  type_text: 'Conditional: high-sensitivity data'
+  trigger:
+    text: high-sensitivity data
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes:
+- HSTS and other transport headers are in A6.
+residual_risk: >-
+  Post-quantum migration of signatures and PKI lags key exchange, and IR 8547’s dates remain a draft.
+  Deterministic field encryption leaks equality and frequency. Secrets already leaked stay valid until
+  rotated, so detection without rotation achieves little.
+residual_rating: Strong if verified
+residual_summary: Post-quantum migration of signatures; leaked secrets until rotated
+facts: [F-18, F-19, F-45, F-46]
+sources: [R-68, R-77, R-78, R-79, R-80, R-81, R-82, R-83, R-84, R-124, R-125]
+last_reviewed: 2026-10-12
+watch: >-
+  NIST IR 8547 final; browser and root-program enforcement of the certificate schedule; OWASP Password
+  Storage Cheat Sheet parameters; CNSA 2.0 and BSI TR-02102 updates.
+extra_tables: []

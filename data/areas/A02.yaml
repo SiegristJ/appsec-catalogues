@@ -1,0 +1,206 @@
+id: A2
+title: Sessions and tokens
+group: application
+lead: >-
+  After login, the session token is the user’s identity: whoever presents it is treated as them, so stealing
+  or forging it bypasses every authentication control in A1. Two designs dominate. Reference tokens (random
+  IDs checked against server state) revoke instantly but need a lookup. Self-contained tokens (signed
+  JWTs) verify locally but stay valid until they expire unless revocation is added back.
+applies_when:
+  text: >-
+    Any user login. C-A2-5 to C-A2-7 apply to self-contained tokens; C-A2-8 to APIs where token replay
+    matters.
+  universal: true
+  features: [user_login, federated_login]
+cross_references: null
+threats:
+- id: T-A2-1
+  name: Session fixation
+  mechanism: An attacker plants a known session ID that survives the victim’s login
+  references: [CWE-384]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A2-2
+  name: Session hijacking
+  mechanism: >-
+    Session cookies or tokens are stolen through XSS, network exposure or infostealer malware on the endpoint,
+    then replayed
+  references: [CWE-614, CWE-1004]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A2-3
+  name: Sessions outliving their purpose
+  mechanism: >-
+    No idle or absolute timeout; logout clears only the browser; sessions survive password reset or account
+    disablement
+  references: [CWE-613]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A2-4
+  name: JWT validation flaws
+  mechanism: >-
+    `alg: none`, algorithm confusion between asymmetric and symmetric keys, keys fetched from attacker-supplied
+    `jku`/`x5u`/`jwk` headers, missing expiry, audience or token-type checks
+  references: [CWE-347]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A2-5
+  name: Unrevocable self-contained tokens
+  mechanism: >-
+    A stolen or obsolete JWT stays valid until expiry because nothing server-side can withdraw it
+  references: [CWE-613]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A2-6
+  name: Sensitive data in token claims
+  mechanism: >-
+    Signed but unencrypted token payloads are readable by anyone holding the token
+  references: [CWE-312]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A2-1
+  statement: >-
+    Generate reference tokens from a secure random generator with at least 128 bits of entropy, validate
+    them server-side, and issue a new token on every authentication, retiring the old one
+  addresses: [T-A2-1]
+  asvs: [V7]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-2
+  statement: >-
+    Set session cookies `Secure` and `HttpOnly`, choose SameSite per cookie purpose, and use the `__Host-`
+    prefix unless the cookie must be shared across hosts
+  addresses: [T-A2-2]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-3
+  statement: >-
+    Enforce idle and absolute timeouts with re-authentication; invalidate sessions server-side on logout
+    and account disablement; offer to end other sessions after password or MFA changes; let users review
+    and end their sessions
+  addresses: [T-A2-3]
+  asvs: [V7]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-4
+  statement: >-
+    Require full re-authentication before changing email, phone, MFA or recovery details
+  addresses: [T-A2-2, T-A2-3]
+  asvs: [V7]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-5
+  statement: >-
+    Verify a token’s signature or MAC before trusting any claim; allow-list algorithms per context and
+    never accept `none`; load keys only from pre-configured sources; check `exp`, `nbf`, `aud` and token
+    type
+  addresses: [T-A2-4]
+  asvs: [V9]
+  type: conditional
+  type_text: 'Conditional: self-contained tokens'
+  trigger:
+    text: self-contained tokens
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-6
+  statement: >-
+    Make self-contained tokens revocable: short lifetimes plus a revocation list, a per-user “issued before”
+    cutoff or per-user key rotation; or use reference tokens
+  addresses: [T-A2-5]
+  asvs: [V7]
+  type: conditional
+  type_text: 'Conditional: self-contained tokens'
+  trigger:
+    text: self-contained tokens
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-7
+  statement: >-
+    Keep sensitive data out of token claims; where it must be included, encrypt the token for an authenticated
+    recipient or carry it only over encrypted, endpoint-authenticated channels
+  addresses: [T-A2-6]
+  asvs: [V9]
+  type: conditional
+  type_text: 'Conditional: self-contained tokens'
+  trigger:
+    text: self-contained tokens
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A2-8
+  statement: >-
+    Sender-constrain access tokens (DPoP or mutual TLS) so a stolen token cannot be replayed from another
+    client (A1, C-A1-6)
+  addresses: [T-A2-2]
+  asvs: [V10]
+  type: conditional
+  type_text: 'Conditional: high-value APIs'
+  trigger:
+    text: high-value APIs
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  No web-layer control fully stops an attacker who steals a live session from a compromised endpoint;
+  short lifetimes, sender-constraint and re-authentication for sensitive actions shrink the window rather
+  than close it. Federated deployments multiply the systems holding sessions, so lifetimes and termination
+  must be coordinated across them.
+residual_rating: Partial
+residual_summary: Live-session theft from compromised endpoints
+facts: []
+sources: [R-17, R-85, R-86, R-87, R-111, R-112]
+last_reviewed: 2026-10-12
+watch: >-
+  browser support for device-bound session credentials; ASVS V7 and V9 updates; OAuth 2.1 publication.
+extra_tables: []

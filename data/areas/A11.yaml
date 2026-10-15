@@ -1,0 +1,217 @@
+id: A11
+title: Software supply chain
+group: application
+lead: >-
+  An application runs code its team never wrote: registry packages, their transitive dependencies, build
+  tools and third-party browser scripts. Since September 2025 a self-propagating worm family has repeatedly
+  turned one stolen developer token into hundreds of poisoned npm releases (F-35 to F-39), and third-party
+  involvement in breaches has risen to 48% (F-22). Software Supply Chain Failures ranks third in the 2025
+  OWASP Top 10, widened from the earlier vulnerable-components category.
+applies_when:
+  text: >-
+    All. C-A11-5 applies to teams that publish packages; C-A11-8 to pages that load third-party scripts,
+    and is mandatory on payment pages.
+  universal: true
+  features: [payment_pages, third_party_scripts, ai_coding_assistants]
+cross_references: >-
+  Hallucinated package names from AI coding assistants are homed in A12; pipeline hardening in P3.
+threats:
+- id: T-A11-1
+  name: Known-vulnerable dependencies
+  mechanism: A direct or transitive component carries a published vulnerability
+  references: [CWE-1395, 'A03:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A11-2
+  name: Malicious packages
+  mechanism: >-
+    Typosquatted names, dependency confusion between private and public registries, or a hijacked maintainer
+    account delivers attacker code
+  references: [CWE-506]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A11-3
+  name: Self-propagating registry worms
+  mechanism: >-
+    Install-time scripts steal developer and CI tokens, then republish poisoned versions of every package
+    those tokens reach; later waves registered rogue CI runners and carried a wiper
+  references: [CWE-506]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A11-4
+  name: Compromised build producing valid provenance
+  mechanism: >-
+    Attacker code runs inside a trusted workflow (unsafe pull-request triggers, cache poisoning, OIDC
+    token theft), so the published artefact carries genuine attestations
+  references: [CWE-494]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A11-5
+  name: Tampered third-party browser scripts
+  mechanism: >-
+    A compromised analytics or tag vendor serves a skimmer that captures form data in the user’s browser
+    (Magecart)
+  references: [CWE-829]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A11-6
+  name: Unmaintained components
+  mechanism: A dependency no longer receives fixes
+  references: ['A03:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A11-1
+  statement: >-
+    Generate an SBOM for every build and track direct and transitive components continuously; remove unused
+    and unmaintained ones
+  addresses: [T-A11-1, T-A11-6]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-2
+  statement: >-
+    Monitor components against vulnerability feeds and prioritise fixes by exploitation evidence (B1);
+    use reachability analysis to order work, not to dismiss findings
+  addresses: [T-A11-1]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-3
+  statement: >-
+    Pin dependencies in lockfiles with integrity hashes, install through a private registry proxy with
+    scoped namespaces, and delay adoption of newly published versions
+  addresses: [T-A11-2, T-A11-3]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-4
+  statement: >-
+    Disable package install scripts by default and allow them per package only where needed
+  addresses: [T-A11-3]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-5
+  statement: >-
+    Publish packages through trusted publishing (short-lived OIDC credentials from CI, no long-lived registry
+    tokens), require phishing-resistant MFA for maintainers, and protect release branches
+  addresses: [T-A11-3]
+  asvs: [V15]
+  type: conditional
+  type_text: 'Conditional: publishes packages'
+  trigger:
+    text: publishes packages
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-6
+  statement: >-
+    Build on a hosted platform that signs provenance (SLSA Build L2), move critical builds to isolated
+    builds (L3), and verify provenance and signatures before deployment
+  addresses: [T-A11-2, T-A11-4]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline (L2); Conditional (L3)
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-7
+  statement: >-
+    When a compromised package is found, treat machines and pipelines that installed it as compromised,
+    rotate every credential they could reach, and purge cached copies; removing the package revokes nothing
+  addresses: [T-A11-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-8
+  statement: >-
+    Inventory every browser script with a business justification, authorise scripts through CSP, assure
+    integrity (SRI for static files; other methods for scripts that legitimately change), and detect changes
+    to headers and page content as browsers receive them
+  addresses: [T-A11-5]
+  asvs: [V3]
+  type: conditional
+  type_text: >-
+    Conditional: third-party scripts; mandatory on payment pages under PCI DSS v4.0.1 6.4.3 and 11.6.1
+  trigger:
+    text: >-
+      third-party scripts; mandatory on payment pages under PCI DSS v4.0.1 6.4.3 and 11.6.1
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A11-9
+  statement: Roll out dependency and vendor updates in stages (canary first)
+  addresses: [T-A11-2, T-A11-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Malicious-package detection is heuristic, and the worm’s source has been public since May 2026, inviting
+  copycats (F-38). Provenance proves where and how an artefact was built, not that its source is benign:
+  Mini Shai-Hulud shipped valid attestations from a hijacked workflow, though SLSA notes that L3 isolation
+  would have blocked its cache-poisoning vector (F-37). An SBOM is an inventory, not an assurance.
+residual_rating: Partial
+residual_summary: >-
+  Malicious packages before detection; hijacked builds with valid provenance
+facts: [F-22, F-35, F-36, F-37, F-38, F-39]
+sources: [R-19, R-20, R-51, R-52, R-53, R-54, R-55, R-56, R-57, R-58, R-59, R-60]
+last_reviewed: 2026-10-12
+watch: >-
+  new Shai-Hulud-family waves; npm and other registries’ install-script and publishing policy changes;
+  SLSA Source track adoption; PCI DSS guidance on 6.4.3 and 11.6.1.
+extra_tables: []

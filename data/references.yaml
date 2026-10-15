@@ -1,0 +1,1530 @@
+- id: R-1
+  title: OWASP Top 10:2025 — A01 Broken Access Control
+  url: https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-1; T-A3-1, T-A3-2, T-A3-6; C-A3-1, C-A3-2, C-A3-5, C-A3-6, C-A3-9
+  snapshot: null
+- id: R-2
+  title: 2025 CWE Top 25 Most Dangerous Software Weaknesses
+  url: https://cwe.mitre.org/top25/archive/2025/2025_cwe_top25.html
+  issuer: MITRE
+  edition: 15 December 2025
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-2, F-3, F-17, F-27; T-A3-7
+  snapshot: null
+- id: R-3
+  title: >-
+    MITRE releases 2025 list of Top 25 most dangerous software vulnerabilities
+  url: >-
+    https://www.securityweek.com/mitre-releases-2025-list-of-top-25-most-dangerous-software-vulnerabilities/
+  issuer: SecurityWeek
+  edition: '2025'
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: Superseded by R-2; retained for the record
+  snapshot: null
+- id: R-4
+  title: OWASP API Security Top 10 (API1, API3, API5)
+  url: https://owasp.org/API-Security/editions/2023/en/0x11-t10/
+  issuer: OWASP
+  edition: '2023'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-4, F-7; T-A3-1 to T-A3-3, T-A3-6; C-A3-2 to C-A3-4, C-A3-8, C-A3-9
+  snapshot: null
+- id: R-5
+  title: ASVS 5.0 index, OWASP Cheat Sheet Series
+  url: https://cheatsheetseries.owasp.org/IndexASVS.html
+  issuer: OWASP
+  edition: 5.0.x
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-6; ASVS column, all areas
+  snapshot: null
+- id: R-6
+  title: Authorization Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: >-
+    Principles; T-A3-4, T-A3-5, T-A3-7; C-A3-1, C-A3-2, C-A3-5 to C-A3-7, C-A3-9
+  snapshot: null
+- id: R-7
+  title: Insecure Direct Object Reference Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-A3-1; C-A3-1, C-A3-8
+  snapshot: null
+- id: R-8
+  title: Mass Assignment Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-A3-3; C-A3-4
+  snapshot: null
+- id: R-9
+  title: 'Zanzibar: Google’s Consistent, Global Authorization System (Pang et al.)'
+  url: https://www.usenix.org/conference/atc19/presentation/pang
+  issuer: USENIX ATC
+  edition: '2019'
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-A3-7
+  snapshot: null
+- id: R-10
+  title: OWASP Top 10:2025 — Introduction
+  url: https://top10.owasp.org/2025/0x00_2025-Introduction/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-5; Principles
+  snapshot: null
+- id: R-11
+  title: Introducing the 5.0 release of the ASVS (Global AppSec EU)
+  url: >-
+    https://owasp2025globalappseceu.sched.com/event/1whCc/introducing-the-50-release-of-the-asvs
+  issuer: OWASP
+  edition: 30 May 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: >-
+    F-6. The OWASP project page still lists 4.0.3 as latest stable and is out of date
+  snapshot: null
+- id: R-12
+  title: OWASP Top 10 for LLM Applications 2025
+  url: https://genai.owasp.org/llm-top-10/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-8
+  snapshot: null
+- id: R-13
+  title: OWASP Top 10 for Agentic Applications for 2026
+  url: >-
+    https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026
+  issuer: OWASP
+  edition: 9 December 2025
+  tier: 1
+  tier_note: null
+  opened: Landing page only
+  cited_by_text: F-9; Principles (least agency, unconfirmed)
+  snapshot: null
+- id: R-14
+  title: NIST SP 800-63-4 Digital Identity Guidelines
+  url: https://csrc.nist.gov/pubs/sp/800/63/4/final
+  issuer: NIST
+  edition: 31 July 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-10
+  snapshot: null
+- id: R-15
+  title: SSDF Version 1.2 available for public comment
+  url: >-
+    https://www.nist.gov/news-events/news/2025/12/secure-software-development-framework-ssdf-version-12-available-public
+  issuer: NIST
+  edition: 17 December 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-11
+  snapshot: null
+- id: R-16
+  title: SP 800-53 Release 5.2.0 summary of changes
+  url: >-
+    https://csrc.nist.gov/csrc/media/Projects/risk-management/800-53%20Comment%20Site/SP800-53-r5.2.0-changes.pdf
+  issuer: NIST
+  edition: 27 August 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-12
+  snapshot: null
+- id: R-17
+  title: 'RFC 9700: Best Current Practice for OAuth 2.0 Security'
+  url: https://www.rfc-editor.org/rfc/rfc9700
+  issuer: IETF
+  edition: 30 January 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-13
+  snapshot: null
+- id: R-18
+  title: draft-ietf-oauth-v2-1
+  url: https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/
+  issuer: IETF
+  edition: Draft 16, 3 September 2026
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-14
+  snapshot: null
+- id: R-19
+  title: >-
+    [SLSA specification v1.2](https://slsa.dev/spec/v1.2/) and [SLSA blog](https://slsa.dev/blog)
+  url: https://slsa.dev/spec/v1.2/
+  issuer: OpenSSF
+  edition: 24 November 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-15
+  snapshot: null
+- id: R-20
+  title: Important updates announced for merchants validating to SAQ A
+  url: >-
+    https://blog.pcisecuritystandards.org/important-updates-announced-for-merchants-validating-to-self-assessment-questionnaire-a
+  issuer: PCI SSC
+  edition: January 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-16
+  snapshot: null
+- id: R-21
+  title: 2026 Data Breach Investigations Report (landing page)
+  url: https://www.verizon.com/business/resources/reports/dbir/
+  issuer: Verizon
+  edition: '2026'
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-20, F-23, F-25
+  snapshot: null
+- id: R-22
+  title: 2025 DBIR executive summary
+  url: >-
+    https://www.verizongov.com/resources/reports/2025-dbir-executive-summary.pdf
+  issuer: Verizon
+  edition: '2025'
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-21 to F-23
+  snapshot: null
+- id: R-23
+  title: Top takeaways from the 2026 Verizon DBIR
+  url: >-
+    https://spycloud.com/blog/top-takeaways-from-the-2026-verizon-data-breach-investigations-report/
+  issuer: SpyCloud
+  edition: '2026'
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-22, F-23
+  snapshot: null
+- id: R-24
+  title: 'Verizon DBIR 2026: vulnerability exploitation overtakes credential theft'
+  url: >-
+    https://www.securityweek.com/verizon-dbir-2026-vulnerability-exploitation-overtakes-credential-theft-as-top-breach-vector/
+  issuer: SecurityWeek
+  edition: '2026'
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-24
+  snapshot: null
+- id: R-25
+  title: CISA KEV catalog expanded 20% in 2025, topping 1,480 entries
+  url: >-
+    https://www.securityweek.com/cisa-kev-catalog-expanded-20-in-2025-topping-1480-entries/
+  issuer: SecurityWeek
+  edition: '2026'
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-26
+  snapshot: null
+- id: R-26
+  title: Top 10 web hacking techniques of 2025
+  url: https://portswigger.net/research/top-10-web-hacking-techniques-of-2025
+  issuer: PortSwigger
+  edition: 5 February 2026
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-28; Principles
+  snapshot: null
+- id: R-27
+  title: NIST SP 800-207 Zero Trust Architecture
+  url: https://csrc.nist.gov/pubs/sp/800/207/final
+  issuer: NIST
+  edition: 11 August 2020
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: Principles
+  snapshot: null
+- id: R-28
+  title: 'ASVS 5.0: For users of 4.0'
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x05-For-Users-Of-4.0.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: Reference stack
+  snapshot: null
+- id: R-29
+  title: NIST SP 800-63B-4
+  url: https://pages.nist.gov/800-63-4/sp800-63b.html
+  issuer: NIST
+  edition: July 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-29; A1, B6
+  snapshot: null
+- id: R-30
+  title: ASVS 5.0 V6 Authentication
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x15-V6-Authentication.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-30; A1
+  snapshot: null
+- id: R-31
+  title: 'RFC 9207: OAuth 2.0 Authorization Server Issuer Identification'
+  url: https://www.rfc-editor.org/rfc/rfc9207
+  issuer: IETF
+  edition: March 2022
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A1
+  snapshot: null
+- id: R-32
+  title: 'RFC 9396: OAuth 2.0 Rich Authorization Requests'
+  url: https://www.rfc-editor.org/rfc/rfc9396
+  issuer: IETF
+  edition: May 2023
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A1
+  snapshot: null
+- id: R-33
+  title: 'Sign in as anyone: bypassing SAML SSO with parser differentials'
+  url: >-
+    https://github.blog/security/sign-in-as-anyone-bypassing-saml-sso-authentication-with-parser-differentials/
+  issuer: GitHub
+  edition: 12 March 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A1
+  snapshot: null
+- id: R-34
+  title: Credential Stuffing Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A1
+  snapshot: null
+- id: R-35
+  title: Proofpoint warns FIDO authentication can be bypassed by downgrade
+  url: >-
+    https://securitybrief.co.uk/story/proofpoint-warns-fido-authentication-can-be-bypassed-by-downgrade
+  issuer: SecurityBrief
+  edition: 19 August 2025
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A1
+  snapshot: null
+- id: R-36
+  title: Update on plans for Privacy Sandbox technologies
+  url: >-
+    https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies
+  issuer: Google
+  edition: 17 October 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A1, A10
+  snapshot: null
+- id: R-37
+  title: OWASP Top 10:2025 — A05 Injection
+  url: https://top10.owasp.org/2025/A05_2025-Injection/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-32; A4
+  snapshot: null
+- id: R-38
+  title: File Upload Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A4
+  snapshot: null
+- id: R-39
+  title: Deserialization Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A4
+  snapshot: null
+- id: R-40
+  title: XML External Entity Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A4
+  snapshot: null
+- id: R-41
+  title: OS Command Injection Defense Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A4
+  snapshot: null
+- id: R-42
+  title: Server Side Template Injection Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Template_Injection_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A4
+  snapshot: null
+- id: R-43
+  title: Cross Site Scripting Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A5
+  snapshot: null
+- id: R-44
+  title: Content Security Policy Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A5
+  snapshot: null
+- id: R-45
+  title: Cross-Site Request Forgery Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A5
+  snapshot: null
+- id: R-46
+  title: CORS
+  url: https://portswigger.net/web-security/cors
+  issuer: PortSwigger
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A5
+  snapshot: null
+- id: R-47
+  title: Preventing prototype pollution
+  url: https://portswigger.net/web-security/prototype-pollution/preventing
+  issuer: PortSwigger
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A5
+  snapshot: null
+- id: R-48
+  title: Trusted Types API
+  url: https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API
+  issuer: MDN
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-34; A5
+  snapshot: null
+- id: R-49
+  title: >-
+    Code-reuse attacks for the web: breaking XSS mitigations via script gadgets (Lekies et al.)
+  url: >-
+    https://research.google/pubs/code-reuse-attacks-for-the-web-breaking-cross-site-scripting-mitigations-via-script-gadgets/
+  issuer: ACM CCS
+  edition: '2017'
+  tier: 3
+  tier_note: null
+  opened: Abstract only
+  cited_by_text: A5
+  snapshot: null
+- id: R-50
+  title: Bypassing modern XSS mitigations with code-reuse attacks
+  url: >-
+    https://www.truesec.com/hub/blog/bypassing-modern-xss-mitigations-with-code-reuse-attacks
+  issuer: Truesec
+  edition: —
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A5
+  snapshot: null
+- id: R-51
+  title: Widespread supply chain compromise impacting npm ecosystem
+  url: >-
+    https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+  issuer: CISA
+  edition: September 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-35; A11
+  snapshot: null
+- id: R-52
+  title: 'Shai-Hulud 2.0: inside the second coming'
+  url: >-
+    https://blog.checkpoint.com/research/shai-hulud-2-0-inside-the-second-coming-the-most-aggressive-npm-supply-chain-attack-of-2025/
+  issuer: Check Point
+  edition: 25 November 2025
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-36; A11, P3
+  snapshot: null
+- id: R-53
+  title: 'Mini Shai-Hulud: what SLSA can and cannot do'
+  url: >-
+    https://slsa.dev/blog/2026/05/mini-shai-hulud-what-slsa-can-and-cannot-do
+  issuer: OpenSSF SLSA
+  edition: May 2026
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-37; A11, P3
+  snapshot: null
+- id: R-54
+  title: TeamPCP releases Shai-Hulud worm’s source code
+  url: >-
+    https://securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code
+  issuer: SecurityWeek
+  edition: 15 May 2026
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-38; A11
+  snapshot: null
+- id: R-55
+  title: OWASP Top 10:2025 — A03 Software Supply Chain Failures
+  url: https://top10.owasp.org/2025/A03_2025-Software_Supply_Chain_Failures/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A11
+  snapshot: null
+- id: R-56
+  title: Trusted publishing for npm packages
+  url: https://docs.npmjs.com/trusted-publishers
+  issuer: npm
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A11
+  snapshot: null
+- id: R-57
+  title: SLSA v1.1 security levels
+  url: https://slsa.dev/spec/v1.1/levels
+  issuer: OpenSSF SLSA
+  edition: April 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A11
+  snapshot: null
+- id: R-58
+  title: 'Advisory AD-2026-009: Keyv and related packages'
+  url: https://csa.gov.sg/alerts-and-advisories/advisories/ad-2026-009
+  issuer: Singapore CSA
+  edition: 6 August 2026
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-39; A11
+  snapshot: null
+- id: R-59
+  title: ASVS 5.0 V15 Secure Coding and Architecture
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A3, A5, A11, B1, P1
+  snapshot: null
+- id: R-60
+  title: 'PCI DSS compliance guide: script security'
+  url: >-
+    https://docs.adyen.com/development-resources/pci-dss-compliance-guide/script-security
+  issuer: Adyen
+  edition: Current
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A11
+  snapshot: null
+- id: R-61
+  title: Server-side request forgery
+  url: https://portswigger.net/web-security/ssrf
+  issuer: PortSwigger
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7
+  snapshot: null
+- id: R-62
+  title: SSRF Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7
+  snapshot: null
+- id: R-63
+  title: HTTP/1.1 must die (Kettle)
+  url: https://portswigger.net/research/http1-must-die
+  issuer: PortSwigger
+  edition: 6 August 2025
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-40; A7
+  snapshot: null
+- id: R-64
+  title: Web cache deception
+  url: https://portswigger.net/web-security/web-cache-deception
+  issuer: PortSwigger
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7
+  snapshot: null
+- id: R-65
+  title: HTTP Host header attacks
+  url: https://portswigger.net/web-security/host-header
+  issuer: PortSwigger
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7
+  snapshot: null
+- id: R-66
+  title: ASVS 5.0 V1 Encoding and Sanitization
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A4, A7
+  snapshot: null
+- id: R-67
+  title: ASVS 5.0 V4 API and Web Service
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x13-V4-API-and-Web-Service.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7, A8
+  snapshot: null
+- id: R-68
+  title: ASVS 5.0 V13 Configuration
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x22-V13-Configuration.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7, A9, B1, B2, B5
+  snapshot: null
+- id: R-69
+  title: ASVS 5.0 V14 Data Protection
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x23-V14-Data-Protection.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A7, A13, B5
+  snapshot: null
+- id: R-70
+  title: GraphQL Cheat Sheet
+  url: https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A8
+  snapshot: null
+- id: R-71
+  title: Cross-site WebSocket hijacking
+  url: >-
+    https://portswigger.net/web-security/websockets/cross-site-websocket-hijacking
+  issuer: PortSwigger
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A8
+  snapshot: null
+- id: R-72
+  title: MeshCentral CSWSH advisory (CVE-2024-26135)
+  url: >-
+    https://github.com/Ylianst/MeshCentral/security/advisories/GHSA-cp68-qrhr-g9h8
+  issuer: MeshCentral
+  edition: '2024'
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A8
+  snapshot: null
+- id: R-73
+  title: OWASP Top 10 for Agentic Applications 2026 (summary)
+  url: >-
+    https://www.giskard.ai/knowledge/owasp-top-10-for-agentic-application-2026
+  issuer: Giskard
+  edition: December 2025
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-44; A12
+  snapshot: null
+- id: R-74
+  title: Mistaking AI vulnerability could lead to large-scale breaches
+  url: >-
+    https://www.ncsc.gov.uk/news/mistaking-ai-vulnerability-could-lead-to-large-scale-breaches
+  issuer: UK NCSC
+  edition: 10 December 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-42; A12
+  snapshot: null
+- id: R-75
+  title: LLM Prompt Injection Prevention Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A12
+  snapshot: null
+- id: R-76
+  title: 2026 GenAI Code Security Report
+  url: https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk
+  issuer: Veracode
+  edition: July 2026
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-43; A12
+  snapshot: null
+- id: R-77
+  title: SC-081v3 47-day certificate schedule
+  url: https://postquantum.com/security-pqc/sc081v3-47day-certificate/
+  issuer: PostQuantum.com
+  edition: '2025'
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-18; A9
+  snapshot: null
+- id: R-78
+  title: NIST releases first 3 finalized post-quantum encryption standards
+  url: >-
+    https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
+  issuer: NIST
+  edition: 13 August 2024
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-19; A9
+  snapshot: null
+- id: R-79
+  title: Password Storage Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-45; A9
+  snapshot: null
+- id: R-80
+  title: NIST IR 8547 initial public draft
+  url: https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8547.ipd.pdf
+  issuer: NIST
+  edition: 12 November 2024
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-46; A9
+  snapshot: null
+- id: R-81
+  title: ASVS 5.0 V12 Secure Communication
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x21-V12-Secure-Communication.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A9
+  snapshot: null
+- id: R-82
+  title: NSA releases update to CNSA 2.0
+  url: https://pqshield.com/nsa-releases-update-to-cnsa-2-0/
+  issuer: PQShield
+  edition: April 2024
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A9, Where experts differ
+  snapshot: null
+- id: R-83
+  title: BSI TR-02102 cryptographic guideline update
+  url: >-
+    https://postquantum.com/security-pqc/bsi-tr-02102-cryptographic-guideline-update/
+  issuer: PostQuantum.com
+  edition: February 2026
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A9, Where experts differ
+  snapshot: null
+- id: R-84
+  title: ASVS 5.0 V11 Cryptography
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x20-V11-Cryptography.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A9
+  snapshot: null
+- id: R-85
+  title: ASVS 5.0 V3 Web Frontend Security
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x12-V3-Web-Frontend-Security.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A2, A5, A6
+  snapshot: null
+- id: R-86
+  title: ASVS 5.0 V7 Session Management
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x16-V7-Session-Management.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A2, B6
+  snapshot: null
+- id: R-87
+  title: ASVS 5.0 V9 Self-contained Tokens
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x18-V9-Self-contained-Tokens.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A2
+  snapshot: null
+- id: R-88
+  title: ASVS 5.0 V2 Validation and Business Logic
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x11-V2-Validation-and-Business-Logic.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A10, B6
+  snapshot: null
+- id: R-89
+  title: ASVS 5.0 V16 Security Logging and Error Handling
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x25-V16-Security-Logging-and-Error-Handling.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: A13
+  snapshot: null
+- id: R-90
+  title: OWASP Top 10:2025 — A02 Security Misconfiguration
+  url: https://top10.owasp.org/2025/A02_2025-Security_Misconfiguration/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-47; B1, P3
+  snapshot: null
+- id: R-91
+  title: Exploit Prediction Scoring System
+  url: https://www.first.org/epss/
+  issuer: FIRST
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-49; B1
+  snapshot: null
+- id: R-92
+  title: Configure the Instance Metadata Service
+  url: >-
+    https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
+  issuer: AWS
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B2
+  snapshot: null
+- id: R-93
+  title: Exploiting SNI SSRF to access the AWS IMDSv2 service
+  url: >-
+    https://appcheck-ng.com/exploiting-sni-ssrf-to-access-the-aws-idmsv2-service/
+  issuer: AppCheck
+  edition: —
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B2
+  snapshot: null
+- id: R-94
+  title: Pod Security Standards
+  url: https://kubernetes.io/docs/concepts/security/pod-security-standards/
+  issuer: Kubernetes
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: Partly
+  cited_by_text: B3
+  snapshot: null
+- id: R-95
+  title: Configure service accounts for pods
+  url: >-
+    https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  issuer: Kubernetes
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: Partly
+  cited_by_text: B3
+  snapshot: null
+- id: R-96
+  title: Ingress-nginx CVE-2025-1974
+  url: https://kubernetes.io/blog/2025/03/24/ingress-nginx-cve-2025-1974/
+  issuer: Kubernetes
+  edition: 24 March 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B3
+  snapshot: null
+- id: R-97
+  title: Ingress NGINX retirement
+  url: https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/
+  issuer: Kubernetes
+  edition: 11 November 2025
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-51; B3
+  snapshot: null
+- id: R-98
+  title: Kyverno SSRF vulnerability (CVE-2026-4789)
+  url: >-
+    https://orca.security/resources/blog/kyverno-ssrf-vulnerability-cve-2026-4789/
+  issuer: Orca Security
+  edition: 9 April 2026
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B3
+  snapshot: null
+- id: R-99
+  title: Lambda execution environment lifecycle
+  url: >-
+    https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html
+  issuer: AWS
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B3
+  snapshot: null
+- id: R-100
+  title: 'WAFFLED: exploiting parsing discrepancies to bypass WAFs'
+  url: https://arxiv.org/abs/2503.10846
+  issuer: ACSAC
+  edition: '2025'
+  tier: 3
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-52; B4
+  snapshot: null
+- id: R-101
+  title: PCI DSS requirement 6 (quoting 6.4.2)
+  url: https://learn.microsoft.com/en-us/entra/standards/pci-requirement-6
+  issuer: Microsoft
+  edition: Current
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: F-53; B4
+  snapshot: null
+- id: R-102
+  title: 'NSFOCUS: Ghost Bits attacks'
+  url: >-
+    https://nsfocusglobal.com/waf-defense-in-crisis-nsfocus-locks-down-ghost-bits-attacks-in-advance/
+  issuer: NSFOCUS
+  edition: 30 April 2026
+  tier: 4
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B4
+  snapshot: null
+- id: R-103
+  title: '#StopRansomware Guide'
+  url: https://www.cisa.gov/stopransomware/ransomware-guide
+  issuer: CISA
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B5
+  snapshot: null
+- id: R-104
+  title: Implementing phishing-resistant MFA
+  url: >-
+    https://www.cisa.gov/sites/default/files/publications/fact-sheet-implementing-phishing-resistant-mfa-508c.pdf
+  issuer: CISA
+  edition: '2022'
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: B6
+  snapshot: null
+- id: R-105
+  title: NIST SP 800-218 SSDF v1.1
+  url: https://csrc.nist.gov/pubs/sp/800/218/final
+  issuer: NIST
+  edition: February 2022
+  tier: 1
+  tier_note: null
+  opened: Landing page
+  cited_by_text: P1
+  snapshot: null
+- id: R-106
+  title: Threat Modeling Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: P1
+  snapshot: null
+- id: R-107
+  title: OWASP Web Security Testing Guide
+  url: null
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: Not yet (page failed to load)
+  cited_by_text: P2
+  snapshot: null
+- id: R-108
+  title: OWASP Top 10 CI/CD Security Risks
+  url: https://owasp.org/www-project-top-10-ci-cd-security-risks/
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: P3
+  snapshot: null
+- id: R-109
+  title: Security hardening for GitHub Actions
+  url: >-
+    https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
+  issuer: GitHub
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: P3
+  snapshot: null
+- id: R-110
+  title: NIST SP 800-61 Rev. 3
+  url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+  issuer: NIST
+  edition: 3 April 2025
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: P4
+  snapshot: null
+- id: R-111
+  title: 'RFC 7519: JSON Web Token'
+  url: https://www.rfc-editor.org/rfc/rfc7519
+  issuer: IETF
+  edition: May 2015
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-A2-6, C-A2-7
+  snapshot: null
+- id: R-112
+  title: 'RFC 7515: JSON Web Signature'
+  url: https://www.rfc-editor.org/rfc/rfc7515
+  issuer: IETF
+  edition: May 2015
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-A2-6
+  snapshot: null
+- id: R-113
+  title: ASVS 5.0 V5 File Handling
+  url: >-
+    https://raw.githubusercontent.com/OWASP/ASVS/master/5.0/en/0x14-V5-File-Handling.md
+  issuer: OWASP
+  edition: '5.0'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-A4-7
+  snapshot: null
+- id: R-114
+  title: 'CWE-22: Path Traversal'
+  url: https://cwe.mitre.org/data/definitions/22.html
+  issuer: MITRE
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-A4-7
+  snapshot: null
+- id: R-115
+  title: Network Policies (documentation source)
+  url: >-
+    https://raw.githubusercontent.com/kubernetes/website/main/content/en/docs/concepts/services-networking/network-policies.md
+  issuer: Kubernetes
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-B3-5
+  snapshot: null
+- id: R-116
+  title: >-
+    BOD 23-02: Mitigating the risk from internet-exposed management interfaces
+  url: >-
+    https://www.cisa.gov/news-events/directives/binding-operational-directive-23-02
+  issuer: CISA
+  edition: 13 June 2023
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-B1-4
+  snapshot: null
+- id: R-117
+  title: 'RFC 8659: DNS Certification Authority Authorization (CAA)'
+  url: https://www.rfc-editor.org/rfc/rfc8659
+  issuer: IETF
+  edition: November 2019
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-B4-5
+  snapshot: null
+- id: R-118
+  title: 'NIST SP 800-81r3: Secure DNS Deployment Guide'
+  url: >-
+    https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-81r3.pdf
+  issuer: NIST
+  edition: March 2026
+  tier: 1
+  tier_note: null
+  opened: Yes (partly)
+  cited_by_text: C-B4-5
+  snapshot: null
+- id: R-119
+  title: Best practices for MITRE ATT&CK mapping
+  url: >-
+    https://www.cisa.gov/news-events/news/best-practices-mitre-attckr-mapping
+  issuer: CISA
+  edition: Updated January 2023
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-P4-1
+  snapshot: null
+- id: R-120
+  title: NIST SP 800-53 Rev. 5 AU-6
+  url: https://csf.tools/reference/nist-sp-800-53/r5/au/au-6/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: C-P4-1
+  snapshot: null
+- id: R-121
+  title: NIST SP 800-53 Rev. 5 AC-6
+  url: https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-6/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: C-B6-2
+  snapshot: null
+- id: R-122
+  title: NIST SP 800-53 Rev. 5 CM-8
+  url: https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-8/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: C-B1-4
+  snapshot: null
+- id: R-123
+  title: Permissions-Policy header
+  url: >-
+    https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy
+  issuer: MDN
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-A6-6
+  snapshot: null
+- id: R-124
+  title: Cryptographic Storage Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-A9-7, C-A9-7
+  snapshot: null
+- id: R-125
+  title: >-
+    [CSFLE encryption algorithms](https://www.mongodb.com/docs/manual/core/csfle/fundamentals/encryption-algorithms/)
+    and [CSFLE overview](https://www.mongodb.com/docs/manual/core/csfle/)
+  url: >-
+    https://www.mongodb.com/docs/manual/core/csfle/fundamentals/encryption-algorithms/
+  issuer: MongoDB
+  edition: Current
+  tier: 2
+  tier_note: (product-specific)
+  opened: 'Yes'
+  cited_by_text: T-A9-7, C-A9-7
+  snapshot: null
+- id: R-126
+  title: LLM09:2025 Misinformation
+  url: https://genai.owasp.org/llmrisk/llm092025-misinformation/
+  issuer: OWASP
+  edition: '2025'
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-A12-9, C-A12-11
+  snapshot: null
+- id: R-127
+  title: Regulation (EU) 2016/679 (GDPR), recitals 78, 83, 84
+  url: >-
+    https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679
+  issuer: EU
+  edition: '2016'
+  tier: 1
+  tier_note: null
+  opened: Recitals only
+  cited_by_text: C-A13-7
+  snapshot: null
+- id: R-128
+  title: Virtual Patching Cheat Sheet
+  url: >-
+    https://cheatsheetseries.owasp.org/cheatsheets/Virtual_Patching_Cheat_Sheet.html
+  issuer: OWASP
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-B1-6
+  snapshot: null
+- id: R-129
+  title: Security best practices in IAM
+  url: https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
+  issuer: AWS
+  edition: Current
+  tier: 2
+  tier_note: (product-specific)
+  opened: 'Yes'
+  cited_by_text: T-B2-1, C-B2-1, C-B2-2
+  snapshot: null
+- id: R-130
+  title: S3 Block Public Access
+  url: >-
+    https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
+  issuer: AWS
+  edition: Current
+  tier: 2
+  tier_note: (product-specific)
+  opened: 'Yes'
+  cited_by_text: T-B2-3, C-B2-3
+  snapshot: null
+- id: R-131
+  title: Benefits of using multiple AWS accounts
+  url: >-
+    https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/benefits-of-using-multiple-aws-accounts.html
+  issuer: AWS
+  edition: Current
+  tier: 2
+  tier_note: (product-specific)
+  opened: 'Yes'
+  cited_by_text: C-B2-5
+  snapshot: null
+- id: R-132
+  title: NIST SP 800-53 Rev. 5 AU-9(2)
+  url: https://csf.tools/reference/nist-sp-800-53/r5/au/au-9/au-9-2/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: T-B2-5, C-B2-5
+  snapshot: null
+- id: R-133
+  title: NIST SP 800-53 Rev. 5 CA-7
+  url: https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-7/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: C-B2-6
+  snapshot: null
+- id: R-134
+  title: NIST SP 800-190 Application Container Security Guide
+  url: >-
+    https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-190.pdf
+  issuer: NIST
+  edition: September 2017
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-B3-1, T-B3-5, C-B3-1, C-B3-5, C-B3-6
+  snapshot: null
+- id: R-135
+  title: Understanding and responding to DDoS attacks
+  url: >-
+    https://www.cisa.gov/sites/default/files/2024-03/understanding-and-responding-to-distributed-denial-of-service-attacks_508c.pdf
+  issuer: CISA
+  edition: March 2024
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-B4-1, C-B4-1
+  snapshot: null
+- id: R-136
+  title: 'ED 19-01: Mitigate DNS infrastructure tampering'
+  url: >-
+    https://www.cisa.gov/news-events/directives/ed-19-01-mitigate-dns-infrastructure-tampering
+  issuer: CISA
+  edition: January 2019
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-B4-5, C-B4-5
+  snapshot: null
+- id: R-137
+  title: Restrict access to Application Load Balancers
+  url: >-
+    https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/restrict-access-to-load-balancer.html
+  issuer: AWS
+  edition: Current
+  tier: 2
+  tier_note: (product-specific)
+  opened: 'Yes'
+  cited_by_text: T-B4-2, C-B4-2
+  snapshot: null
+- id: R-138
+  title: NIST SP 800-53 Rev. 5 SC-7
+  url: https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-7/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: T-B4-2, C-B4-2, C-B4-6
+  snapshot: null
+- id: R-139
+  title: NIST SP 800-53 Rev. 5 SC-7(15)
+  url: https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-7/sc-7-15/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: C-B6-4
+  snapshot: null
+- id: R-140
+  title: NIST SP 800-218 SSDF v1.1 (full text)
+  url: >-
+    https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-218.pdf
+  issuer: NIST
+  edition: February 2022
+  tier: 1
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: C-P1-1, T-P1-3, C-P1-4, T-P2-1
+  snapshot: null
+- id: R-141
+  title: NIST SP 800-53 Rev. 5 SI-7(17) Runtime Application Self-Protection
+  url: https://csf.tools/reference/nist-sp-800-53/r5/si/si-7/si-7-17/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: C-P4-4
+  snapshot: null
+- id: R-142
+  title: NIST SP 800-53 Rev. 5 PM-12 Insider Threat Program
+  url: https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-12/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: T-B6-4
+  snapshot: null
+- id: R-143
+  title: NIST SP 800-53 Rev. 5 AC-5 Separation of Duties
+  url: https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-5/
+  issuer: NIST
+  edition: Rev. 5
+  tier: 1
+  tier_note: null
+  opened: Via csf.tools mirror
+  cited_by_text: T-B6-4, C-B6-6
+  snapshot: null
+- id: R-144
+  title: Defining insider threats
+  url: >-
+    https://www.cisa.gov/topics/physical-security/insider-threat-mitigation/defining-insider-threats
+  issuer: CISA
+  edition: Current
+  tier: 2
+  tier_note: null
+  opened: 'Yes'
+  cited_by_text: T-B6-4
+  snapshot: null

@@ -1,0 +1,108 @@
+id: P1
+title: Secure SDLC and threat modelling
+group: process
+lead: >-
+  Insecure design (A06:2025) cannot be fixed by perfect implementation: a missing control is not a bug
+  in any line of code. Threat modelling finds those gaps before they are built, and a secure development
+  framework makes the practice repeatable. This is a process area: it applies to the organisation that
+  builds the application, whatever the architecture.
+applies_when:
+  text: Always, to the delivery organisation.
+  universal: false
+  features: []
+cross_references: null
+threats:
+- id: T-P1-1
+  name: Insecure design
+  mechanism: >-
+    Controls the system needs were never specified, so no amount of correct code provides them
+  references: ['A06:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P1-2
+  name: Unmodelled trust boundaries and abuse cases
+  mechanism: >-
+    Data flows, integrations and business workflows reach production without anyone asking what could
+    go wrong
+  references: ['A06:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-P1-3
+  name: Unhandled vulnerability reports
+  mechanism: External researchers have no channel, or reports go unanswered
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-P1-1
+  statement: >-
+    Adopt a secure development framework (NIST SSDF practice groups: prepare the organisation, protect
+    the software, produce well-secured software, respond to vulnerabilities) and measure maturity (OWASP
+    SAMM)
+  addresses: [T-P1-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P1-2
+  statement: >-
+    Assign an ASVS level to each application and document security decisions so implementations can vary
+    while remaining verifiable
+  addresses: [T-P1-1]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P1-3
+  statement: >-
+    Threat model during design and again on every significant change, answering four questions (what are
+    we building, what can go wrong, what will we do about it, did we do enough); use STRIDE for technical
+    designs, attack trees for high-value goals, abuse cases for business workflows (A10) and LINDDUN for
+    privacy
+  addresses: [T-P1-1, T-P1-2]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-P1-4
+  statement: >-
+    Publish a vulnerability disclosure policy and run a response process with defined timelines
+  addresses: [T-P1-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  No threat-modelling method is demonstrably superior; the practical risk is modelling once and never
+  revisiting. Lightweight modelling on every significant change outperforms a single heavyweight exercise.
+residual_rating: Strong if verified
+residual_summary: Practices that lapse; detection tuning
+facts: [F-11]
+sources: [R-15, R-105, R-106, R-140]
+last_reviewed: 2026-10-12
+watch: SSDF v1.2 final; OWASP SAMM releases.
+extra_tables: []

@@ -1,0 +1,188 @@
+id: A7
+title: HTTP infrastructure
+group: application
+lead: >-
+  Every hop between browser and application (CDN, load balancer, reverse proxy, cache, the application’s
+  own outbound client) parses HTTP and decides where traffic goes. When two hops disagree, or when the
+  application fetches a destination an attacker chose, requests reach places the architecture never intended.
+  SSRF is now classed as an access-control failure in the OWASP Top 10 (F-1), and request smuggling persists
+  because HTTP/1.1 message boundaries are ambiguous by design.
+applies_when:
+  text: >-
+    The server fetches URLs or calls third-party services (T-A7-1); a CDN, proxy, load balancer or cache
+    sits in front of the origin (T-A7-2 to T-A7-4). T-A7-5 applies to all.
+  universal: false
+  features: [outbound_fetch, edge_intermediaries]
+cross_references: >-
+  Cloud metadata protection (IMDSv2) is homed in B2; WAF bypass through parser differentials in B4.
+threats:
+- id: T-A7-1
+  name: Server-side request forgery
+  mechanism: >-
+    The server fetches an attacker-chosen destination (internal services, localhost, cloud metadata);
+    redirect loops make blind SSRF observable, and HTTP/2 CONNECT enables internal port scans
+  references: [CWE-918, 'A01:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A7-2
+  name: Request smuggling (desync)
+  mechanism: >-
+    Front end and back end disagree on request boundaries (CL.TE, TE.CL, obfuscated TE.TE, HTTP/2 downgrade),
+    so attacker bytes prefix the next user’s request on a reused connection
+  references: [CWE-444]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A7-3
+  name: Web cache poisoning
+  mechanism: >-
+    Unkeyed inputs change a response that the cache then serves to others, including in framework-internal
+    caches
+  references: [CWE-349]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A7-4
+  name: Web cache deception
+  mechanism: >-
+    A crafted URL makes a private, dynamic response look static, so the cache stores it and the attacker
+    retrieves it
+  references: [CWE-524]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A7-5
+  name: Host header attacks
+  mechanism: >-
+    A manipulated Host or override header poisons password-reset links or caches, or routes requests to
+    internal hosts
+  references: [CWE-20]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A7-1
+  statement: >-
+    Never accept full URLs from users; build outbound requests from an allow-listed host with fixed scheme,
+    port and path
+  addresses: [T-A7-1]
+  asvs: [V1]
+  type: conditional
+  type_text: 'Conditional: outbound fetches'
+  trigger:
+    text: outbound fetches
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A7-2
+  statement: >-
+    Resolve the destination, check the resolved addresses against permitted networks, and connect to the
+    validated address; disable redirects or re-validate every hop
+  addresses: [T-A7-1]
+  asvs: [V1]
+  type: conditional
+  type_text: 'Conditional: outbound fetches'
+  trigger:
+    text: outbound fetches
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A7-3
+  statement: >-
+    Default-deny egress at the network or an egress proxy, blocking loopback, private, link-local and
+    metadata ranges; treat these deny-lists as a backstop, since they are bypass-prone
+  addresses: [T-A7-1]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A7-4
+  statement: Reject URLs that different parsers could read as different hosts
+  addresses: [T-A7-1, T-A7-2]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A7-5
+  statement: >-
+    Run HTTP/2 end to end, including edge to origin, and avoid HTTP/2-to-HTTP/1.1 downgrading; where HTTP/1.1
+    upstreams remain, enable every normalisation option, reject bodies on GET, HEAD and OPTIONS, consider
+    disabling upstream connection reuse, and scan for desync
+  addresses: [T-A7-2]
+  asvs: [V4]
+  type: conditional
+  type_text: 'Conditional: intermediaries. Disputed (see Where experts differ)'
+  trigger:
+    text: intermediaries
+    rule: null
+  disputed: true
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A7-6
+  statement: >-
+    Mark authenticated and dynamic responses `Cache-Control: no-store, private`; stop CDN rules overriding
+    origin headers; make cache and origin parse paths identically; key caches on every input that varies
+    the response
+  addresses: [T-A7-3, T-A7-4]
+  asvs: [V14]
+  type: conditional
+  type_text: 'Conditional: cache or CDN'
+  trigger:
+    text: cache or CDN
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A7-7
+  statement: >-
+    Take hostnames from configuration, not the request; use relative URLs; validate Host against an allow-list;
+    disable override headers such as `X-Forwarded-Host` unless set by a trusted proxy
+  addresses: [T-A7-5]
+  asvs: [V4]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Smuggling stays structurally possible wherever HTTP/1.1 links intermediaries, and several major CDNs
+  and proxies lacked upstream HTTP/2 support when PortSwigger last surveyed them (F-40). SSRF that controls
+  the whole request can still reach protected metadata services (B2). Framework-internal caches sit outside
+  CDN configuration and need their own review.
+residual_rating: Partial
+residual_summary: Request smuggling wherever HTTP/1.1 links intermediaries
+facts: [F-1, F-40]
+sources: [R-1, R-26, R-61, R-62, R-63, R-64, R-65, R-66, R-67, R-68, R-69]
+last_reviewed: 2026-10-12
+watch: >-
+  CDN and proxy support for upstream HTTP/2; new desync research; PortSwigger top ten.
+extra_tables: []

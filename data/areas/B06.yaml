@@ -1,0 +1,141 @@
+id: B6
+title: Privileged and administrative access
+group: hosting
+lead: >-
+  Administrator accounts are the shortest path from one stolen credential to full compromise, which is
+  why CISA asks organisations to move administrators to phishing-resistant MFA first. Privileged access
+  needs stronger authentication, less standing privilege and more oversight than ordinary user access.
+applies_when:
+  text: >-
+    Administrative consoles, operator access or privileged cloud and database roles.
+  universal: false
+  features: [public_cloud, admin_access]
+cross_references: Exposed management interfaces are homed in B1 (T-B1-4).
+threats:
+- id: T-B6-1
+  name: Stolen administrator credentials or sessions
+  mechanism: >-
+    Phishing or infostealer malware captures admin passwords, codes or session cookies
+  references: [CWE-522]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B6-2
+  name: Standing and shared privilege
+  mechanism: >-
+    Permanent admin rights and shared accounts widen impact and defeat accountability
+  references: [CWE-269]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B6-3
+  name: Helpdesk social engineering
+  mechanism: Attackers persuade support staff to reset an administrator’s MFA
+  references: [CWE-640]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B6-4
+  name: Insider misuse
+  mechanism: >-
+    Users with authorised privileged access cause harm, intentionally or through negligence or error
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-B6-1
+  statement: >-
+    Require phishing-resistant MFA for every privileged user, using device-bound (AAL3-class) authenticators
+    for the most sensitive roles; syncable passkeys are not permitted at AAL3
+  addresses: [T-B6-1]
+  asvs: [V6]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B6-2
+  statement: >-
+    Restrict privileged accounts to defined roles, review privileges on a defined schedule and remove
+    those no longer needed, and log every use of privileged functions; just-in-time elevation through
+    privileged access management, with no standing or shared admin accounts, is a common way to meet this
+  addresses: [T-B6-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B6-3
+  statement: >-
+    Require re-authentication with an additional factor before highly sensitive operations
+  addresses: [T-B6-1]
+  asvs: [V7]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B6-4
+  statement: >-
+    Route privileged access through a dedicated, managed interface for access control and auditing: a
+    private management network, identity-aware proxy or dedicated admin workstation
+  addresses: [T-B6-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B6-5
+  statement: >-
+    Verify identity strictly before resetting a privileged user’s credentials (C-A1-5)
+  addresses: [T-B6-3]
+  asvs: [V6]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B6-6
+  statement: >-
+    Record and review privileged sessions, recertify access periodically, separate duties for production
+    changes, and require multi-user approval for the highest-impact actions (C-A10-6)
+  addresses: [T-B6-2, T-B6-4]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  A trusted insider with legitimate access can still cause harm; oversight shortens detection rather than
+  preventing it. Break-glass accounts bypass normal controls by design and need monitoring and post-use
+  review.
+residual_rating: Strong if verified
+residual_summary: Trusted insiders; break-glass accounts
+facts: []
+sources: [R-29, R-86, R-88, R-104, R-116, R-121, R-139, R-142, R-143, R-144]
+last_reviewed: 2026-10-12
+watch: NIST SP 800-63B revision; CISA guidance on phishing-resistant MFA.
+extra_tables: []

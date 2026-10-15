@@ -1,0 +1,44 @@
+- topic: IMDSv2 sufficiency
+  position_a: >-
+    Highly effective: typical SSRF cannot send the PUT and header IMDSv2 requires
+  position_b: >-
+    One layer only: SSRF that controls the full request (such as an on-host proxy) still obtains a token
+  stance: Require IMDSv2 and keep egress controls
+  ids: [C-B2-4, C-A7-3]
+- topic: Passkey protection
+  position_a: The credential cannot be phished or relayed
+  position_b: >-
+    Accounts remain exposed through phishable fallbacks (downgrade attacks) and session theft after login
+  stance: Deploy passkeys, retire fallbacks, protect sessions separately
+  ids: [C-A1-1, C-A1-2, A2]
+- topic: Hybrid post-quantum key exchange
+  position_a: >-
+    NIST and Germany’s BSI favour hybrid; BSI recommends it in TR-02102-1 (2026-01)
+  position_b: >-
+    The NSA’s CNSA 2.0 does not require hybrid for national security systems and targets pure ML-KEM-1024
+  stance: >-
+    Follow the regime that governs the system; hybrid is the common transition path
+  ids: [C-A9-6]
+- topic: Retiring HTTP/1.1 upstreams
+  position_a: >-
+    PortSwigger: request smuggling is a protocol flaw and HTTP/2 upstream is the only durable fix
+  position_b: >-
+    Infrastructure reality: several major CDNs and proxies lacked upstream HTTP/2 support (F-40)
+  stance: Use HTTP/2 end to end where available; apply interim HTTP/1.1 hardening
+  ids: [C-A7-5]
+- topic: WAF value
+  position_a: >-
+    Stops commodity attacks, enables virtual patching, required by PCI DSS 6.4.2
+  position_b: Systematically bypassable through parsing differences (F-52)
+  stance: Deploy where required or useful; never as a substitute for code fixes
+  ids: [C-B4-3, C-B1-6]
+- topic: Prompt injection prevention
+  position_a: Some vendors market detection classifiers as prevention
+  position_b: 'The UK NCSC: may never be totally mitigated (F-42)'
+  stance: Assume bypass; bound model authority
+  ids: [A12]
+- topic: Password policy
+  position_a: 'NIST and ASVS: no composition rules or forced rotation'
+  position_b: Some auditors and older policies still require both
+  stance: Follow NIST SP 800-63B-4 and record the decision
+  ids: [C-A1-3]

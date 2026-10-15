@@ -1,0 +1,149 @@
+id: B2
+title: Cloud
+group: hosting
+lead: >-
+  Cloud failures are mostly identity and configuration failures: over-broad roles, static keys, storage
+  left public, metadata credentials reachable through SSRF. DBIR 2026 found that resolving half of the
+  weak-password and permission findings in third-party cloud environments took almost eight months (F-50).
+applies_when:
+  text: Public cloud hosting (IaaS or PaaS).
+  universal: false
+  features: [outbound_fetch, public_cloud, serverless]
+cross_references: null
+threats:
+- id: T-B2-1
+  name: Over-permissioned identities
+  mechanism: >-
+    Roles and policies grant more than workloads need, creating escalation paths
+  references: [CWE-250]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B2-2
+  name: Leaked long-lived keys
+  mechanism: Static access keys in code, images or CI are harvested and reused
+  references: [CWE-798]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B2-3
+  name: Public storage and services
+  mechanism: Buckets, databases or services exposed by misconfiguration
+  references: ['A02:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B2-4
+  name: Metadata credential theft
+  mechanism: >-
+    SSRF reaches the instance metadata service and retrieves role credentials; IMDSv1 answers any GET,
+    and SSRF that controls the full request can still obtain an IMDSv2 token
+  references: [CWE-918]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B2-5
+  name: Unmonitored control plane
+  mechanism: >-
+    Administrative API activity and cross-account trust go unlogged or unreviewed
+  references: [CWE-778]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-B2-1
+  statement: >-
+    Grant least privilege through roles, permission boundaries and organisation-level policies; review
+    escalation paths regularly
+  addresses: [T-B2-1]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B2-2
+  statement: >-
+    Use workload identity federation and short-lived credentials instead of static keys
+  addresses: [T-B2-2]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B2-3
+  statement: >-
+    Enforce private-by-default guardrails such as account-level block-public-access settings
+  addresses: [T-B2-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B2-4
+  statement: >-
+    Require IMDSv2 (`HttpTokens=required`), keep the token hop limit at 1 unless containers need metadata,
+    disable the metadata service where unused, and combine with egress controls (A7)
+  addresses: [T-B2-4]
+  asvs: []
+  type: baseline
+  type_text: >-
+    Baseline. Disputed: sufficiency of IMDSv2 alone (see Where experts differ)
+  disputed: true
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B2-5
+  statement: >-
+    Store control-plane audit logs on a separate system, such as an isolated logging account, and separate
+    environments into distinct accounts to contain the blast radius of any compromise
+  addresses: [T-B2-5]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B2-6
+  statement: >-
+    Monitor configuration and control effectiveness continuously, with defined metrics, frequencies and
+    response actions, for example through cloud security posture management
+  addresses: [T-B2-1, T-B2-3]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  The shared-responsibility split is clear for infrastructure but blurs for managed services, where most
+  customer-side misconfigurations occur. IMDSv2 defeats URL-only SSRF but not a misconfigured on-host
+  proxy that forwards full requests.
+residual_rating: Strong if verified
+residual_summary: Managed-service configuration; full-request SSRF
+facts: [F-50]
+sources: [R-23, R-68, R-92, R-93, R-121, R-129, R-130, R-131, R-132, R-133]
+last_reviewed: 2026-10-12
+watch: >-
+  cloud providers’ default changes for metadata services and public access; annual DBIR.
+extra_tables: []

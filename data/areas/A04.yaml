@@ -1,0 +1,262 @@
+id: A4
+title: Input handling and injection
+group: application
+lead: >-
+  Injection happens whenever untrusted data changes the structure of something an interpreter executes:
+  a query, a shell command, a template, an XML document, a serialised object, a file path. Parameterised
+  interfaces close the class structurally, and injection has fallen to fifth in the OWASP Top 10 (F-32).
+  It persists wherever code builds commands from strings, and OS command injection accounts for more known-exploited
+  vulnerabilities than any other Top 25 weakness (F-31).
+applies_when:
+  text: >-
+    All. C-A4-5 applies when the application parses XML (including SAML, SVG and office documents); C-A4-8
+    when it accepts uploads.
+  universal: true
+  features: [file_upload]
+cross_references: >-
+  Cross-site scripting is grouped with injection in the OWASP Top 10 but homed in A5, where its browser-side
+  controls live.
+threats:
+- id: T-A4-1
+  name: Query injection
+  mechanism: >-
+    Input concatenated into SQL, NoSQL, LDAP or XPath changes the query; NoSQL operators smuggled in JSON
+  references: [CWE-89, CWE-943, CWE-90]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-2
+  name: OS command injection
+  mechanism: Input reaches a shell or process call and adds commands or arguments
+  references: [CWE-78]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-3
+  name: Code and template injection
+  mechanism: >-
+    Input evaluated as code or template syntax; error-based techniques now make blind template injection
+    exploitable
+  references: [CWE-94, CWE-1336]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-4
+  name: XML external entities
+  mechanism: >-
+    A parser resolves attacker-defined entities to read files or reach internal hosts
+  references: [CWE-611]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-5
+  name: Insecure deserialisation
+  mechanism: >-
+    Native deserialisation of untrusted data instantiates attacker-chosen types, often leading to code
+    execution
+  references: [CWE-502]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-6
+  name: Path traversal
+  mechanism: >-
+    Input containing `../` or encoded equivalents escapes the intended directory
+  references: [CWE-22]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-7
+  name: Unrestricted file upload
+  mechanism: >-
+    Uploaded content is executed, served as active content or abuses a downstream parser
+  references: [CWE-434]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-8
+  name: ORM leaks
+  mechanism: >-
+    User-controlled filter or sort parameters let an attacker query fields they cannot see, extracting
+    data through search features
+  references: [CWE-943]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A4-9
+  name: Validation before normalisation
+  mechanism: >-
+    Input passes validation, then Unicode normalisation or decoding turns it into a payload
+  references: [CWE-180]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A4-1
+  statement: >-
+    Use parameterised queries or safe query APIs everywhere; never concatenate input into queries; where
+    identifiers (table or column names) must vary, select them from an allow-list, since they cannot be
+    escaped
+  addresses: [T-A4-1]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-2
+  statement: >-
+    Allow-list the fields a client may filter, sort or search on before passing them to an ORM or query
+    builder
+  addresses: [T-A4-8, T-A4-1]
+  asvs: [V2]
+  type: conditional
+  type_text: 'Conditional: search, filter or sort features'
+  trigger:
+    text: search, filter or sort features
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-3
+  statement: >-
+    Avoid OS commands; where unavoidable, pass an argument vector without a shell, allow-list commands
+    and argument patterns, and run with least privilege
+  addresses: [T-A4-2]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-4
+  statement: >-
+    Never build templates or evaluated code from user input; prefer logic-less template engines; sandbox
+    untrusted templates and render them in an isolated process with time and memory limits
+  addresses: [T-A4-3]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-5
+  statement: >-
+    Disable DTDs in every XML parser, or at least external entities, external DTD loading and unbounded
+    entity expansion
+  addresses: [T-A4-4]
+  asvs: [V1]
+  type: conditional
+  type_text: 'Conditional: XML parsing'
+  trigger:
+    text: XML parsing
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-6
+  statement: >-
+    Accept untrusted data only in data-only formats (JSON, XML with schema) bound to known types; never
+    deserialise it natively; sign serialised data the application must round-trip
+  addresses: [T-A4-5]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-7
+  statement: >-
+    Build file paths from internally generated or trusted data, mapping user choices to paths by identifier;
+    where user input must be used, validate it strictly, canonicalise the path and confirm it stays inside
+    the permitted directory; ignore user-supplied path information in server-side processing such as archive
+    extraction (zip slip)
+  addresses: [T-A4-6]
+  asvs: [V5]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-8
+  statement: >-
+    For uploads: allow-list extensions, verify type from content, assign generated names, store on a separate
+    host or outside the web root, limit size (including after decompression), scan or re-encode, and restrict
+    upload to authorised users
+  addresses: [T-A4-7]
+  asvs: [V5]
+  type: conditional
+  type_text: 'Conditional: uploads'
+  trigger:
+    text: uploads
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-9
+  statement: >-
+    Decode and normalise input to one canonical form before validating it, using the same decoding in
+    every component
+  addresses: [T-A4-9]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A4-10
+  statement: >-
+    Validate input server-side against positive (allow-list) rules as defence in depth; it never substitutes
+    for C-A4-1 to C-A4-9
+  addresses: [T-A4-1, T-A4-2, T-A4-3, T-A4-4, T-A4-5, T-A4-6, T-A4-7, T-A4-8, T-A4-9]
+  asvs: [V2]
+  type: defence_in_depth
+  type_text: Baseline (defence in depth)
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Framework defaults close classic SQL injection, but it still ranks second by CVE volume (F-27) because
+  legacy and hand-built query paths persist. Newer classes evade older assumptions: ORM leaks need no
+  syntax injection at all, and error-based template injection works without visible output. Deserialisation
+  flaws often sit in transitive dependencies (A11).
+residual_rating: Closable
+residual_summary: >-
+  Legacy and hand-built query paths; newer classes (ORM leaks, error-based template injection)
+facts: [F-27, F-31, F-32, F-33]
+sources: [R-2, R-26, R-37, R-38, R-39, R-40, R-41, R-42, R-66, R-113, R-114]
+last_reviewed: 2026-10-12
+watch: >-
+  annual CWE Top 25; PortSwigger top ten; OWASP cheat-sheet revisions for injection and deserialisation.
+extra_tables: []

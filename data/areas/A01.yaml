@@ -1,0 +1,218 @@
+id: A1
+title: Authentication
+group: application
+lead: >-
+  Passwords, one-time codes and push approvals can all be relayed by a phishing proxy; only origin-bound
+  cryptographic authenticators resist that. Two priorities follow: make phishing-resistant login the default,
+  and keep recovery and fallback paths from undoing it.
+applies_when:
+  text: >-
+    Any user login. C-A1-6 and C-A1-7 apply to delegated or federated login (OAuth 2.0, OIDC, SAML); C-A1-8
+    applies when clients request authority for specific transactions.
+  universal: false
+  features: [user_login, federated_login, high_value_accounts]
+cross_references: >-
+  Offline cracking of stolen password stores is homed in A9; theft of sessions after login in A2; automated
+  abuse beyond login in A10.
+threats:
+- id: T-A1-1
+  name: Credential stuffing and password spraying
+  mechanism: Automated logins with breached or common passwords across many accounts
+  references: [CWE-307, OAT-008]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A1-2
+  name: Phishing and adversary-in-the-middle relay
+  mechanism: >-
+    A proxy site captures passwords, one-time codes or push approvals and replays them live; push fatigue
+    wears users into approving
+  references: [CWE-1390, 'A07:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A1-3
+  name: Downgrade to a phishable fallback
+  mechanism: >-
+    Attacker induces the login flow to offer a weaker method (e.g. by spoofing an unsupported browser),
+    then relays that method
+  references: ['A07:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A1-4
+  name: Weak account recovery
+  mechanism: >-
+    Reset by email, SMS (SIM swap) or helpdesk social engineering becomes the effective authenticator
+  references: [CWE-640]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A1-5
+  name: SAML assertion forgery
+  mechanism: >-
+    Signature wrapping or parser differentials make the verified signature cover different content from
+    the assertion consumed (e.g. ruby-saml CVE-2025-25291/25292)
+  references: [CWE-347]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A1-6
+  name: OAuth and OIDC flow abuse
+  mechanism: >-
+    Redirect-URI manipulation, authorisation-code injection, mix-up between authorisation servers, token
+    leakage, use of implicit or password grants
+  references: [CWE-601, CWE-346]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A1-1
+  statement: >-
+    Offer phishing-resistant authentication (WebAuthn/FIDO2 passkeys, which bind each credential to the
+    registering origin); NIST requires at least one phishing-resistant option at AAL2 and phishing resistance
+    at AAL3
+  addresses: [T-A1-2]
+  asvs: [V6]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-2
+  statement: >-
+    Once users hold passkeys, retire or harden phishable fallbacks and count any remaining fallback in
+    the account’s effective assurance
+  addresses: [T-A1-3]
+  asvs: [V6]
+  type: conditional
+  type_text: 'Conditional: passkeys deployed. Disputed (see Where experts differ)'
+  trigger:
+    text: passkeys deployed
+    rule: null
+  disputed: true
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-3
+  statement: >-
+    Where passwords remain: at least 15 characters when single-factor (8 within MFA), no composition rules,
+    no forced periodic change, check every new password against a blocklist of breached and common passwords,
+    cap consecutive failures
+  addresses: [T-A1-1]
+  asvs: [V6]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-4
+  statement: >-
+    Require MFA, phishing-resistant where possible, with risk-based step-up for new devices or anonymising
+    networks; show challenges such as CAPTCHA only on risky logins
+  addresses: [T-A1-1, T-A1-2]
+  asvs: [V6]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-5
+  statement: >-
+    Make recovery at least as strong as the authenticators it replaces (saved or issued recovery codes,
+    verified identity for helpdesk resets) and notify the user of every recovery and authenticator change
+  addresses: [T-A1-4]
+  asvs: [V6]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-6
+  statement: >-
+    Follow RFC 9700: authorisation code flow with PKCE (mandatory for public clients, recommended for
+    all), exact redirect-URI matching, no password grant, the implicit grant avoided, issuer identification
+    (RFC 9207) for clients of several authorisation servers, sender-constrained access tokens (DPoP or
+    mTLS) where feasible, and refresh tokens for public clients either sender-constrained or rotated
+  addresses: [T-A1-6]
+  asvs: [V10]
+  type: conditional
+  type_text: 'Conditional: OAuth or OIDC'
+  trigger:
+    text: OAuth or OIDC
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-7
+  statement: >-
+    Use a maintained SAML library with one XML parser, verify the signature over exactly the assertion
+    consumed, reject assertions replayed within their validity window, and patch federation libraries
+    promptly
+  addresses: [T-A1-5]
+  asvs: [V6]
+  type: conditional
+  type_text: 'Conditional: SAML'
+  trigger:
+    text: SAML
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A1-8
+  statement: >-
+    Express transaction-specific authority with Rich Authorization Requests (RFC 9396) instead of broad
+    scopes, carried in pushed or signed requests
+  addresses: [T-A1-6]
+  asvs: [V10]
+  type: conditional
+  type_text: 'Conditional: delegated transactions such as payments'
+  trigger:
+    text: delegated transactions such as payments
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes:
+- >-
+  Browsers that block third-party cookies break iframe-based single sign-on; Federated Credential Management
+  (FedCM) is the browser-mediated replacement and remains supported in Chrome. It is a compatibility measure
+  rather than a security control.
+residual_risk: >-
+  Passkeys move trust to the platform account that syncs them and to the recovery process, so account-level
+  assurance is only as strong as the weakest enrolled method. While phishable fallbacks remain, downgrade
+  attacks stay possible. Session theft after login bypasses authentication entirely and is addressed in
+  A2. Federated login inherits the identity provider’s security.
+residual_rating: Strong if verified
+residual_summary: >-
+  Fallback and recovery paths; trust in platform accounts that sync passkeys
+facts: [F-29, F-30]
+sources: [R-17, R-29, R-30, R-31, R-32, R-33, R-34, R-35, R-36]
+last_reviewed: 2026-10-12
+watch: >-
+  OAuth 2.1 published; NIST SP 800-63B revision; FIDO Alliance guidance on passkey sync and recovery;
+  new SAML library CVEs.
+extra_tables: []

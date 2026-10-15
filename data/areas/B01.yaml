@@ -1,0 +1,144 @@
+id: B1
+title: Hardening, misconfiguration and patch management
+group: hosting
+lead: >-
+  Exploiting known vulnerabilities is now the leading way breaches begin (F-20), while median time to
+  full patching has lengthened to 43 days (F-24). Security Misconfiguration rose from fifth to second
+  in the 2025 OWASP Top 10 (F-47). The durable answer is less exposed surface and configuration that cannot
+  drift, with patching prioritised by evidence of exploitation rather than severity scores alone.
+applies_when:
+  text: All.
+  universal: true
+  features: []
+cross_references: null
+threats:
+- id: T-B1-1
+  name: Security misconfiguration
+  mechanism: >-
+    Default credentials, sample applications, verbose errors, unneeded features or open permissions left
+    in place
+  references: ['A02:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B1-2
+  name: Exploitation of known vulnerabilities
+  mechanism: >-
+    Unpatched internet-facing applications and edge devices are exploited, often within days of disclosure;
+    edge devices and VPNs became 22% of exploitation targets in DBIR 2025 (F-48)
+  references: [CISA KEV]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B1-3
+  name: Configuration drift
+  mechanism: Environments diverge from their hardened baseline over time
+  references: ['A02:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-B1-4
+  name: Exposed management interfaces
+  mechanism: >-
+    Admin consoles, debug modes and management planes are reachable from the internet
+  references: ['A02:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-B1-1
+  statement: >-
+    Build environments from a repeatable, automated hardening process (CIS Benchmarks or vendor baselines),
+    identical across environments but with unique credentials, and with unused features, components and
+    samples removed
+  addresses: [T-B1-1]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B1-2
+  statement: >-
+    Define configuration as code and verify it automatically in every environment, alerting on drift
+  addresses: [T-B1-3]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B1-3
+  statement: >-
+    Prioritise patching by exploitation evidence: CISA KEV entries first, then EPSS probability, then
+    CVSS severity; set remediation deadlines in days for internet-facing systems
+  addresses: [T-B1-2]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B1-4
+  statement: >-
+    Keep an inventory of system components, including internet-facing assets, with automated detection
+    of unauthorised components; take management interfaces off the internet, preferably onto an isolated
+    management network, or put them behind a policy enforcement point separate from the interface
+  addresses: [T-B1-2, T-B1-4]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B1-5
+  statement: Remove default credentials and disable debug features in production
+  addresses: [T-B1-1, T-B1-4]
+  asvs: [V13]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-B1-6
+  statement: Use WAF virtual patching only as a time-limited bridge to a real fix
+  addresses: [T-B1-2]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: WAF in place'
+  trigger:
+    text: WAF in place
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Exploitation is accelerating while patching slows (F-24, F-25), so some exposure between disclosure
+  and fix is unavoidable. Shrinking the internet-facing surface reduces what can be hit in that window
+  more reliably than faster patching alone.
+residual_rating: Partial
+residual_summary: Window between disclosure and patch
+facts: [F-20, F-24, F-25, F-47, F-48, F-49]
+sources: [R-21, R-22, R-24, R-68, R-90, R-91, R-116, R-122, R-128]
+last_reviewed: 2026-10-12
+watch: annual DBIR; CISA KEV directives; EPSS model updates.
+extra_tables: []

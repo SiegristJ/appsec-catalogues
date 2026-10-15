@@ -1,0 +1,168 @@
+id: A6
+title: Browser security headers
+group: application
+lead: >-
+  Response headers switch on browser protections the application cannot enforce itself: HTTPS-only connections,
+  MIME-type discipline, referrer limits, isolation from other origins. They are cheap and opt-in, so their
+  value depends on sending them on every response, error pages included. CSP and `frame-ancestors` are
+  covered in A5; cookie attributes in A2.
+applies_when:
+  text: >-
+    All. C-A6-5 and C-A6-7 apply at ASVS L3 or where authenticated resources must not be embedded cross-origin.
+  universal: true
+  features: []
+cross_references: null
+threats:
+- id: T-A6-1
+  name: Protocol downgrade
+  mechanism: >-
+    An attacker on the network strips HTTPS on the first request and proxies the session in plaintext
+  references: [CWE-319]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A6-2
+  name: MIME sniffing
+  mechanism: >-
+    The browser guesses a content type and executes uploaded or reflected content as script
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A6-3
+  name: Referrer leakage
+  mechanism: >-
+    Sensitive URL paths, query strings or internal hostnames leak to third parties in the Referer header
+  references: [CWE-200]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A6-4
+  name: Cross-origin embedding and window attacks
+  mechanism: >-
+    Other origins embed authenticated resources, keep handles to opened windows (tabnabbing, frame counting)
+    or probe responses rendered in the wrong context
+  references: [CWE-1021]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A6-5
+  name: Tampered externally hosted assets
+  mechanism: A CDN-hosted library is modified and served to users
+  references: [CWE-829]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A6-1
+  statement: >-
+    Send `Strict-Transport-Security` on all responses with max-age of at least one year, `includeSubDomains`,
+    and preload for high-assurance domains
+  addresses: [T-A6-1]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A6-2
+  statement: 'Send `X-Content-Type-Options: nosniff` on all responses'
+  addresses: [T-A6-2]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A6-3
+  statement: >-
+    Set a `Referrer-Policy` that keeps sensitive URL data and internal hostnames from third parties
+  addresses: [T-A6-3]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A6-4
+  statement: >-
+    Validate `Sec-Fetch-*` request headers so responses render only in their intended context
+  addresses: [T-A6-4]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A6-5
+  statement: >-
+    Send `Cross-Origin-Opener-Policy: same-origin` (or `same-origin-allow-popups`) on documents, and a
+    restrictive `Cross-Origin-Resource-Policy` on authenticated resources
+  addresses: [T-A6-4]
+  asvs: [V3]
+  type: conditional
+  type_text: 'Conditional: ASVS L3 or sensitive resources'
+  trigger:
+    text: ASVS L3 or sensitive resources
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A6-6
+  statement: >-
+    Use `Permissions-Policy` to disable browser features the application does not use; browser support
+    is still limited, so treat it as defence in depth
+  addresses: [T-A6-4]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A6-7
+  statement: >-
+    Load externally hosted assets only if static, versioned and pinned with Subresource Integrity; otherwise
+    record a justified decision
+  addresses: [T-A6-5]
+  asvs: [V3]
+  type: conditional
+  type_text: 'Conditional: ASVS L3 or third-party hosted assets'
+  trigger:
+    text: ASVS L3 or third-party hosted assets
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  HSTS cannot protect a user’s very first visit unless the domain is preloaded, and preloading is slow
+  to reverse. CDNs and proxies can strip or override headers, so verify them at the edge. SRI fits only
+  assets that never change; changing third-party scripts need the controls in A11.
+residual_rating: Closable
+residual_summary: First visit before HSTS; edge components stripping headers
+facts: []
+sources: [R-85, R-123]
+last_reviewed: 2026-10-12
+watch: browser changes to isolation defaults; ASVS V3 updates.
+extra_tables: []

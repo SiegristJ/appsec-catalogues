@@ -1,0 +1,562 @@
+- id: F-1
+  fact: OWASP Top 10 rank of Broken Access Control
+  value: A01; 40 CWEs mapped, including SSRF (CWE-918)
+  as_of: 2025 edition
+  sources: [R-1]
+  used_in: [A3]
+  used_in_text: A3 lead
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-2
+  fact: CWE Top 25 rank of Missing Authorization (CWE-862)
+  value: 4th, up from 9th
+  as_of: 2025 list
+  sources: [R-2]
+  used_in: [A3]
+  used_in_text: A3 lead
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-3
+  fact: Authorisation weaknesses entering the CWE Top 25
+  value: >-
+    Improper Access Control (CWE-284) new at 19th; Authorization Bypass Through User-Controlled Key (CWE-639)
+    24th, up from 30th
+  as_of: 2025 list
+  sources: [R-2]
+  used_in: [T-A3-1, T-A3-7]
+  used_in_text: T-A3-1, T-A3-7
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-4
+  fact: Authorisation share of the OWASP API Security Top 10’s first five
+  value: 'Three of five: API1, API3, API5'
+  as_of: 2023 edition
+  sources: [R-4]
+  used_in: [T-A3-1, T-A3-2, T-A3-3]
+  used_in_text: T-A3-1 to T-A3-3
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-5
+  fact: OWASP Top 10 current edition
+  value: '2025'
+  as_of: Oct 2026
+  sources: [R-10]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-6
+  fact: OWASP ASVS current edition
+  value: 5.0.0, announced 30 May 2025; 17 chapters, V1–V17
+  as_of: Oct 2026
+  sources: [R-11, R-5]
+  used_in: []
+  used_in_text: Reference stack; ASVS column
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-7
+  fact: OWASP API Security Top 10 current edition
+  value: '2023'
+  as_of: Oct 2026
+  sources: [R-4]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-8
+  fact: OWASP Top 10 for LLM Applications current edition
+  value: '2025'
+  as_of: Oct 2026
+  sources: [R-12]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-9
+  fact: OWASP Top 10 for Agentic Applications current edition
+  value: 2026 edition, released 9 December 2025
+  as_of: Oct 2026
+  sources: [R-13]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-10
+  fact: NIST SP 800-63 current revision
+  value: 800-63-4, final 31 July 2025
+  as_of: Oct 2026
+  sources: [R-14]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-11
+  fact: NIST SSDF status
+  value: >-
+    SP 800-218 v1.1 current; v1.2 (SP 800-218r1) initial public draft 17 December 2025, comments closed
+    30 January 2026
+  as_of: Oct 2026
+  sources: [R-15]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-12
+  fact: NIST SP 800-53 current release
+  value: Release 5.2.0, 27 August 2025
+  as_of: Oct 2026
+  sources: [R-16]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-13
+  fact: OAuth 2.0 security best current practice
+  value: RFC 9700 (BCP 240), 30 January 2025
+  as_of: Oct 2026
+  sources: [R-17]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-14
+  fact: OAuth 2.1 status
+  value: >-
+    Internet-Draft draft-ietf-oauth-v2-1-16, 3 September 2026; IESG submission planned December 2026
+  as_of: Oct 2026
+  sources: [R-18]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-15
+  fact: SLSA current version
+  value: >-
+    v1.2, approved 24 November 2025, with Build and Source tracks; v1.1 approved 21 April 2025
+  as_of: Oct 2026
+  sources: [R-19]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-16
+  fact: PCI DSS current version
+  value: >-
+    v4.0.1; future-dated requirements including 6.4.3 and 11.6.1 effective 31 March 2025; SAQ A revised
+    January 2025
+  as_of: Oct 2026
+  sources: [R-20]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-17
+  fact: CWE Top 25 current list
+  value: 2025 list, page updated 15 December 2025
+  as_of: Oct 2026
+  sources: [R-2]
+  used_in: []
+  used_in_text: Reference stack
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-18
+  fact: Public TLS certificate maximum validity (CA/B Forum SC-081v3)
+  value: >-
+    200 days from 15 March 2026; 100 days from 15 March 2027; 47 days from 15 March 2029, with domain-validation
+    reuse 10 days
+  as_of: Oct 2026
+  sources: [R-77]
+  used_in: [A9]
+  used_in_text: A9
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-19
+  fact: NIST post-quantum standards
+  value: >-
+    FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA), published 13 August 2024
+  as_of: Oct 2026
+  sources: [R-78]
+  used_in: [A9]
+  used_in_text: A9
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-20
+  fact: Exploitation as initial access vector, latest
+  value: 31% of breaches, top vector; data November 2024 to October 2025
+  as_of: DBIR 2026
+  sources: [R-21]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-21
+  fact: Exploitation as initial access vector, prior
+  value: 20%, second to credential abuse
+  as_of: DBIR 2025
+  sources: [R-22]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-22
+  fact: Third-party involvement in breaches
+  value: 15% → 30% (DBIR 2025) → 48% (DBIR 2026)
+  as_of: DBIR 2026
+  sources: [R-22, R-23]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-23
+  fact: Ransomware presence; victims not paying
+  value: 44%, 64% (DBIR 2025); 48%, 69% (DBIR 2026)
+  as_of: DBIR 2026
+  sources: [R-21, R-22, R-23]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-24
+  fact: Patch latency
+  value: >-
+    Median time to full patching 32 → 43 days; KEV-listed vulnerabilities fully patched 38% → 26%
+  as_of: DBIR 2026
+  sources: [R-24]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-25
+  fact: Generative-AI assistance in attacks
+  value: 15% of attack techniques
+  as_of: DBIR 2026
+  sources: [R-21]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-26
+  fact: CISA KEV additions
+  value: >-
+    245 in 2025 (185 in 2024, 187 in 2023); 1,484 total; 24 of the 2025 additions linked to ransomware
+  as_of: End of 2025
+  sources: [R-25]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-27
+  fact: CWE Top 25 first four
+  value: >-
+    Cross-site scripting (CWE-79), SQL injection (CWE-89), CSRF (CWE-352), Missing Authorization (CWE-862)
+  as_of: 2025 list
+  sources: [R-2]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-28
+  fact: PortSwigger top ten web hacking techniques
+  value: >-
+    Error-based SSTI; ORM leaks; SSRF via redirect loops; Unicode normalisation; SOAPwn; cross-site ETag
+    length leak; Next.js cache poisoning; connection-pool XS-Leak; HTTP/2 CONNECT; parser differentials
+  as_of: 2025 list, published 5 February 2026
+  sources: [R-26]
+  used_in: []
+  used_in_text: Threat evidence
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-29
+  fact: NIST password rules
+  value: >-
+    At least 15 characters single-factor, 8 within MFA; no composition rules; no periodic change; blocklist
+    check; at most 100 consecutive failures
+  as_of: SP 800-63B-4
+  sources: [R-29]
+  used_in: [C-A1-3, A1]
+  used_in_text: A1 (C-A1-3)
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-30
+  fact: ASVS password and federation requirements
+  value: >-
+    6.2.1 minimum 8 characters, 15 strongly recommended; 6.2.12 breached-password check at L2; SAML in
+    V6.8
+  as_of: ASVS 5.0
+  sources: [R-30]
+  used_in: [A1]
+  used_in_text: A1
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-31
+  fact: Most-exploited Top 25 weakness
+  value: OS command injection (CWE-78), 9th, with 20 KEV CVEs
+  as_of: 2025 list
+  sources: [R-2]
+  used_in: [A4]
+  used_in_text: A4 lead
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-32
+  fact: OWASP Top 10 Injection category
+  value: A05:2025, 37 CWEs including CWE-79
+  as_of: 2025 edition
+  sources: [R-37]
+  used_in: [A4]
+  used_in_text: A4 lead
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-33
+  fact: Other injection-family ranks
+  value: CWE-22 6th, CWE-94 10th, CWE-434 12th, CWE-502 15th
+  as_of: 2025 list
+  sources: [R-2]
+  used_in: [A4]
+  used_in_text: A4
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-34
+  fact: Trusted Types browser support
+  value: Baseline (newly available) since February 2026
+  as_of: Oct 2026
+  sources: [R-48]
+  used_in: [C-A5-4, A5]
+  used_in_text: A5 (C-A5-4)
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-35
+  fact: Shai-Hulud first wave
+  value: Over 500 npm packages (September 2025)
+  as_of: '2025'
+  sources: [R-51]
+  used_in: [A11]
+  used_in_text: A11
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-36
+  fact: Shai-Hulud 2.0
+  value: >-
+    621 infected npm packages, 21–23 November 2025 (counts differ by tracker)
+  as_of: '2025'
+  sources: [R-52]
+  used_in: [A11, P3]
+  used_in_text: A11, P3
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-37
+  fact: Mini Shai-Hulud
+  value: >-
+    11 May 2026; 84 artefacts across 42 @tanstack packages, spread to 170+ packages; valid attestations;
+    npm provenance is Build L2
+  as_of: '2026'
+  sources: [R-53]
+  used_in: [A11, P3]
+  used_in_text: A11, P3
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-38
+  fact: Worm source release
+  value: TeamPCP released Shai-Hulud source, reported 15 May 2026
+  as_of: '2026'
+  sources: [R-54]
+  used_in: [A11]
+  used_in_text: A11
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-39
+  fact: Keyv-family wave (“ChainDrop”)
+  value: Over 1,300 package versions; Singapore CSA advisory 6 August 2026
+  as_of: '2026'
+  sources: [R-58]
+  used_in: [A11]
+  used_in_text: A11
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-40
+  fact: Upstream HTTP/2 support
+  value: nginx, Akamai, CloudFront and Fastly lacked it as of August 2025
+  as_of: Aug 2025
+  sources: [R-63]
+  used_in: [A7]
+  used_in_text: A7, Where experts differ
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-41
+  fact: Resource exhaustion rank
+  value: CWE-770 25th
+  as_of: 2025 list
+  sources: [R-2]
+  used_in: [A8]
+  used_in_text: A8
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-42
+  fact: NCSC on prompt injection
+  value: >-
+    May never be totally mitigated in the way SQL injection can be (10 December 2025)
+  as_of: '2025'
+  sources: [R-74]
+  used_in: [A12]
+  used_in_text: A12, Where experts differ
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-43
+  fact: AI-generated code security
+  value: >-
+    56% average pass rate; XSS 15%; log injection 12%; large models 53%, medium and small 51%
+  as_of: Veracode 2026
+  sources: [R-76]
+  used_in: [A12]
+  used_in_text: A12
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-44
+  fact: OWASP Agentic Top 10 categories
+  value: ASI01 Agent Goal Hijack through ASI10 Rogue Agents
+  as_of: 2026 edition
+  sources: [R-73]
+  used_in: [A12]
+  used_in_text: A12
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-45
+  fact: Password hashing parameters
+  value: >-
+    Argon2id 19 MiB, 2 iterations, parallelism 1; scrypt N=2^17, r=8, p=1; bcrypt cost ≥10; PBKDF2-HMAC-SHA-256
+    ≥600,000 iterations
+  as_of: Oct 2026
+  sources: [R-79]
+  used_in: [C-A9-3, A9]
+  used_in_text: A9 (C-A9-3)
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-46
+  fact: NIST quantum transition dates
+  value: >-
+    112-bit RSA and ECC deprecated after 2030; quantum-vulnerable algorithms disallowed after 2035
+  as_of: IR 8547 draft, 12 November 2024
+  sources: [R-80]
+  used_in: [A9]
+  used_in_text: A9
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-47
+  fact: OWASP Top 10 Security Misconfiguration
+  value: A02:2025, up from 5th; 16 CWEs
+  as_of: 2025 edition
+  sources: [R-90]
+  used_in: [B1]
+  used_in_text: B1
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-48
+  fact: Edge and VPN exploitation
+  value: 22% of exploitation targets, up from 3%
+  as_of: DBIR 2025
+  sources: [R-22]
+  used_in: [B1]
+  used_in_text: B1
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-49
+  fact: EPSS
+  value: Probability of exploitation within 30 days, updated daily
+  as_of: Oct 2026
+  sources: [R-91]
+  used_in: [B1]
+  used_in_text: B1
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-50
+  fact: Third-party cloud remediation time
+  value: Almost 8 months to resolve 50% of weak-password and permission findings
+  as_of: DBIR 2026
+  sources: [R-23]
+  used_in: [B2]
+  used_in_text: B2
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-51
+  fact: ingress-nginx status
+  value: >-
+    Retirement announced 11 November 2025; no fixes after March 2026; Gateway API recommended
+  as_of: Oct 2026
+  sources: [R-97]
+  used_in: [B3]
+  used_in_text: B3
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-52
+  fact: WAF bypasses (WAFFLED)
+  value: >-
+    1,207 bypasses across AWS, Azure, Cloud Armor, Cloudflare and ModSecurity
+  as_of: ACSAC 2025
+  sources: [R-100]
+  used_in: [B4]
+  used_in_text: B4, Where experts differ
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: F-53
+  fact: PCI DSS 6.4.2
+  value: >-
+    Automated technical solution in front of public-facing web applications, detecting and preventing
+    attacks
+  as_of: v4.0.1
+  sources: [R-101]
+  used_in: [B4]
+  used_in_text: B4, Compliance mapping
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []

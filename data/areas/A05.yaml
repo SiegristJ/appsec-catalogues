@@ -1,0 +1,291 @@
+id: A5
+title: Client-side attacks
+group: application
+lead: >-
+  The browser runs whatever script reaches the page with the page’s full authority, and whether it attaches
+  cookies to cross-site requests depends on SameSite settings and browser defaults. Most client-side defence
+  therefore combines output that cannot execute, policies that restrict what may execute, and request
+  checks that tell same-site intent from cross-site forgery. Cross-site scripting tops the 2025 CWE Top
+  25 (F-27).
+applies_when:
+  text: >-
+    All. C-A5-2 applies to user-authored rich text; C-A5-8 to APIs called cross-origin; C-A5-10 to pages
+    using `postMessage`.
+  universal: true
+  features: [websockets, third_party_scripts]
+cross_references: >-
+  Third-party scripts that turn malicious (Magecart) are homed in A11; cross-site WebSocket hijacking
+  in A8.
+threats:
+- id: T-A5-1
+  name: Cross-site scripting
+  mechanism: >-
+    Untrusted data rendered as markup or passed to a script sink executes in the page (reflected, stored,
+    DOM-based)
+  references: [CWE-79]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-2
+  name: Cross-site request forgery
+  mechanism: >-
+    Another site causes the browser to send an authenticated state-changing request
+  references: [CWE-352]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-3
+  name: Clickjacking
+  mechanism: The page is framed invisibly and the user is tricked into clicking
+  references: [CWE-1021]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-4
+  name: Open redirect
+  mechanism: >-
+    An unvalidated redirect target sends users, or OAuth codes and tokens, to an attacker
+  references: [CWE-601]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-5
+  name: CORS misconfiguration
+  mechanism: >-
+    The server reflects any `Origin` with credentials, trusts `null`, or matches origins by loose pattern,
+    letting other sites read responses
+  references: [CWE-942]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-6
+  name: Prototype pollution
+  mechanism: >-
+    Merging attacker-controlled keys (`__proto__`, `constructor`) alters shared object prototypes and
+    reaches gadgets
+  references: [CWE-1321]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-7
+  name: Unchecked `postMessage`
+  mechanism: Handlers accept messages from any origin, or senders post to any origin
+  references: [CWE-346]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-8
+  name: Cross-site leaks
+  mechanism: >-
+    Side channels (timing, response length, redirects, connection-pool behaviour) reveal cross-origin
+    state such as login status or search results
+  references: [CWE-203]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-9
+  name: Script gadgets
+  mechanism: >-
+    Legitimate code in trusted libraries turns injected, inert-looking markup into script execution, bypassing
+    sanitisers and CSP
+  references: [CWE-79]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A5-10
+  name: Token theft from script-readable storage
+  mechanism: >-
+    Session tokens kept in `localStorage` or readable cookies are exfiltrated by any XSS
+  references: [CWE-922]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A5-1
+  statement: >-
+    Render through framework auto-escaping with context-aware encoding; avoid dangerous sinks (`innerHTML`,
+    `eval`) in favour of safe DOM APIs such as `textContent`
+  addresses: [T-A5-1]
+  asvs: [V1, V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-2
+  statement: >-
+    Sanitise user-authored HTML with a maintained sanitiser (for example DOMPurify) and keep it patched
+  addresses: [T-A5-1]
+  asvs: [V1]
+  type: conditional
+  type_text: 'Conditional: rich text'
+  trigger:
+    text: rich text
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-3
+  statement: >-
+    Deploy a strict CSP: per-response nonces or hashes, `strict-dynamic`, no host allow-lists; treat it
+    as defence in depth behind C-A5-1
+  addresses: [T-A5-1, T-A5-9]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-4
+  statement: >-
+    Enforce Trusted Types (`require-trusted-types-for 'script'`) so DOM injection sinks accept only policy-produced
+    values
+  addresses: [T-A5-1, T-A5-9]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-5
+  statement: >-
+    Protect state changes with a synchroniser token (stateful) or signed double-submit cookie (stateless);
+    add Fetch Metadata checks with an origin-check fallback; keep state changes off GET; use SameSite
+    cookies as defence in depth
+  addresses: [T-A5-2]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-6
+  statement: >-
+    Control framing with CSP `frame-ancestors`, which supersedes `X-Frame-Options`
+  addresses: [T-A5-3, T-A5-8]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-7
+  statement: Redirect only to allow-listed destinations or server-side mapped targets
+  addresses: [T-A5-4]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-8
+  statement: >-
+    Allow-list exact CORS origins; never reflect `Origin` with credentials or allow `null`; remember CORS
+    relaxes the same-origin policy and never replaces server-side authorisation
+  addresses: [T-A5-5]
+  asvs: [V3]
+  type: conditional
+  type_text: 'Conditional: cross-origin API'
+  trigger:
+    text: cross-origin API
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-9
+  statement: >-
+    Allow-list keys when merging or deserialising objects; use null-prototype objects or `Map`; freeze
+    prototypes where feasible
+  addresses: [T-A5-6]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-10
+  statement: >-
+    Check `event.origin` against an allow-list and validate message data; always name the target origin
+    when posting
+  addresses: [T-A5-7]
+  asvs: [V3]
+  type: conditional
+  type_text: 'Conditional: `postMessage`'
+  trigger:
+    text: '`postMessage`'
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-11
+  statement: >-
+    Reduce cross-site leaks with SameSite cookies, Fetch Metadata resource-isolation checks, Cross-Origin-Opener-Policy
+    and framing restrictions
+  addresses: [T-A5-8]
+  asvs: [V3]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A5-12
+  statement: >-
+    Keep session tokens in `HttpOnly` cookies or in memory, never in `localStorage`
+  addresses: [T-A5-10]
+  asvs: [V7]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Cross-site leaks have no single fix; browsers close individual oracles as they are found, and new ones
+  keep appearing (two in PortSwigger’s 2025 top ten, F-28). Script gadgets in older frameworks can defeat
+  a strict CSP, so Trusted Types and library choice matter. SameSite does not stop requests from sibling
+  subdomains, which share a site.
+residual_rating: Partial
+residual_summary: Cross-site leaks; script gadgets in older frameworks
+facts: [F-27, F-28, F-34]
+sources: [R-2, R-26, R-43, R-44, R-45, R-46, R-47, R-48, R-49, R-50, R-59, R-85]
+last_reviewed: 2026-10-12
+watch: >-
+  browser changes to cookie and isolation defaults; new XS-Leak classes; CSP Level 3 and Trusted Types
+  specification updates.
+extra_tables: []

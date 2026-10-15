@@ -1,0 +1,282 @@
+id: A12
+title: AI/LLM features and AI-generated code
+group: application
+lead: >-
+  A language model cannot reliably tell instructions from data, so any content it reads can steer it.
+  The UK NCSC judges that prompt injection may never be fully mitigated the way SQL injection can (F-42).
+  The defensible design assumes the model will be manipulated and bounds what it can then do: authority
+  enforced outside the model, least privilege for tools, human approval for consequential actions, and
+  model output treated as untrusted input.
+applies_when:
+  text: >-
+    LLM features, agents or tool calling (T-A12-1 to T-A12-7). T-A12-8 and C-A12-11 apply when AI coding
+    assistants help build the application.
+  universal: false
+  features: [llm_features, ai_coding_assistants]
+cross_references: null
+threats:
+- id: T-A12-1
+  name: Prompt injection
+  mechanism: >-
+    Instructions in user input or in content the model reads (pages, documents, emails, tool results)
+    redirect its behaviour or goals
+  references: ['LLM01:2025', ASI01]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-2
+  name: Excessive agency and tool misuse
+  mechanism: >-
+    The model or agent invokes tools or uses delegated credentials beyond what the user intended or is
+    entitled to
+  references: ['LLM06:2025', ASI02, ASI03]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-3
+  name: Improper output handling
+  mechanism: >-
+    Model output reaches HTML, SQL, shell or other sinks without encoding, recreating classic injection
+  references: ['LLM05:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-4
+  name: Sensitive information and system prompt disclosure
+  mechanism: The model reveals data from its context, training or system prompt
+  references: ['LLM02:2025', 'LLM07:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-5
+  name: Retrieval and memory poisoning or leakage
+  mechanism: >-
+    Vector stores return another tenant’s data, or poisoned documents and memories steer later responses
+  references: ['LLM08:2025', ASI06]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-6
+  name: AI supply chain
+  mechanism: >-
+    Malicious or compromised models, datasets, tools or tool servers enter the system
+  references: ['LLM03:2025', ASI04]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-7
+  name: Unbounded consumption
+  mechanism: Inputs or agent loops drive excessive tokens, calls or cost
+  references: ['LLM10:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-8
+  name: Insecure AI-generated code
+  mechanism: >-
+    Assistants produce code with known vulnerability classes; in Veracode’s benchmark about 44% of tasks
+    introduced one, with no improvement from larger models (F-43)
+  references: [Veracode 2026]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A12-9
+  name: Hallucinated dependencies
+  mechanism: >-
+    Assistants suggest package names that do not exist, which attackers then register
+  references: []
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A12-1
+  statement: >-
+    Enforce authorisation outside the model, in the tools and APIs it calls, using the end user’s identity
+    and scopes (A3)
+  addresses: [T-A12-1, T-A12-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-2
+  statement: >-
+    Give each tool only the data and operations it needs, read-only where possible, from an allow-list
+    of permitted tools
+  addresses: [T-A12-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-3
+  statement: >-
+    Require human approval before consequential actions, showing the exact action, target and arguments,
+    and have the execution layer verify the approval
+  addresses: [T-A12-1, T-A12-2]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-4
+  statement: >-
+    Separate privileges: components that read untrusted content have no tool access, and the component
+    that plans tool use does not read untrusted content
+  addresses: [T-A12-1]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: agents with tools'
+  trigger:
+    text: agents with tools
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-5
+  statement: >-
+    Treat model output as untrusted at every downstream use, encoding or parameterising for each sink
+    (A4, A5)
+  addresses: [T-A12-3]
+  asvs: [V1]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-6
+  statement: >-
+    Keep secrets and authorisation logic out of system prompts and minimise sensitive data placed in context
+  addresses: [T-A12-4]
+  asvs: []
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-7
+  statement: >-
+    Partition vector stores by tenant, filter retrieval by the requesting user’s permissions, and control
+    what agents may write to memory
+  addresses: [T-A12-5]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: retrieval or agent memory'
+  trigger:
+    text: retrieval or agent memory
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-8
+  statement: >-
+    Allow-list and pin models, datasets, tools and tool servers, with provenance where available (A11)
+  addresses: [T-A12-6]
+  asvs: [V15]
+  type: conditional
+  type_text: 'Conditional: third-party models or tools'
+  trigger:
+    text: third-party models or tools
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-9
+  statement: Cap tokens, calls, iterations and cost per user and per agent run
+  addresses: [T-A12-7]
+  asvs: [V2]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-10
+  statement: Run agent-generated or agent-invoked code in a sandbox
+  addresses: [T-A12-2]
+  asvs: []
+  type: conditional
+  type_text: 'Conditional: code execution'
+  trigger:
+    text: code execution
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-11
+  statement: >-
+    Put AI-written code through the same static analysis, composition analysis and review as human code,
+    and confirm suggested packages exist and are reputable before adding them
+  addresses: [T-A12-8, T-A12-9]
+  asvs: [V15]
+  type: conditional
+  type_text: 'Conditional: AI coding assistants'
+  trigger:
+    text: AI coding assistants
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A12-12
+  statement: >-
+    Use input and output classifiers as defence in depth only; they are models too and can be injected
+  addresses: [T-A12-1, T-A12-4]
+  asvs: []
+  type: defence_in_depth
+  type_text: Baseline (defence in depth)
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  Prompt injection is not expected to be fully preventable, so residual risk is set by how much authority
+  the model can exercise and how quickly misuse is detected. The agentic risk list is a first edition
+  (2026) and controls for multi-agent systems are immature. Veracode’s figures come from a vendor benchmark
+  on curated tasks; treat them as indicative.
+residual_rating: Partial
+residual_summary: Prompt injection is not expected to be fully preventable
+facts: [F-8, F-9, F-42, F-43, F-44]
+sources: [R-12, R-13, R-73, R-74, R-75, R-76, R-126]
+last_reviewed: 2026-10-12
+watch: >-
+  next OWASP LLM and Agentic Top 10 editions; NCSC and NIST AI guidance; Veracode annual report; tool-protocol
+  security specifications.
+extra_tables: []

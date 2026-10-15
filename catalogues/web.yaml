@@ -1,0 +1,6 @@
+id: web
+title: Web Application Security Reference Catalogue
+path: /web/
+front: data/front/          # this catalogue's front matter
+areas: [A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13,
+        B1, B2, B3, B4, B5, B6, P1, P2, P3, P4]

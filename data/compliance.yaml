@@ -1,0 +1,43 @@
+- regime: PCI DSS v4.0.1
+  requirement: 6.4.2 automated web-attack prevention for public-facing applications
+  controls: [C-B4-3]
+  status: Mandatory since 31 March 2025 (F-16, F-53)
+- regime: PCI DSS v4.0.1
+  requirement: >-
+    6.4.3 payment-page script inventory, authorisation and integrity; 11.6.1 change and tamper detection
+  controls: [C-A11-8]
+  status: >-
+    Mandatory since 31 March 2025; SAQ A merchants confirm an eligibility criterion instead (F-16)
+- regime: PCI DSS v4.0.1
+  requirement: Multi-factor authentication
+  controls: [C-A1-4, C-B6-1]
+  status: Current
+- regime: NIST SP 800-63-4
+  requirement: >-
+    Phishing-resistant option at AAL2; phishing resistance and no syncable authenticators at AAL3; password
+    rules
+  controls: [C-A1-1, C-A1-3, C-B6-1]
+  status: Final July 2025 (F-10)
+- regime: NIST SSDF (SP 800-218)
+  requirement: >-
+    Secure development practices; basis of US federal software self-attestation
+  controls: [P1 to P4]
+  status: v1.1 current; v1.2 in draft (F-11)
+- regime: NIST SP 800-53 Release 5.2.0
+  requirement: >-
+    SA-15(13) logging syntax; SA-24 design for cyber resiliency; SI-02(07) root-cause analysis
+  controls: [C-A13-3, C-A13-4, C-B5-8, C-P4-3]
+  status: August 2025 (F-12)
+- regime: GDPR and similar regimes
+  requirement: >-
+    Data protection by design (Art. 25); security of processing (Art. 32); impact assessment (Art. 35)
+  controls: [C-A13-6, C-A13-7, A9]
+  status: Unverified against regulation text
+- regime: ISO/IEC 27001:2022
+  requirement: Annex A secure development and coding controls
+  controls: [P1, P2]
+  status: Unverified mapping
+- regime: OWASP ASVS 5.0
+  requirement: Verifiable requirements by level
+  controls: [ASVS column in every area]
+  status: 5.0.0 (F-6)

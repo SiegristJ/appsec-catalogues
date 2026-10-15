@@ -1,0 +1,226 @@
+id: A3
+title: Authorisation
+group: application
+lead: >-
+  Broken access control is the top-ranked web application risk (F-1), and Missing Authorization rose to
+  fourth among the most dangerous software weaknesses in 2025 (F-2). The flaw sits in application logic:
+  a request with a changed object ID or JSON property looks legitimate to generic scanning. The fix is
+  an explicit server-side decision on every request, bound to the authenticated principal.
+applies_when:
+  text: >-
+    All. The tenancy items (T-A3-7, C-A3-6) apply when one deployment serves several tenants or customer
+    organisations; C-A3-7 applies when users share objects with each other.
+  universal: true
+  features: [multi_tenant, public_api]
+cross_references: >-
+  Confused-deputy threats, where a server component uses its own privileges on a requester’s behalf, are
+  homed elsewhere: SSRF in A7, AI agents holding delegated authority in A12.
+threats:
+- id: T-A3-1
+  name: Broken object-level authorisation (IDOR, BOLA)
+  mechanism: >-
+    Attacker changes an object identifier in a valid request and reads or modifies another user’s object
+  references: [CWE-639, 'API1:2023', 'A01:2025']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A3-2
+  name: Broken function-level authorisation
+  mechanism: >-
+    Attacker calls a privileged function by changing the path or HTTP method, e.g. an admin endpoint or
+    a DELETE on a read-only resource
+  references: [CWE-285, 'API5:2023']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A3-3
+  name: Broken property-level authorisation
+  mechanism: >-
+    Responses expose fields the caller should not see, or the API binds client-supplied fields (`is_admin`,
+    `owner_id`) to the stored object (mass assignment)
+  references: [CWE-213, CWE-915, 'API3:2023']
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A3-4
+  name: Missing check on a secondary channel
+  mechanism: >-
+    Authorisation enforced in the UI or main API is absent on another path to the same data: GraphQL resolver,
+    WebSocket message, export job, mobile API
+  references: [CWE-862]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A3-5
+  name: Trust in client-controlled authorisation data
+  mechanism: >-
+    Role, tenant or permission taken from a hidden field, query parameter or unverified token claim
+  references: [CWE-602]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A3-6
+  name: Forced browsing
+  mechanism: >-
+    Unlinked but reachable resources (admin pages, files, old API versions) served without a check
+  references: [CWE-425]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: T-A3-7
+  name: Cross-tenant access
+  mechanism: >-
+    Tenant scope taken from the request, or not enforced in the data layer, so one tenant reaches another’s
+    data
+  references: [CWE-284]
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+controls:
+- id: C-A3-1
+  statement: >-
+    Authorise every request on the server, deny by default, and tie each decision to the authenticated
+    principal’s ownership of, or relationship to, the requested object
+  addresses: [T-A3-1, T-A3-4, T-A3-6]
+  asvs: [V8]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-2
+  statement: >-
+    Make authorisation decisions in one policy layer (policy engine or framework middleware), kept separate
+    from enforcement points, and apply it to every channel: pages, REST, GraphQL resolvers, WebSocket
+    messages, background jobs
+  addresses: [T-A3-1, T-A3-2, T-A3-4]
+  asvs: [V8]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-3
+  statement: >-
+    Check permission on every privileged function, including the HTTP method it accepts; route administrative
+    functions through a component that enforces the check
+  addresses: [T-A3-2, T-A3-6]
+  asvs: [V8]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-4
+  statement: >-
+    Return fields through response allow-lists (DTOs) and accept input through bind allow-lists; never
+    bind client JSON directly to persistence models, and do not rely on block-lists
+  addresses: [T-A3-3]
+  asvs: [V15]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-5
+  statement: >-
+    Derive roles, tenant and permissions from server-side state or verified tokens only; client-side checks
+    are for usability, never enforcement (token validation in A2)
+  addresses: [T-A3-5, T-A3-7]
+  asvs: [V8]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-6
+  statement: >-
+    Derive tenant ID from the authenticated principal and enforce tenant scope in the data layer (row-level
+    security or equivalent)
+  addresses: [T-A3-7]
+  asvs: [V8]
+  type: conditional
+  type_text: 'Conditional: multi-tenant'
+  trigger:
+    text: multi-tenant
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-7
+  statement: >-
+    Use attribute- or relationship-based policies (ABAC, ReBAC) where access depends on context, ownership,
+    sharing or tenancy; role-based checks alone suit only coarse function access
+  addresses: [T-A3-1, T-A3-7]
+  asvs: [V8]
+  type: conditional
+  type_text: 'Conditional: contextual, sharing or multi-tenant rules'
+  trigger:
+    text: contextual, sharing or multi-tenant rules
+    rule: null
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-8
+  statement: >-
+    Use random, unpredictable object identifiers as defence in depth; they never replace C-A3-1
+  addresses: [T-A3-1, T-A3-6]
+  asvs: [V8]
+  type: defence_in_depth
+  type_text: Baseline (defence in depth)
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+- id: C-A3-9
+  statement: >-
+    Cover authorisation with automated unit and integration tests across role × endpoint × object owner,
+    block releases that fail them, and keep manual or penetration review of logic paths
+  addresses: [T-A3-1, T-A3-2, T-A3-3, T-A3-4, T-A3-5, T-A3-6, T-A3-7]
+  asvs: [V8]
+  type: baseline
+  type_text: Baseline
+  disputed: false
+  requirement: null
+  verify: null
+  last_changed: 1.0.0-beta.1
+  status: current
+  replaced_by: []
+notes: []
+residual_risk: >-
+  The controls are strong by design and hard to verify. Detecting an object-level flaw requires ownership
+  knowledge, so assurance rests on the C-A3-9 matrix and manual testing rather than generic scanning.
+  State-dependent rules (a document editable only before approval) need abuse cases from threat modelling
+  (P1). Confused-deputy paths through SSRF and AI agents depend on A7 and A12 controls.
+residual_rating: Strong if verified
+residual_summary: Completeness of authorisation tests; state-dependent rules
+facts: [F-1, F-2, F-3, F-4]
+sources: [R-1, R-2, R-4, R-5, R-6, R-7, R-8, R-9]
+last_reviewed: 2026-10-12
+watch: >-
+  next OWASP Top 10 edition; revision of the OWASP API Security Top 10 (2023 edition); ASVS 5.x updates
+  to V8; annual CWE Top 25.
+extra_tables: []
