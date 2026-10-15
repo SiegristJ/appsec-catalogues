@@ -1,0 +1,144 @@
+- id: T-B3-1
+  claim: Vulnerable or malicious images
+  sources: [R-134]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: T-B3-2
+  claim: Container escape through privileged settings or shared kernels
+  sources: [R-134, R-94]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: T-B3-3
+  claim: Mounted token used via file read; impact set by RBAC
+  sources: [R-95]
+  tier: 2
+  verification: >-
+    Verified — secondary (default-permission detail from model knowledge; page truncated)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C18, GE17
+  status: Current
+- id: T-B3-4
+  claim: >-
+    Add-on flaws: CVE-2025-1974; CVE-2026-4789 needs policy-create permission
+  sources: [R-96, R-98]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C18, GE17
+  status: Current
+- id: T-B3-5
+  claim: Flat pod networks
+  sources: [R-134, R-115]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: T-B3-6
+  claim: Serverless event injection, roles, warm reuse, cost
+  sources: [R-99]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C19, GE16
+  status: Current
+- id: C-B3-1
+  claim: Minimal, scanned, signed images verified before execution
+  sources: [R-134]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: C-B3-2
+  claim: Restricted Pod Security Standard via Pod Security Admission
+  sources: [R-94]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: C-B3-3
+  claim: Least-privilege RBAC; automount off
+  sources: [R-95]
+  tier: 2
+  verification: Verified — secondary (page truncated)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C18
+  status: Current
+- id: C-B3-4
+  claim: Patch add-ons; restrict webhooks; migrate off ingress-nginx
+  sources: [R-96, R-97, R-98]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-B3-5
+  claim: Default-deny ingress and egress NetworkPolicies; plugin enforcement
+  sources: [R-115, R-134]
+  tier: 1
+  verification: Verified — primary (reworded to Kubernetes docs)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: C-B3-6
+  claim: Separate kernels by sensitivity; sandboxed runtimes for untrusted code
+  sources: [R-134]
+  tier: 1
+  verification: >-
+    Verified — primary (reworded to SP 800-190 §4.3.4; named runtimes are examples)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL21
+  status: Current
+- id: C-B3-7
+  claim: Serverless roles, event validation, no state in globals or /tmp, limits
+  sources: [R-99]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C19
+  status: Current
+- id: F-51
+  claim: >-
+    ingress-nginx retirement announced 11 November 2025; no fixes after March 2026; Gateway API recommended
+  sources: [R-97]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

@@ -1,0 +1,75 @@
+- id: T-P4-1
+  claim: Undetected intrusion
+  sources: [R-10]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: T-P4-2
+  split_from: T-P4-2, T-P4-3
+  claim: Ineffective response; recurrence
+  sources: [R-110, R-16]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: T-P4-3
+  split_from: T-P4-2, T-P4-3
+  claim: Ineffective response; recurrence
+  sources: [R-110, R-16]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-P4-1
+  claim: Central correlation mapped to ATT&CK
+  sources: [R-120, R-119]
+  tier: 1
+  verification: >-
+    Verified — primary (AU-6, AU-6(3), AU-6(5) via mirror; ATT&CK organisation from CISA; “tuned to reduce
+    noise” dropped, no source)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-P4-2
+  claim: Exercised IR plan per SP 800-61r3
+  sources: [R-110]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-P4-3
+  claim: Root-cause analysis (SI-02(07))
+  sources: [R-16]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-P4-4
+  claim: RASP as conditional, contested control
+  sources: [R-141]
+  tier: 1
+  verification: >-
+    Verified — primary (SP 800-53 SI-7(17), in no baseline; “contested as primary control” remains judgement)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current

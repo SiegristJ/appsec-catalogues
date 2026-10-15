@@ -1,0 +1,137 @@
+- id: T-B4-1
+  claim: Denial of service
+  sources: [R-135]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: T-B4-2
+  claim: Origin bypass
+  sources: [R-138, R-137]
+  tier: 1
+  verification: >-
+    Verified — primary (SC-7 managed-boundary principle; AWS mechanism as example)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: T-B4-3
+  claim: WAF evasion via parsing differences and Ghost Bits
+  sources: [R-100, R-102]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C14, GE11, GE13
+  status: Current
+- id: T-B4-4
+  claim: Subdomain takeover via dangling records
+  sources: [R-118]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: T-B4-5
+  claim: DNS hijacking and certificate mis-issuance
+  sources: [R-136]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: C-B4-1
+  claim: DDoS protection and edge rate limiting
+  sources: [R-135]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: C-B4-2
+  claim: Origin locked to the edge
+  sources: [R-138, R-137]
+  tier: 1
+  verification: Verified — primary (SC-7 principle; AWS mechanism as example)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: C-B4-3
+  claim: Web-attack prevention layer; PCI 6.4.2
+  sources: [R-101]
+  tier: 4
+  verification: Disputed (WAF value); requirement text verified via secondary quotation
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: C-B4-4
+  claim: RFC normalisation at ingress; one encoding
+  sources: [R-100, R-102]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: GE11, GE13
+  status: Current
+- id: C-B4-5
+  claim: >-
+    Dangling-record deletion and monitoring; DNSSEC for public zones; CAA; DNS account MFA, record audits,
+    CT log monitoring
+  sources: [R-117, R-118, R-136]
+  tier: 1
+  verification: >-
+    Verified — primary (registrar lock replaced by ED 19-01 account protections; DNSSEC narrowed per SP
+    800-81r3)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: C-B4-6
+  claim: Network segmentation; deny by default
+  sources: [R-138]
+  tier: 1
+  verification: Verified — primary (SC-7, SC-7(5))
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current
+- id: F-52
+  claim: >-
+    WAFFLED: 1,207 bypasses across AWS, Azure, Cloud Armor, Cloudflare, ModSecurity (ACSAC 2025)
+  sources: [R-100]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: GE11
+  status: Current
+- id: F-53
+  claim: >-
+    PCI DSS 6.4.2 requires an automated technical solution in front of public-facing web applications
+  sources: [R-101]
+  tier: 4
+  verification: Verified — secondary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL22
+  status: Current

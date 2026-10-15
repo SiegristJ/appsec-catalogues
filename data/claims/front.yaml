@@ -1,0 +1,225 @@
+- id: F-5
+  claim: OWASP Top 10 current edition is 2025
+  sources: [R-10]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: F-6
+  claim: ASVS 5.0.0 announced 30 May 2025, 17 chapters
+  sources: [R-11, R-5]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C7, D4
+  status: Current
+- id: F-7
+  claim: OWASP API Security Top 10 current edition is 2023
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C8
+  status: Current
+- id: F-8
+  claim: OWASP Top 10 for LLM Applications current edition is 2025
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: F-9
+  claim: OWASP Top 10 for Agentic Applications 2026 released 9 December 2025
+  sources: [R-13]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL2
+  status: Current
+- id: F-10
+  claim: NIST SP 800-63-4 final 31 July 2025
+  sources: [R-14]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL2
+  status: Current
+- id: F-11
+  claim: >-
+    SSDF v1.1 current; v1.2 draft 17 December 2025, comments to 30 January 2026
+  sources: [R-15]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL2
+  status: Current
+- id: F-12
+  claim: SP 800-53 Release 5.2.0 on 27 August 2025
+  sources: [R-16]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL2
+  status: Current
+- id: F-13
+  claim: RFC 9700 (BCP 240) published 30 January 2025
+  sources: [R-17]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL2
+  status: Current
+- id: F-14
+  claim: >-
+    OAuth 2.1 is draft 16 (3 September 2026), IESG submission planned December 2026
+  sources: [R-18]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D11
+  status: Current
+- id: F-15
+  claim: SLSA v1.2 approved 24 November 2025 with Build and Source tracks
+  sources: [R-19]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL2
+  status: Current
+- id: F-16
+  claim: >-
+    PCI DSS v4.0.1; 6.4.3 and 11.6.1 effective 31 March 2025; SAQ A revised January 2025
+  sources: [R-20]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D6
+  status: Current
+- id: F-17
+  claim: CWE Top 25 current list is 2025 (updated 15 December 2025)
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: F-20
+  claim: Exploitation began 31% of breaches, top vector (DBIR 2026)
+  sources: [R-21]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D1
+  status: Current
+- id: F-21
+  claim: Exploitation 20%, second to credential abuse (DBIR 2025)
+  sources: [R-22]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D1
+  status: Current
+- id: F-22
+  claim: Third-party involvement 15% → 30% → 48%
+  sources: [R-22, R-23]
+  tier: 3
+  verification: Verified — primary (2025); secondary (2026 figure)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D2
+  status: Current
+- id: F-23
+  claim: Ransomware 44% and 64% unpaid (2025); 48% and 69% unpaid (2026)
+  sources: [R-21, R-22, R-23]
+  tier: 3
+  verification: Verified — primary, except 69% (secondary)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D3
+  status: Current
+- id: F-24
+  claim: Median full patching 32 → 43 days; KEV fully patched 38% → 26%
+  sources: [R-24]
+  tier: 4
+  verification: Verified — secondary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C2
+  status: Current
+- id: F-25
+  claim: 15% of attack techniques assisted by generative AI (DBIR 2026)
+  sources: [R-21]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: >-
+    C3 (SecurityWeek’s “15 techniques per actor” reading conflicts with the primary page; primary used)
+  status: Current
+- id: F-26
+  claim: 'KEV: 245 added in 2025, 1,484 total, 24 ransomware-linked'
+  sources: [R-25]
+  tier: 4
+  verification: Verified — secondary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: F-27
+  claim: 'CWE Top 25 first four: CWE-79, CWE-89, CWE-352, CWE-862'
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: F-28
+  claim: PortSwigger top ten techniques of 2025, as listed
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: >-
+    CL8 (corrected: ruby-saml is not in the list, contrary to the Claude report)
+  status: Current

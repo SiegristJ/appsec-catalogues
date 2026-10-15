@@ -1,0 +1,133 @@
+- id: T-B1-1
+  claim: Security misconfiguration
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: T-B1-2
+  claim: Exploitation of known vulnerabilities; edge devices
+  sources: [R-21, R-22]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C1, D1
+  status: Current
+- id: T-B1-3
+  claim: Configuration drift
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: T-B1-4
+  claim: Exposed management interfaces
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: C-B1-1
+  claim: Automated hardening; unique credentials; minimal platform
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: C-B1-2
+  claim: Configuration as code; automated verification; drift alerts
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: C-B1-3
+  claim: KEV, then EPSS, then CVSS; deadlines in days
+  sources: [R-91, R-59]
+  tier: 1
+  verification: Verified — primary (ordering is the Claude report’s judgement)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: C-B1-4
+  claim: Asset inventory; private management planes
+  sources: [R-122, R-116]
+  tier: 1
+  verification: >-
+    Verified — primary (CM-8 and CM-8(3) read via mirror; BOD 23-02 is federal-scope guidance; control
+    reworded to both)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: C-B1-5
+  claim: No default credentials; debug off in production
+  sources: [R-68, R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: C-B1-6
+  claim: Virtual patching as time-limited bridge
+  sources: [R-128]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL19
+  status: Current
+- id: F-47
+  claim: Security Misconfiguration moved from 5th to 2nd (A02:2025); 16 CWEs
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: F-48
+  claim: >-
+    Edge devices and VPNs 22% of exploitation targets, up from 3% (DBIR 2025)
+  sources: [R-22]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: GE2
+  status: Current
+- id: F-49
+  claim: EPSS estimates probability of exploitation within 30 days, updated daily
+  sources: [R-91]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

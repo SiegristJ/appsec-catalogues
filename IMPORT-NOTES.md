@@ -133,6 +133,71 @@ as they arise, one numbered item per decision, most recent last.
     (so the lists mix ID kinds) with the verbatim text in `used_in_text`.
     `check.py` warning 1 (regenerated `used_in` mismatch) is expected to fire on
     these at stage 5; normalising to area IDs is an owner call at that review.
+16. **"Last verified" split convention** (2026-10-16, stage 4). Every cell
+    combines date and verifier ("2026-10-12, Claude"); imported as
+    `last_verified: 2026-10-12` (YAML date) plus `verified_by: Claude`. The
+    split is mechanical (first comma in the cell); all 347 rows carry the
+    same pair, so no variant arises.
+17. **Tier and sources conventions never triggered** (2026-10-16, stage 4).
+    SETUP 4.5 defines "—" → `tier: null`, "—" → `sources: []`,
+    non-numeric tier content → `tier_text`, and R-ID range expansion in
+    Sources; none occurs: all 347 Evidence tier cells are bare integers
+    1–4 (no `tier_text` field was emitted), every Sources cell is a plain
+    comma-separated R-ID list with no ranges, and neither column contains
+    "—".
+18. **Decision "—" kept verbatim** (2026-10-16, stage 4). 18 rows carry an
+    em dash in Decision (C-A2-4, C-A6-4, C-A7-4, C-A10-6, T-A10-5, C-A11-9,
+    T-A11-6, C-A12-4, C-B3-4, T-B5-5, C-B5-7, C-B6-3, C-P3-7, F-30, F-34,
+    F-40, F-49, F-51); stored as the string "—" following the stage-3
+    precedent for edition cells (ambiguity 9) — SETUP states no rule for
+    this column, and the em dash is the export's text.
+19. **Markdown backslash escapes kept verbatim** (2026-10-16, stage 4). Two
+    claim cells contain export escapes: C-A2-2 "\_\_Host- prefix" and
+    C-A6-4 "Sec-Fetch-\* validation". Stored byte-for-byte; unescaping is a
+    normalisation the rules do not authorise (stage 3 likewise kept
+    markdown backticks in stored text). Regeneration must re-escape these
+    two cells when rendering the register.
+20. **Extra claims-field placement** (2026-10-16, stage 4). §4.5 fixes the
+    order of the ten base fields; `split_from` sits immediately after `id`
+    and `tier_text` would sit immediately after `tier` —
+    companion-next-to-primary, matching stage 3's `type_text`,
+    `used_in_text`, `pulls_text` and `cited_by_text`. `tier_text` is in
+    fact never emitted (see 17).
+21. **C-A3-4 ASVS chapter mismatch — for the owner** (2026-10-16, stage 4;
+    SETUP 12 item 5, flagged by the stage-3 verifier). The catalogue maps
+    C-A3-4 to ASVS V15 (`data/areas/A03.yaml`, the drafting correction in
+    the change-log row "Principles (least privilege), C-A3-4, C-A5-9, A7
+    ASVS column" remapped mass assignment to V15), but its claims row
+    still cites only V8-era sources: R-4 (OWASP API Security Top 10, 2023)
+    and R-8 (OWASP Mass Assignment Cheat Sheet). Both sides imported as-is
+    per SETUP; the owner should re-source the claim against V15-era
+    material or re-map the sources.
+22. **Change-log merge mechanics** (2026-10-16, stage 4). The addendum
+    caption "**Latest entries** (to be merged into the table below at the
+    next regeneration)" was consumed by the merge — it described a table
+    that no longer exists. The "# Change log" heading and "Newest first."
+    line are kept verbatim, the header and separator appear once, and all
+    13 rows are byte-identical export rows (2 addendum + 11 main, all dated
+    2026-10-12: addendum rows first, then main rows in export order).
+23. **considered-not-included.md wording** (2026-10-16, stage 4). SETUP 4.8
+    fixes the structure but not the header text; "# Considered and not
+    included" was chosen from the filename, with element order following
+    the spec sentence: header, then the empty four-column table
+    (`Item | Source | Reason excluded | Reference`), then the TODO line
+    verbatim.
+24. **Claims record order = export row order** (2026-10-16, stage 4). Files
+    are not re-sorted: A3's "A3 facts" rows follow the A3 threats/controls
+    rows in `A03.yaml`, and A09 keeps the export's F-18, F-19, F-45, F-46
+    order. The export's sections arrive in a non-numeric order (A3, front
+    matter, A1, A4, A5, A11, …); each row lands in its area's file
+    regardless.
+25. **No annotated or unparseable ID cells** (2026-10-16, stage 4). Every
+    ID cell matched the pure grammar (single ID, comma list, or
+    same-prefix "to" range): the B2, B3, B4 and B6 tables are already one
+    row per ID (the change log records that split), no annotated cell
+    remains, and nothing outside the eight logged groups needed splitting.
+    The parser rejects any deviation, so a future remnant cannot pass
+    silently.
 
 ## Splits and merges
 
@@ -146,6 +211,25 @@ as they arise, one numbered item per decision, most recent last.
    summary table has one row for all four process areas; its rating ("Strong
    if verified") and "What remains" text ("Practices that lapse; detection
    tuning") were applied to each of P1, P2, P3 and P4.
+4. **Claims split: "T-B5-1, T-B5-2, T-B5-4"** (2026-10-16, stage 4) → three
+   records (T-B5-1, T-B5-2, T-B5-4), identical fields, each carrying
+   `split_from: "T-B5-1, T-B5-2, T-B5-4"` verbatim (SETUP 4.5, 12 item 4).
+5. **Claims split: "C-B5-1 to C-B5-4, C-B5-6"** (2026-10-16, stage 4) → five
+   records (C-B5-1 to C-B5-4, C-B5-6), identical fields, `split_from` verbatim.
+6. **Claims split: "T-P1-1, T-P1-2"** (2026-10-16, stage 4) → two records,
+   identical fields, `split_from` verbatim.
+7. **Claims split: "C-P2-2 to C-P2-4"** (2026-10-16, stage 4) → three records
+   (C-P2-2 to C-P2-4), identical fields, `split_from` verbatim.
+8. **Claims split: "T-P3-1 to T-P3-5"** (2026-10-16, stage 4) → five records
+   (T-P3-1 to T-P3-5), identical fields, `split_from` verbatim.
+9. **Claims split: "C-P3-1 to C-P3-4"** (2026-10-16, stage 4) → four records
+   (C-P3-1 to C-P3-4), identical fields, `split_from` verbatim.
+10. **Claims split: "C-P3-5, C-P3-6"** (2026-10-16, stage 4) → two records,
+    identical fields, `split_from` verbatim.
+11. **Claims split: "T-P4-2, T-P4-3"** (2026-10-16, stage 4) → two records,
+    identical fields, `split_from` verbatim. Eight grouped cells in total
+    (entries 4–11), expanding to 26 records; no other grouped cell exists in
+    the export.
 
 ## Null fields
 

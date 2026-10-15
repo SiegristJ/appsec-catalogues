@@ -1,0 +1,110 @@
+- id: T-A10-1
+  claim: Workflow bypass
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: T-A10-2
+  claim: Limit and value abuse
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: T-A10-3
+  claim: Race conditions; single-packet alignment
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary (single-packet technique unverified)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: T-A10-4
+  claim: Automated abuse of business flows
+  sources: [R-4, R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: T-A10-5
+  claim: Single-actor approval of high-value actions
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-A10-1
+  claim: Documented limits and rules; abuse cases
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: C-A10-2
+  claim: Server-side step order
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: C-A10-3
+  claim: Server-side price recomputation; enforced limits
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: C-A10-4
+  claim: Atomic operations; locking; idempotency keys; unique constraints
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary (idempotency keys standard practice)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: C-A10-5
+  claim: Layered anti-automation
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL14
+  status: Current
+- id: C-A10-6
+  claim: Multi-user approval of high-value actions
+  sources: [R-88]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

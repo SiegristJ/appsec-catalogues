@@ -1,0 +1,235 @@
+- id: T-A5-1
+  claim: Cross-site scripting
+  sources: [R-43, R-2]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: CL9
+  status: Current
+- id: T-A5-2
+  claim: CSRF
+  sources: [R-45, R-2]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-3
+  claim: Clickjacking
+  sources: [R-44]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-4
+  claim: Open redirect into token theft
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-5
+  claim: CORS misconfiguration patterns
+  sources: [R-46, R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-6
+  claim: Prototype pollution
+  sources: [R-47, R-59]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-7
+  claim: Unchecked postMessage
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-8
+  claim: Cross-site leaks
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: T-A5-9
+  claim: Script gadgets bypass sanitisers and CSP
+  sources: [R-49, R-50]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: GE14
+  status: Current
+- id: T-A5-10
+  claim: Tokens in script-readable storage
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary (ASVS 3.3.4 HttpOnly for session tokens)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-1
+  claim: Auto-escaping, context-aware encoding, safe sinks
+  sources: [R-43]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-2
+  claim: Maintained HTML sanitiser
+  sources: [R-43]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-3
+  claim: Strict CSP as defence in depth
+  sources: [R-44, R-43, R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C15
+  status: Current
+- id: C-A5-4
+  claim: Trusted Types enforcement
+  sources: [R-48]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-5
+  claim: >-
+    Token or signed double-submit; Fetch Metadata with fallback; no GET state changes; SameSite as defence
+    in depth
+  sources: [R-45, R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-6
+  claim: frame-ancestors supersedes X-Frame-Options
+  sources: [R-44, R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-7
+  claim: Allow-listed redirect targets
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-8
+  claim: Exact CORS allow-list; no reflected origin or null
+  sources: [R-46, R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-9
+  claim: Key allow-lists, null-prototype objects, Map, frozen prototypes
+  sources: [R-47, R-59]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-10
+  claim: Check event.origin; name target origin
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-11
+  claim: >-
+    SameSite, Fetch Metadata isolation, COOP, framing limits against XS-Leaks
+  sources: [R-85]
+  tier: 1
+  verification: >-
+    Verified — primary (ASVS 3.4.8, 3.5.8 as controls; their effect on XS-Leaks is the Claude report’s
+    judgement)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: C-A5-12
+  claim: Tokens in HttpOnly cookies or memory
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL9
+  status: Current
+- id: F-34
+  claim: Trusted Types reached Baseline (newly available) in February 2026
+  sources: [R-48]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

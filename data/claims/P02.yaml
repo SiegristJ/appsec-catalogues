@@ -1,0 +1,58 @@
+- id: T-P2-1
+  claim: Undetected defects; method table
+  sources: [R-140]
+  tier: 1
+  verification: >-
+    Verified — primary for combining tool analysis, human review and testing (SSDF PW.7, PW.8); the per-method
+    table remains synthesis for specialist review
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL16
+  status: Current
+- id: C-P2-1
+  claim: Verify against ASVS level with WSTG
+  sources: [R-5]
+  tier: 2
+  verification: Verified — primary (WSTG page failed to load)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL16
+  status: Current
+- id: C-P2-2
+  split_from: C-P2-2 to C-P2-4
+  claim: >-
+    Pipeline analysis gates; authorisation and abuse-case suites; manual and penetration testing
+  sources: [R-6, R-88]
+  tier: 1
+  verification: Verified — primary for C-P2-3; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL16
+  status: Current
+- id: C-P2-3
+  split_from: C-P2-2 to C-P2-4
+  claim: >-
+    Pipeline analysis gates; authorisation and abuse-case suites; manual and penetration testing
+  sources: [R-6, R-88]
+  tier: 1
+  verification: Verified — primary for C-P2-3; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL16
+  status: Current
+- id: C-P2-4
+  split_from: C-P2-2 to C-P2-4
+  claim: >-
+    Pipeline analysis gates; authorisation and abuse-case suites; manual and penetration testing
+  sources: [R-6, R-88]
+  tier: 1
+  verification: Verified — primary for C-P2-3; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL16
+  status: Current

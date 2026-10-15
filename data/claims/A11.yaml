@@ -1,0 +1,207 @@
+- id: T-A11-1
+  claim: Known-vulnerable dependencies
+  sources: [R-55]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C20
+  status: Current
+- id: T-A11-2
+  claim: Typosquatting, dependency confusion, hijacked maintainers
+  sources: [R-55, R-59]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C20
+  status: Current
+- id: T-A11-3
+  claim: Self-propagating registry worms; runners and wiper in later waves
+  sources: [R-51, R-52, R-58]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C20
+  status: Current
+- id: T-A11-4
+  claim: Compromised build with valid provenance
+  sources: [R-53]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: 'CL15 (corrected: not Build L3)'
+  status: Current
+- id: T-A11-5
+  claim: Tampered third-party browser scripts (Magecart)
+  sources: [R-20, R-60]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C16
+  status: Current
+- id: T-A11-6
+  claim: Unmaintained components
+  sources: [R-55]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: —
+  status: Current
+- id: C-A11-1
+  claim: SBOM per build; continuous tracking; remove unused
+  sources: [R-55, R-59]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C20
+  status: Current
+- id: C-A11-2
+  claim: Monitor feeds; prioritise by exploitation; reachability orders work
+  sources: [R-55]
+  tier: 1
+  verification: Verified — primary (reachability clause unverified)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C22
+  status: Current
+- id: C-A11-3
+  claim: >-
+    Lockfile hashes, private registry proxy, scoped namespaces, adoption delay
+  sources: [R-51, R-59]
+  tier: 1
+  verification: Verified — primary (adoption delay unverified)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: C-A11-4
+  claim: Install scripts off by default
+  sources: [R-52]
+  tier: 2
+  verification: Verified — primary (threat basis; control is standard practice)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: C-A11-5
+  claim: Trusted publishing, phishing-resistant maintainer MFA, branch protection
+  sources: [R-56, R-51]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: C-A11-6
+  claim: SLSA Build L2 provenance, L3 isolation, verify before deploy
+  sources: [R-57, R-53]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C21, D5
+  status: Current
+- id: C-A11-7
+  claim: >-
+    Treat installs as compromise; rotate all reachable credentials; purge caches
+  sources: [R-51, R-54]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: C-A11-8
+  claim: >-
+    Browser-script inventory, CSP authorisation, integrity method, change detection
+  sources: [R-20, R-60]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C16, D6
+  status: Current
+- id: C-A11-9
+  claim: Staged rollouts of updates
+  sources: [R-55]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: —
+  status: Current
+- id: F-35
+  claim: Shai-Hulud (September 2025) compromised over 500 npm packages
+  sources: [R-51]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: F-36
+  claim: Shai-Hulud 2.0 (21–23 November 2025) infected 621 npm packages
+  sources: [R-52]
+  tier: 3
+  verification: >-
+    Verified — primary (Claude report’s 796 from another tracker; counts differ by vendor)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: F-37
+  claim: >-
+    Mini Shai-Hulud (11 May 2026): 84 artefacts across 42 @tanstack packages, spread to 170+ packages;
+    valid attestations; npm provenance is Build L2
+  sources: [R-53]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: F-38
+  claim: TeamPCP released the worm’s source code (reported 15 May 2026)
+  sources: [R-54]
+  tier: 4
+  verification: Verified — secondary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current
+- id: F-39
+  claim: >-
+    Keyv-family wave (“ChainDrop”), over 1,300 package versions; Singapore CSA advisory 6 August 2026
+  sources: [R-58]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL15
+  status: Current

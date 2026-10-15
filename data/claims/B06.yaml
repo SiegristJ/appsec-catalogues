@@ -1,0 +1,110 @@
+- id: T-B6-1
+  claim: Stolen administrator credentials or sessions
+  sources: [R-104]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: T-B6-2
+  claim: Standing and shared privilege
+  sources: [R-121]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: T-B6-3
+  claim: Helpdesk social engineering
+  sources: [R-29]
+  tier: 1
+  verification: >-
+    Verified — primary (recovery requirements; helpdesk vector from the Claude report)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: T-B6-4
+  claim: >-
+    Intentional, negligent or accidental misuse of authorised privileged access
+  sources: [R-142, R-143, R-144]
+  tier: 1
+  verification: >-
+    Verified — primary (PM-12, AC-5; scope broadened to CISA’s definition; no primary prevalence figure
+    obtained)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-B6-1
+  claim: >-
+    Phishing-resistant MFA for privileged users; AAL3 device-bound; no syncable at AAL3
+  sources: [R-104, R-29]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-B6-2
+  claim: >-
+    Restricted, reviewed, logged privileged accounts; just-in-time as example
+  sources: [R-121]
+  tier: 1
+  verification: >-
+    Verified — primary (reworded to AC-6; just-in-time has no tier 1–2 source)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-B6-3
+  claim: Re-authentication with additional factor for highly sensitive operations
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-B6-4
+  claim: Privileged access through a dedicated, managed interface
+  sources: [R-139, R-116]
+  tier: 1
+  verification: Verified — primary (reworded to SC-7(15))
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-B6-5
+  claim: Strict identity verification for resets
+  sources: [R-29]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current
+- id: C-B6-6
+  claim: >-
+    Session recording, recertification, separation of duties, multi-user approval
+  sources: [R-88, R-121]
+  tier: 1
+  verification: >-
+    Verified — primary (recertification AC-6(7), logging AC-6(9), multi-user approval ASVS 2.3.5); separation
+    of duties AC-5 (R-143); session recording standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL25
+  status: Current

@@ -1,0 +1,145 @@
+- id: T-P3-1
+  split_from: T-P3-1 to T-P3-5
+  claim: CI/CD Top 10 risks as mapped
+  sources: [R-108, R-109, R-53]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: T-P3-2
+  split_from: T-P3-1 to T-P3-5
+  claim: CI/CD Top 10 risks as mapped
+  sources: [R-108, R-109, R-53]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: T-P3-3
+  split_from: T-P3-1 to T-P3-5
+  claim: CI/CD Top 10 risks as mapped
+  sources: [R-108, R-109, R-53]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: T-P3-4
+  split_from: T-P3-1 to T-P3-5
+  claim: CI/CD Top 10 risks as mapped
+  sources: [R-108, R-109, R-53]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: T-P3-5
+  split_from: T-P3-1 to T-P3-5
+  claim: CI/CD Top 10 risks as mapped
+  sources: [R-108, R-109, R-53]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: T-P3-6
+  claim: Infrastructure misconfiguration at scale
+  sources: [R-90]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-1
+  split_from: C-P3-1 to C-P3-4
+  claim: >-
+    Privileged-trigger hygiene; SHA pinning; read-only tokens and OIDC; ephemeral runners
+  sources: [R-109]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-2
+  split_from: C-P3-1 to C-P3-4
+  claim: >-
+    Privileged-trigger hygiene; SHA pinning; read-only tokens and OIDC; ephemeral runners
+  sources: [R-109]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-3
+  split_from: C-P3-1 to C-P3-4
+  claim: >-
+    Privileged-trigger hygiene; SHA pinning; read-only tokens and OIDC; ephemeral runners
+  sources: [R-109]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-4
+  split_from: C-P3-1 to C-P3-4
+  claim: >-
+    Privileged-trigger hygiene; SHA pinning; read-only tokens and OIDC; ephemeral runners
+  sources: [R-109]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-5
+  split_from: C-P3-5, C-P3-6
+  claim: Branch protection and deploy approval; IaC policy gates
+  sources: [R-108]
+  tier: 2
+  verification: Verified — primary (flow control); IaC gates standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-6
+  split_from: C-P3-5, C-P3-6
+  claim: Branch protection and deploy approval; IaC policy gates
+  sources: [R-108]
+  tier: 2
+  verification: Verified — primary (flow control); IaC gates standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL23
+  status: Current
+- id: C-P3-7
+  claim: Pipeline logging; flag publishes from failed runs
+  sources: [R-53, R-108]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

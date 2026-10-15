@@ -1,0 +1,121 @@
+- id: T-A6-1
+  claim: Protocol downgrade
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: T-A6-2
+  claim: MIME sniffing
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: T-A6-3
+  claim: Referrer leakage
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: T-A6-4
+  claim: Cross-origin embedding and window attacks
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: T-A6-5
+  claim: Tampered externally hosted assets
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: C-A6-1
+  claim: HSTS one year, includeSubDomains, preload
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: C-A6-2
+  claim: nosniff
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: C-A6-3
+  claim: Referrer-Policy
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: C-A6-4
+  claim: Sec-Fetch-\* validation
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-A6-5
+  claim: COOP and CORP
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: C-A6-6
+  claim: Permissions-Policy
+  sources: [R-123]
+  tier: 2
+  verification: >-
+    Verified — primary (MDN; header has limited browser support, so marked defence in depth)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL10
+  status: Current
+- id: C-A6-7
+  claim: SRI for static versioned assets, else documented decision
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D6
+  status: Current

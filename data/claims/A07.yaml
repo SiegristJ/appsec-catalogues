@@ -1,0 +1,132 @@
+- id: T-A7-1
+  claim: SSRF; redirect loops expose blind SSRF; HTTP/2 CONNECT port scans
+  sources: [R-61, R-62, R-26]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: T-A7-2
+  claim: Request smuggling variants incl. TE.TE and H2 downgrade
+  sources: [R-63, R-67]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C12
+  status: Current
+- id: T-A7-3
+  claim: Web cache poisoning incl. framework caches
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: T-A7-4
+  claim: Web cache deception
+  sources: [R-64]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: T-A7-5
+  claim: Host header attacks
+  sources: [R-65]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: C-A7-1
+  claim: No user URLs; allow-listed host, fixed scheme, port, path
+  sources: [R-62, R-66]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: C-A7-2
+  claim: Resolve, validate, connect to validated IP; no or re-validated redirects
+  sources: [R-62]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: C-A7-3
+  claim: Default-deny egress; deny-lists as backstop
+  sources: [R-62, R-68]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: C-A7-4
+  claim: Reject ambiguous URLs
+  sources: [R-62, R-66]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-A7-5
+  claim: HTTP/2 end to end; no downgrade; interim HTTP/1.1 measures
+  sources: [R-63, R-67]
+  tier: 1
+  verification: Disputed (retiring HTTP/1.1 upstreams contested)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C12
+  status: Current
+- id: C-A7-6
+  claim: >-
+    no-store/private; CDN not overriding; identical path parsing; full cache keys
+  sources: [R-64, R-69]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: C-A7-7
+  claim: Configured hostnames; Host allow-list; override headers disabled
+  sources: [R-65, R-67]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL11
+  status: Current
+- id: F-40
+  claim: >-
+    As of August 2025, nginx, Akamai, CloudFront and Fastly did not support upstream HTTP/2
+  sources: [R-63]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

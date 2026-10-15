@@ -1,0 +1,148 @@
+- id: T-A2-1
+  claim: Session fixation
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: T-A2-2
+  claim: Session hijacking incl. infostealers
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary (infostealer vector from Claude report)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: T-A2-3
+  claim: Sessions outliving their purpose
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: T-A2-4
+  claim: JWT validation flaws
+  sources: [R-87]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C10
+  status: Current
+- id: T-A2-5
+  claim: Unrevocable self-contained tokens
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C10
+  status: Current
+- id: T-A2-6
+  claim: Sensitive data in token claims
+  sources: [R-111, R-112]
+  tier: 1
+  verification: >-
+    Verified — primary (that signed tokens are readable is inferred jointly from RFC 7515 and RFC 7519
+    §12; neither states it outright)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: C-A2-1
+  claim: >-
+    128-bit CSPRNG tokens; server-side validation; rotation on authentication
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: C-A2-2
+  claim: Secure, HttpOnly, purpose-chosen SameSite, \_\_Host- prefix
+  sources: [R-85]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: C-A2-3
+  claim: >-
+    Timeouts; server-side invalidation; end sessions on disable; offer after credential change; user session
+    review
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: C-A2-4
+  claim: Re-authentication before account-detail changes
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-A2-5
+  claim: >-
+    Signature first; algorithm allow-list; no none; pre-configured keys; exp, nbf, aud, type
+  sources: [R-87]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C10
+  status: Current
+- id: C-A2-6
+  claim: Revocation list, issued-before cutoff, key rotation, or reference tokens
+  sources: [R-86]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C10
+  status: Current
+- id: C-A2-7
+  claim: No sensitive claims or encrypt token
+  sources: [R-111]
+  tier: 1
+  verification: >-
+    Verified — primary (control reworded to RFC 7519 §12; no specific ASVS V9 requirement found, chapter
+    is the topical home)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current
+- id: C-A2-8
+  claim: Sender-constrained access tokens
+  sources: [R-17]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL6
+  status: Current

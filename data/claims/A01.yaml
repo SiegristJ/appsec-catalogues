@@ -1,0 +1,170 @@
+- id: T-A1-1
+  claim: Automated logins with breached or common passwords
+  sources: [R-34]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: T-A1-2
+  claim: Passwords, OTPs and push approvals can be relayed by a phishing proxy
+  sources: [R-29]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C11
+  status: Current
+- id: T-A1-3
+  claim: Downgrade to a phishable fallback by spoofing an unsupported browser
+  sources: [R-35]
+  tier: 4
+  verification: Verified — secondary; single source
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: D8
+  status: Current
+- id: T-A1-4
+  claim: Weak recovery becomes the effective authenticator
+  sources: [R-29]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: T-A1-5
+  claim: SAML parser differential forgery (ruby-saml CVE-2025-25291/25292)
+  sources: [R-33]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: 'CL5 (corrected: not in PortSwigger’s 2025 top ten)'
+  status: Current
+- id: T-A1-6
+  claim: OAuth/OIDC redirect, code injection, mix-up, leakage, legacy grants
+  sources: [R-17, R-31]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: C-A1-1
+  claim: Phishing-resistant option required at AAL2, phishing resistance at AAL3
+  sources: [R-29]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C11
+  status: Current
+- id: C-A1-2
+  claim: Retire or harden phishable fallbacks once passkeys are held
+  sources: [R-35]
+  tier: 4
+  verification: Disputed
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D8
+  status: Current
+- id: C-A1-3
+  claim: >-
+    15 characters single-factor (8 in MFA), no composition rules, no forced change, blocklist, failure
+    cap
+  sources: [R-29, R-30]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: C-A1-4
+  claim: MFA with risk-based step-up; challenges only on risky logins
+  sources: [R-34]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: C-A1-5
+  claim: Recovery as strong as replaced authenticators; notify on changes
+  sources: [R-29]
+  tier: 1
+  verification: >-
+    Verified — primary (notification clause from Claude report, not seen in the part of 800-63B read)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: C-A1-6
+  claim: >-
+    RFC 9700 controls: PKCE, exact redirect match, no password grant, implicit avoided, RFC 9207, sender-constraint,
+    refresh-token rule
+  sources: [R-17, R-31]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: C-A1-7
+  claim: >-
+    SAML: one parser, signature over consumed assertion, replay rejection, patching
+  sources: [R-30, R-33]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: C-A1-8
+  claim: RAR (RFC 9396) for transaction-specific authority
+  sources: [R-32]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Gemini report
+  decision: GE6, D11
+  status: Current
+- id: F-29
+  claim: >-
+    NIST 800-63B-4 password rules: 15/8 characters, no composition, no periodic change, blocklist, ≤100
+    failures
+  sources: [R-29]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL5
+  status: Current
+- id: F-30
+  claim: >-
+    ASVS 6.2.1 minimum 8 characters (15 strongly recommended); 6.2.12 breached-password check at L2; SAML
+    in V6.8
+  sources: [R-30]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current

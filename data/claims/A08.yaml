@@ -1,0 +1,124 @@
+- id: T-A8-1
+  claim: Unrestricted resource consumption
+  sources: [R-4, R-2]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL12
+  status: Current
+- id: T-A8-2
+  claim: GraphQL nesting, batching, introspection abuse
+  sources: [R-70, R-67]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C9
+  status: Current
+- id: T-A8-3
+  claim: Improper inventory
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL12
+  status: Current
+- id: T-A8-4
+  claim: Unsafe consumption of third-party APIs
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C8
+  status: Current
+- id: T-A8-5
+  claim: Cross-site WebSocket hijacking (CVE-2024-26135)
+  sources: [R-71, R-72]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C13, GE10
+  status: Current
+- id: C-A8-1
+  claim: Schema-first contracts; request and response validation
+  sources: [R-4]
+  tier: 1
+  verification: >-
+    Verified — primary (API3 schema-based response validation; request side standard practice)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL12
+  status: Current
+- id: C-A8-2
+  claim: Per-identity consumption limits incl. spending limits
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL12
+  status: Current
+- id: C-A8-3
+  claim: >-
+    GraphQL depth, amount, cost, timeouts, batching, introspection off, per-resolver authorisation
+  sources: [R-70, R-67]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C9
+  status: Current
+- id: C-A8-4
+  claim: API inventory; retire deprecated versions; no debug endpoints
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL12
+  status: Current
+- id: C-A8-5
+  claim: Third-party responses as untrusted input
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C8
+  status: Current
+- id: C-A8-6
+  claim: >-
+    WSS; Origin allow-list; dedicated token via HTTPS session; per-message authorisation
+  sources: [R-67, R-72]
+  tier: 1
+  verification: >-
+    Verified — primary (first-message preference is a judgement from the Gemini correction)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C13
+  status: Current
+- id: F-41
+  claim: CWE-770 ranks 25th in the 2025 Top 25
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current

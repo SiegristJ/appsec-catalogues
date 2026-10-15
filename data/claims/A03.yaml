@@ -1,0 +1,214 @@
+- id: T-A3-1
+  claim: >-
+    Changing an object ID in a valid request exposes other users’ objects when no per-object check exists
+    (CWE-639, API1:2023)
+  sources: [R-1, R-4, R-7]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C5, C8
+  status: Current
+- id: T-A3-2
+  claim: >-
+    Privileged functions reachable by changing path or HTTP method (CWE-285, API5:2023)
+  sources: [R-1, R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C8
+  status: Current
+- id: T-A3-3
+  claim: >-
+    Excessive field exposure and mass assignment (API3:2023); CWE-213 and CWE-915 references not yet checked
+    first-hand
+  sources: [R-4, R-8]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C8
+  status: Current
+- id: T-A3-4
+  claim: >-
+    Checks enforced on one channel are missing on another path to the same data (CWE-862)
+  sources: [R-6]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: T-A3-5
+  claim: Authorisation data taken from client-controlled input (CWE-602)
+  sources: [R-6]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C5
+  status: Current
+- id: T-A3-6
+  claim: Unlinked resources served without a check (CWE-425)
+  sources: [R-1, R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: T-A3-7
+  claim: Tenant scope from the request or unenforced in the data layer (CWE-284)
+  sources: [R-6, R-2]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: C-A3-1
+  claim: >-
+    Per-request, per-object server-side check, deny by default, tied to the principal
+  sources: [R-1, R-6, R-7]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C5, D9
+  status: Current
+- id: C-A3-2
+  claim: One policy layer, separate from enforcement, applied to every channel
+  sources: [R-1, R-4, R-6]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C6
+  status: Current
+- id: C-A3-3
+  claim: Permission check on every privileged function, including HTTP method
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D9
+  status: Current
+- id: C-A3-4
+  claim: >-
+    Response and bind allow-lists; no direct binding; block-lists insufficient
+  sources: [R-4, R-8]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C8
+  status: Current
+- id: C-A3-5
+  claim: Authorisation attributes from server-side state or verified tokens only
+  sources: [R-1, R-6]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: C-A3-6
+  claim: Tenant ID from the principal, enforced in the data layer
+  sources: [R-1, R-6]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: C-A3-7
+  claim: >-
+    ABAC or ReBAC where access depends on context, ownership, sharing or tenancy; RBAC for coarse access
+    only
+  sources: [R-6, R-9]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C6
+  status: Current
+- id: C-A3-8
+  claim: Random identifiers are defence in depth only
+  sources: [R-4, R-7]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D9
+  status: Current
+- id: C-A3-9
+  claim: >-
+    Automated role × endpoint × owner tests gating release, plus manual testing
+  sources: [R-1, R-4, R-6]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C5
+  status: Current
+- id: F-1
+  claim: >-
+    Broken Access Control is A01 in OWASP Top 10:2025, mapping 40 CWEs including CWE-918
+  sources: [R-1]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: F-2
+  claim: CWE-862 ranks 4th in the 2025 CWE Top 25, up from 9th
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL7
+  status: Current
+- id: F-3
+  claim: >-
+    CWE-284 is new at 19th and CWE-639 rose from 30th to 24th in the 2025 CWE Top 25
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: 'CL7 (corrected: the report called CWE-639 a new entry)'
+  status: Current
+- id: F-4
+  claim: >-
+    Three of the first five OWASP API Top 10 (2023) risks are authorisation failures
+  sources: [R-4]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: C8
+  status: Current

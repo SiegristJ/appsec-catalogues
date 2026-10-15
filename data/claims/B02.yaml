@@ -1,0 +1,122 @@
+- id: T-B2-1
+  claim: Over-permissioned identities
+  sources: [R-121, R-129]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: T-B2-2
+  claim: Leaked long-lived keys
+  sources: [R-68, R-129]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: T-B2-3
+  claim: Public storage and services
+  sources: [R-130]
+  tier: 2
+  verification: Verified — primary (AWS-specific source)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: T-B2-4
+  claim: Metadata credential theft; full-request SSRF reaches IMDSv2
+  sources: [R-92, R-93]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C17, D7
+  status: Current
+- id: T-B2-5
+  claim: Unmonitored control plane
+  sources: [R-132]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: C-B2-1
+  claim: Least privilege; boundaries; organisation policies; escalation review
+  sources: [R-121, R-129]
+  tier: 1
+  verification: Verified — primary (AC-6 principle; AWS mechanisms as examples)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: C-B2-2
+  claim: Workload identity, short-lived credentials
+  sources: [R-68, R-129]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: C-B2-3
+  claim: Private-by-default guardrails
+  sources: [R-130]
+  tier: 2
+  verification: Verified — primary (AWS-specific; no vendor-neutral source found)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: C-B2-4
+  claim: IMDSv2 required; hop limit 1; disable if unused; egress controls
+  sources: [R-92, R-93]
+  tier: 2
+  verification: Disputed (sufficiency)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C17, D7
+  status: Current
+- id: C-B2-5
+  claim: Audit logs on a separate system; separate accounts per environment
+  sources: [R-132, R-131]
+  tier: 1
+  verification: Verified — primary (reworded to AU-9(2))
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: C-B2-6
+  claim: Continuous monitoring of configuration and control effectiveness
+  sources: [R-133]
+  tier: 1
+  verification: Verified — primary (reworded to CA-7)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current
+- id: F-50
+  claim: >-
+    Resolving 50% of third-party cloud weak-password and permission findings took almost 8 months (DBIR
+    2026)
+  sources: [R-23]
+  tier: 4
+  verification: Verified — secondary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL20
+  status: Current

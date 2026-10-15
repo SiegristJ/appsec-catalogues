@@ -1,0 +1,244 @@
+- id: T-A12-1
+  claim: Prompt injection, direct and indirect
+  sources: [R-12, R-74]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-2
+  claim: Excessive agency, tool misuse, privilege abuse
+  sources: [R-12, R-73]
+  tier: 1
+  verification: Verified — primary (ASI names via secondary)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-3
+  claim: Improper output handling
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-4
+  claim: Sensitive information and system prompt disclosure
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-5
+  claim: Retrieval and memory poisoning or leakage
+  sources: [R-12, R-73]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-6
+  claim: AI supply chain
+  sources: [R-12, R-73]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-7
+  claim: Unbounded consumption
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-8
+  claim: Insecure AI-generated code
+  sources: [R-76]
+  tier: 3
+  verification: Verified — primary; single source (vendor benchmark)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: T-A12-9
+  claim: Hallucinated dependencies
+  sources: [R-126]
+  tier: 1
+  verification: Verified — primary (LLM09:2025 scenario 1)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-1
+  claim: Authorisation enforced outside the model with the user’s identity
+  sources: [R-75]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-2
+  claim: Least-privilege, allow-listed tools
+  sources: [R-75]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-3
+  claim: Human approval of exact action, verified by execution layer
+  sources: [R-75]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-4
+  claim: Privilege separation between readers of untrusted content and planners
+  sources: [R-75]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-A12-5
+  claim: Model output untrusted at every sink
+  sources: [R-75]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-6
+  claim: No secrets or authorisation logic in system prompts
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-7
+  claim: >-
+    Tenant-partitioned vector stores; permission-filtered retrieval; controlled memory writes
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-8
+  claim: Allow-listed, pinned models, datasets, tools, tool servers
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-9
+  claim: Token, call, iteration and cost caps
+  sources: [R-12]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-10
+  claim: Sandboxed agent code execution
+  sources: [R-73]
+  tier: 4
+  verification: Verified — secondary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-11
+  claim: Same analysis and review for AI-written code; verify packages exist
+  sources: [R-76]
+  tier: 3
+  verification: Verified — primary (package check unverified)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: C-A12-12
+  claim: Classifiers as defence in depth only; injectable
+  sources: [R-75]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: F-42
+  claim: >-
+    NCSC (10 December 2025): prompt injection may never be totally mitigated like SQL injection
+  sources: [R-74]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current
+- id: F-43
+  claim: >-
+    Veracode 2026: 56% average pass rate; XSS 15%; log injection 12%; large models 53%, medium and small
+    51%
+  sources: [R-76]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18 (corrected)
+  status: Current
+- id: F-44
+  claim: 'OWASP Agentic Top 10 2026: ASI01 Agent Goal Hijack … ASI10 Rogue Agents'
+  sources: [R-73]
+  tier: 4
+  verification: Verified — secondary (full OWASP document not opened)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL18
+  status: Current

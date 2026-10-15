@@ -1,0 +1,225 @@
+- id: T-A4-1
+  claim: Query injection across SQL, NoSQL, LDAP, XPath
+  sources: [R-37, R-2]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: CL8
+  status: Current
+- id: T-A4-2
+  claim: OS command injection
+  sources: [R-41, R-2]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-3
+  claim: Code and template injection; error-based blind SSTI
+  sources: [R-42, R-26]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-4
+  claim: XML external entities
+  sources: [R-40]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-5
+  claim: Insecure deserialisation
+  sources: [R-39, R-2]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-6
+  claim: Path traversal
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-7
+  claim: Unrestricted file upload
+  sources: [R-38, R-2]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-8
+  claim: ORM leaks through user-controlled filters
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: T-A4-9
+  claim: Validation before Unicode normalisation
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C14
+  status: Current
+- id: C-A4-1
+  claim: Parameterised queries; allow-listed identifiers
+  sources: [R-37]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: CL8
+  status: Current
+- id: C-A4-2
+  claim: Allow-list filterable and sortable fields
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary (derived from the ORM-leak research)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-3
+  claim: Avoid OS commands; argument vectors; allow-lists; least privilege
+  sources: [R-41]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-4
+  claim: No templates from input; logic-less engines; sandbox and isolate
+  sources: [R-42]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-5
+  claim: Disable DTDs or external entities
+  sources: [R-40]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-6
+  claim: Data-only formats, known types, signed round-trip data
+  sources: [R-39]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-7
+  claim: >-
+    Paths from trusted data or identifiers; strict validation; canonicalise and check containment; ignore
+    user path data in extraction (zip slip)
+  sources: [R-113, R-114, R-66]
+  tier: 1
+  verification: >-
+    Verified — primary for trusted-data paths, strict validation and zip slip (ASVS 5.3.2, 5.3.3); canonicalisation
+    via CWE-22 and ASVS 1.1.1; containment check appears only in CWE-22 examples (tier 2)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-8
+  claim: Upload controls as listed
+  sources: [R-38]
+  tier: 2
+  verification: >-
+    Verified — primary (Content-Disposition clause from the Claude report dropped: not in source)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: C-A4-9
+  claim: Normalise to one canonical form before validation
+  sources: [R-26]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C14
+  status: Current
+- id: C-A4-10
+  claim: Positive server-side validation as defence in depth
+  sources: [R-37]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: F-31
+  claim: CWE-78 ranks 9th in 2025 with 20 KEV CVEs, the most of any Top 25 entry
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current
+- id: F-32
+  claim: Injection is A05:2025, mapping 37 CWEs including CWE-79
+  sources: [R-37]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: F-33
+  claim: '2025 Top 25: CWE-22 6th, CWE-94 10th, CWE-434 12th, CWE-502 15th'
+  sources: [R-2]
+  tier: 3
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL8
+  status: Current

@@ -1,0 +1,130 @@
+- id: T-A13-1
+  claim: Information leakage in errors
+  sources: [R-89, R-10]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: T-A13-2
+  claim: Fail-open behaviour
+  sources: [R-89, R-10]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: T-A13-3
+  claim: Insufficient security logging
+  sources: [R-89, R-10]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: C4
+  status: Current
+- id: T-A13-4
+  claim: Log injection and tampering
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: T-A13-5
+  claim: Sensitive data in logs
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: T-A13-6
+  claim: Excess personal data
+  sources: [R-69]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-1
+  claim: Generic errors with correlation ID
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-2
+  claim: Fail closed; circuit breakers; last-resort handler
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-3
+  claim: Security event logging with who, what, when, where; UTC
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-4
+  claim: Encoded, protected, separately shipped logs
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-5
+  claim: No credentials or payment data in logs; mask tokens
+  sources: [R-89]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-6
+  claim: Classification, minimisation, retention, metadata stripping
+  sources: [R-69]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current
+- id: C-A13-7
+  claim: Privacy impact assessment; data protection by design (GDPR Art. 25, 35)
+  sources: [R-127]
+  tier: 1
+  verification: Verified — primary via recitals 78, 83, 84 (article text did not load)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL17
+  status: Current

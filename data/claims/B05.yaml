@@ -1,0 +1,143 @@
+- id: T-B5-1
+  split_from: T-B5-1, T-B5-2, T-B5-4
+  claim: Exposed stores; over-privileged accounts; resource exhaustion
+  sources: [R-68, R-2]
+  tier: 1
+  verification: Verified — primary (T-B5-1 standard practice)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: T-B5-2
+  split_from: T-B5-1, T-B5-2, T-B5-4
+  claim: Exposed stores; over-privileged accounts; resource exhaustion
+  sources: [R-68, R-2]
+  tier: 1
+  verification: Verified — primary (T-B5-1 standard practice)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: T-B5-4
+  split_from: T-B5-1, T-B5-2, T-B5-4
+  claim: Exposed stores; over-privileged accounts; resource exhaustion
+  sources: [R-68, R-2]
+  tier: 1
+  verification: Verified — primary (T-B5-1 standard practice)
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: T-B5-3
+  claim: Ransomware targets reachable backups
+  sources: [R-103, R-21]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D3
+  status: Current
+- id: T-B5-5
+  claim: Sensitive data in server caches
+  sources: [R-69]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-B5-1
+  split_from: C-B5-1 to C-B5-4, C-B5-6
+  claim: >-
+    Private networks; per-service credentials; RLS; encryption at rest; resource limits
+  sources: [R-68]
+  tier: 1
+  verification: Verified — primary for C-B5-2; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: C-B5-2
+  split_from: C-B5-1 to C-B5-4, C-B5-6
+  claim: >-
+    Private networks; per-service credentials; RLS; encryption at rest; resource limits
+  sources: [R-68]
+  tier: 1
+  verification: Verified — primary for C-B5-2; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: C-B5-3
+  split_from: C-B5-1 to C-B5-4, C-B5-6
+  claim: >-
+    Private networks; per-service credentials; RLS; encryption at rest; resource limits
+  sources: [R-68]
+  tier: 1
+  verification: Verified — primary for C-B5-2; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: C-B5-4
+  split_from: C-B5-1 to C-B5-4, C-B5-6
+  claim: >-
+    Private networks; per-service credentials; RLS; encryption at rest; resource limits
+  sources: [R-68]
+  tier: 1
+  verification: Verified — primary for C-B5-2; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: C-B5-6
+  split_from: C-B5-1 to C-B5-4, C-B5-6
+  claim: >-
+    Private networks; per-service credentials; RLS; encryption at rest; resource limits
+  sources: [R-68]
+  tier: 1
+  verification: Verified — primary for C-B5-2; others standard practice
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
+- id: C-B5-5
+  claim: Offline encrypted backups; object lock; versioning; restore tests
+  sources: [R-103]
+  tier: 2
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Both
+  decision: D3
+  status: Current
+- id: C-B5-7
+  claim: Purge sensitive data from server caches
+  sources: [R-69]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: New research
+  decision: —
+  status: Current
+- id: C-B5-8
+  claim: Availability in proportion to criticality; SA-24
+  sources: [R-16]
+  tier: 1
+  verification: Verified — primary
+  last_verified: 2026-10-12
+  verified_by: Claude
+  origin: Claude report
+  decision: CL24
+  status: Current
