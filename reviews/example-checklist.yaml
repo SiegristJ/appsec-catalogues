@@ -1,0 +1,38 @@
+# Example architecture-review checklist (SETUP-INSTRUCTIONS 8).
+#
+# Every feature in data/features.yaml must be declared present or absent;
+# extract.py errors on any undeclared feature, on a key that is not a
+# feature, and when catalogue_version does not exactly match the build's
+# version stamp. This file pins "untagged", the stamp of the import-era
+# build; after the v1.0.0-beta.1 tag the value must be updated to
+# "v1.0.0-beta.1" (recorded in IMPORT-NOTES).
+#
+# Plausible mid-size product application: payments and personal data, no
+# GraphQL, no LLM features and no AI coding assistants (policy), no
+# serverless.
+
+review: Example application
+catalogue_version: untagged
+features:
+  user_login: present
+  federated_login: present
+  multi_tenant: present
+  public_api: present
+  graphql: absent
+  websockets: present
+  outbound_fetch: present
+  edge_intermediaries: present
+  file_upload: present
+  payment_pages: present
+  third_party_scripts: present
+  business_invariants: present
+  high_value_accounts: present
+  llm_features: absent
+  ai_coding_assistants: absent
+  personal_data: present
+  public_cloud: present
+  containers_kubernetes: present
+  serverless: absent
+  owned_data_stores: present
+  admin_access: present
+  availability_obligations: present

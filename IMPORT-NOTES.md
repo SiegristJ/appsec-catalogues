@@ -629,3 +629,115 @@ C-P4-4) needing vocabulary when the owner adds one.
     difference exists in this import (verified across all rows); future
     runs that fire these sub-classes must hand-review them before accepting
     class (iv) = 0.
+
+## Build and extract (stage 8)
+
+50. **Anchor strategy — one `span#ID` per defining row, via a Pandoc Lua
+    filter** (2026-10-16, stage 8; R4, a format-only conversion adding no
+    content). §8 requires "every ID an anchor (`id="C-A3-1"`)". The filter
+    (embedded in `tools/build.py`, written to `build/pandoc/anchors.lua` at
+    run time because the stage's file set is fixed) keys on a table's first
+    *header* cell — `ID` (the 23 Threats and 23 Controls tables), `F-ID`
+    (Appendix A), `R-ID` (Appendix B) — and wraps the leading ID token of
+    each data row's first cell in a span carrying that ID as its id. Only
+    the defining occurrence is anchored; every other occurrence (Addresses
+    cells, the Baseline-and-conditional summary, Compliance mapping, prose)
+    stays plain text, so ids are unique and the audit is exact: 294 T/C
+    anchors (128 + 166), 53 F and 144 R anchors in the appendices. Evidence
+    pack sections anchor via pandoc header attributes (`{#T-A3-1}`).
+51. **PDF/DOCX determinism — SOURCE_DATE_EPOCH derived from the stamp
+    date** (2026-10-16, stage 8; extends entry 36's determinism reading).
+    Bare Pandoc/Typst output is not byte-deterministic: DOCX embeds the
+    wall clock in `docProps/core.xml` (created/modified) and the zip entry
+    times; the Typst PDF embeds it in `/CreationDate` and `/ModDate`. Both
+    Pandoc and Typst honour `SOURCE_DATE_EPOCH`, which `build.py` derives
+    from the stamp's build date (UTC midnight of that date) — a value that
+    already enters every output as the stamp, so no new non-content input.
+    Reading: with SDE set, all five build outputs are pure functions of the
+    corpus and the stamp inputs (version, UTC date, commit). Proved at
+    stage 8: two full builds byte-identical across all five outputs,
+    including PDF and DOCX (no residual content-streams-only caveat).
+    Extracts are unaffected (standalone HTML carries no timestamp).
+52. **`--since` version comparison — semver precedence, strictly greater**
+    (2026-10-16, stage 8; §8 says "semantic-ish … document the rule").
+    `build.version_key`: optional leading `v`/`V` accepted; numeric
+    components compared element-wise, a shorter tuple zero-padded
+    (1.0 < 1.0.0); a pre-release sorts below its own release
+    (1.0.0-alpha.1 < 1.0.0); pre-release identifiers compared per semver
+    §11 — numeric identifiers numerically and below alphanumeric ones,
+    otherwise ASCII-lexically, a longer identifier list above its own
+    prefix; build metadata (`+…`) ignored. "Later than" is strict `>`, so
+    `--since 1.0.0-beta.1` lists nothing at the current corpus (every
+    record is exactly 1.0.0-beta.1) and `--since 1.0.0-alpha.1` lists
+    everything in the extract.
+53. **Pandoc reader runs with the citations extension disabled**
+    (2026-10-16, stage 8; R1 + R4). F-37's value and claim carry the npm
+    scope "@tanstack" verbatim from the export; §2 says export @-names are
+    plain text, but pandoc's default `citations` extension parses `@token`
+    as a citation, and the typst writer then emits `#cite(<tanstack>)`,
+    which fails to compile (no bibliography). `-f markdown-citations`
+    restores the literal reading; identical reader setting for HTML, PDF,
+    DOCX and extract renders, so no writer sees different tokens. No other
+    extension is modified.
+54. **Change-log "mentions" rule — whole-row token scan with range
+    expansion, including the mixed family range** (2026-10-16, stage 8; R5
+    in spirit — mechanical expansion, nothing re-typed — but the mixed
+    range needs a reading the export does not state; flagged for the
+    owner). A `register/change-log.md` row mentions an ID when the ID
+    appears as a token anywhere in the row (all six cells joined) after
+    expanding same-prefix "X to Y" ranges (check.py's helper) and the one
+    mixed-prefix range the export carries, "T-B2-1 to C-B2-6": same area,
+    different family. B2 has 5 threats and 6 controls, so "threats 1–6" is
+    impossible; the range is read as that area's existing threats
+    numbered ≥ 1 plus controls numbered ≤ 6, i.e. all 11 B2 records —
+    consistent with the row's own text ("Grouped register rows in B2 …
+    split to one row per ID"). Result: 91 of 347 IDs have change-log hits
+    (27 threats, 35 controls, 29 facts); the other 256 carry an explicit
+    "No change-log row mentions <ID>." line. Rows naming only areas or
+    sections (e.g. "A1, A2, A4 to A13 …", "A3 residual risk") are not
+    per-ID mentions.
+55. **Evidence pack structure decisions** (2026-10-16, stage 8; content
+    fixed by §8, grouping and framing are presentation, R4). One H3
+    section per T/C/F ID (347), grouped Threats (128) / Controls (166) /
+    Facts (53) in corpus order; the heading carries the ID as a pandoc
+    header-attribute anchor. Each section: a meta line (kind, place, status,
+    last changed), the record text, the claim record table (claim, sources,
+    tier + tier_text, verification, last verified, verified by, origin,
+    decision, status, split_from when present), a references table for the
+    claim's sources (ID, title, tier, URL — R-107 prints "— (no URL)" —
+    snapshot status "not captured" while snapshot is null), and the
+    verbatim six-cell change-log rows (R1). A summary table at the top
+    counts sections and change-log hits. `.html` renders standalone; no
+    TOC (§8 asks for a TOC on the catalogue HTML only; 347 TOC entries
+    would dwarf the page).
+56. **extract.py version check is exact-string; the example checklist pins
+    "untagged"** (2026-10-16, stage 8; R2 — §8 "does not match the build"
+    read literally, no v-stripping leniency). The build's version stamp
+    (`build/ai/catalogue.json` `meta.version`) is "untagged" until the
+    stage-10 tag, so `reviews/example-checklist.yaml` pins
+    `catalogue_version: untagged`, not §8's illustrative `v1.0.0-beta.1`.
+    Follow-up for the owner/controller: after tagging, the example
+    checklist's value must become `v1.0.0-beta.1` (a one-line change;
+    until then extracts from it error by design).
+57. **Process areas excluded from extracts** (2026-10-16, stage 8; R2 —
+    §8's extract list names only universal and feature-pulled areas; but
+    flagged for the owner as a possible intent gap). §4.4 parks P1–P4 in
+    `process_areas` outside the applicability index, whose own framing
+    says they "always apply to the delivery organisation and are not
+    selected here". The literal §8 list excludes them, so extracts do not
+    include P-area threats/controls; the extract states this in one line
+    under the pulled-areas table. If the owner wants process controls in
+    every extract, that is a spec change (and would change gate counts:
+    the example extract would go from 18 to 22 areas).
+58. **extract.py errors on unknown checklist keys and shares helpers with
+    build.py** (2026-10-16, stage 8; the stage-8 brief fixes the file set
+    — `tools/build.py`, `tools/extract.py`,
+    `reviews/example-checklist.yaml`, `IMPORT-NOTES.md` — so no third
+    module ships). extract.py imports its pandoc/stamp/changelog/version
+    helpers from build.py (main-guarded; importing it never builds) and
+    adds a typo guard beyond §8's two named errors: a checklist key that
+    is not a feature in features.yaml is a non-zero-exit error naming it,
+    because a misspelled feature would otherwise silently exclude its
+    areas. Red matrix proves all three error paths: undeclared feature
+    (names graphql), unknown key (names graph_ql), version mismatch
+    (names both values).
