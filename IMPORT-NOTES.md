@@ -35,6 +35,17 @@ as they arise, one numbered item per decision, most recent last.
 5. **Typst installed during setup** (2026-10-16). Ground rule 5's network exception
    names pip and pandoc only; the owner approved `brew install typst` (0.15.1) for
    the stage 8 PDF engine.
+6. **HISTORY.md references point into the repository** (owner direction, 2026-10-16).
+   The export's document-status table linked claude.ai artifact URLs; the repo's
+   HISTORY.md may only refer to files in the repository. The table's link targets
+   were replaced with repo-relative paths (catalogue → `data/`, register → `register/`,
+   reconciliation and source reports → `archive/origin/`, provenance archive →
+   `archive/sources/`, emerging → `emerging/`, runbook → `runbook/`), the unlinked
+   source-reports row gained its `archive/origin/source-reports/` link, and the two
+   "Frozen; to be archived" states were updated to "Frozen; archived" (the archiving
+   has happened, in this repository). All other HISTORY.md text is the verbatim
+   export. The frozen archive copies under `archive/origin/` keep their original
+   external references unchanged, as part of the frozen record.
 
 ## Ambiguities and judgment calls
 

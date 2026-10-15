@@ -8,14 +8,14 @@ The document set is at version 1.0-beta-1 (12 October 2026). Every threat, contr
 
 | Document | Role | State |
 | --- | --- | --- |
-| [Web Application Security Reference Catalogue](https://claude.ai/code/artifact/35ffda23-24b7-4119-ab00-f6abacbba1ba) | Threats, controls, residual risk, facts and references, by area | Live; beta-1 |
-| [Audit Register](https://claude.ai/code/artifact/6d1c35bc-531b-438f-8567-744108b7baa4) | Claim, source, tier and verification status per ID; change log; area reviews; governance | Live |
+| [Web Application Security Reference Catalogue](data/) | Threats, controls, residual risk, facts and references, by area | Live; beta-1 |
+| [Audit Register](register/) | Claim, source, tier and verification status per ID; change log; area reviews; governance | Live |
 | History and Provenance (this document) | Where the set came from and what beta means | Live |
-| [Cross-Report Reconciliation](https://claude.ai/code/artifact/ab3523a0-c89f-4a7e-a96e-c5b61da1c08f) | How the two source reports were compared and settled | Frozen; to be archived |
-| Source reports (Claude and Gemini) | The two AI deep-research reports the work started from | Frozen; to be archived |
-| Provenance archive | Snapshots of cited sources | Planned |
-| Emerging-threats document | Fast-moving material not yet in standards | Planned |
-| Maintenance runbook | Baseline refresh, signal triage, promotion rule | Planned |
+| [Cross-Report Reconciliation](archive/origin/reconciliation/) | How the two source reports were compared and settled | Frozen; archived |
+| [Source reports](archive/origin/source-reports/) (Claude and Gemini) | The two AI deep-research reports the work started from | Frozen; archived |
+| [Provenance archive](archive/sources/) | Snapshots of cited sources | Planned |
+| [Emerging-threats document](emerging/) | Fast-moving material not yet in standards | Planned |
+| [Maintenance runbook](runbook/) | Baseline refresh, signal triage, promotion rule | Planned |
 
 ## Origin
 
