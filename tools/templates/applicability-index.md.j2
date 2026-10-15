@@ -1,0 +1,13 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Applicability index
+
+{{ intro }}
+
+**Universal areas:** {{ universal_list }}.
+
+| Architecture feature | Sections to pull |
+| --- | --- |
+{% for f in features %}
+| {{ f.label }} | {{ f.pulls_text }} |
+{% endfor %}

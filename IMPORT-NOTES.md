@@ -327,6 +327,138 @@ as they arise, one numbered item per decision, most recent last.
     rule-6/rule-9 errors on the untouched tree, rule 6 firing on deleted
     T-A3-1 and C-A3-1, rule 9 firing on a changed statement with stale
     `last_changed` and on an unchanged record with a bumped one.
+35. **Area-file slug rule and the 23 names** (2026-10-16, stage 6). The stage-6
+   brief fixes "lowercase, spaces→hyphens, drop punctuation"; implemented as:
+   lowercase, remove every character that is not a letter, digit or
+   whitespace, then collapse whitespace runs to single hyphens — so hyphens
+   survive only where a space stood ("CI/CD" → `cicd`, "AI-generated" →
+   `aigenerated`). The 23 file names: `A01-authentication.md`,
+   `A02-sessions-and-tokens.md`, `A03-authorisation.md`,
+   `A04-input-handling-and-injection.md`, `A05-client-side-attacks.md`,
+   `A06-browser-security-headers.md`, `A07-http-infrastructure.md`,
+   `A08-apis.md`, `A09-cryptography-and-data-protection.md`,
+   `A10-business-logic-and-automated-threats.md`, `A11-software-supply-chain.md`,
+   `A12-aillm-features-and-aigenerated-code.md`,
+   `A13-error-handling-security-logging-and-privacy.md`,
+   `B01-hardening-misconfiguration-and-patch-management.md`, `B02-cloud.md`,
+   `B03-containers-kubernetes-and-serverless.md`, `B04-network-and-edge.md`,
+   `B05-data-stores-backups-and-resilience.md`,
+   `B06-privileged-and-administrative-access.md`,
+   `P01-secure-sdlc-and-threat-modelling.md`,
+   `P02-security-testing-and-verification.md`,
+   `P03-cicd-and-infrastructure-as-code.md`,
+   `P04-detection-monitoring-and-incident-response.md`.
+36. **Determinism reading of section 5** (2026-10-16, stage 6). "Same input,
+   byte-identical output" is read as: identical corpus inputs **and**
+   identical stamp inputs — the same UTC build date and the same commit. The
+   stamp is the only non-content input to the output; `content_sha256` in
+   `catalogue.json` is computed over the catalogue content without `meta`,
+   so it is stable across days while the file bytes follow the stamp.
+   Verified by hashing all 37 generated files across two consecutive runs:
+   byte-identical.
+37. **`last_changed` presentation — ID-cell suffix** (2026-10-16, stage 6;
+   SETUP 8). Chosen over an extra column so the tables keep the export's
+   column count and cell alignment: the ID cell of every Threats and
+   Controls row (per-area files and `catalogue-full.md` alike) reads
+   `T-A3-1 · 1.0.0-beta.1`. Stage 7 excludes it from round-trip comparison
+   by stripping the ` · <version>` suffix from the first cell.
+   `catalogue.json` and every `catalogue.jsonl` record carry `last_changed`
+   as a field.
+38. **Threat Reference-cell separator reconstructed** (2026-10-16, stage 6;
+   R1 verbatim data, R4 format-only join). The stored reference list is
+   joined "; " between reference families (distinct leading letter runs:
+   CWE, OAT, API, A, LLM, ASI, CICD-SEC) and ", " within one — this
+   reproduces the export on 24 of the 25 multi-reference cells. The single
+   exception is T-A1-6 ("CWE-601; CWE-346", same family joined with "; "),
+   the one cell no deterministic rule can reproduce; listed here for the
+   stage-7 separator normalisation.
+39. **ID ranges render expanded** (2026-10-16, stage 6; consequence of the
+   stage-3 expansion). "Facts and sources" lines, Addresses cells and the
+   derived tables enumerate the stored lists; the export compressed some
+   runs ("R-4 to R-9", "C-A2-1 to C-A2-4") but left others uncompressed
+   ("F-1, F-2, F-3, F-4"), so no deterministic rule reproduces its choices.
+   Note for stage 7: `check.py`'s `expand_id_ranges` covers T-/C-/F- ranges
+   but not R- ranges ("R-29 to R-36"); the round trip needs R-range
+   expansion as well.
+40. **Derived-section framing text lives in the templates**
+   (2026-10-16, stage 6). The intro paragraphs of the Applicability index,
+   Compliance mapping, Where experts differ, Baseline and conditional
+   controls, Residual-risk summary and Appendices A/B are in no data file;
+   they are reproduced verbatim from the export in `tools/templates/`. The
+   applicability intro's leading count is derived
+   (`len(universal_areas)` → "Nine"). The export's "Last reviewed · Watch"
+   lines under Compliance mapping and Where experts differ exist in no data
+   file and are omitted (the front-matter sections carry theirs inside the
+   copied text), as is the full edition's byline
+   ("Oct 12, 2026 · @John Siegrist").
+41. **Derived tables use stored titles and verbatim triggers**
+   (2026-10-16, stage 6). The export's summary rows carry short area labels
+   ("A12 AI/LLM features", "B1 Hardening and patching", "A13 Errors,
+   logging and privacy") that exist nowhere in the data; the generated
+   tables use the stored full titles. Also not derivable from the data
+   model, so not reproduced: the B2/B6 "— (whole area conditional on …)"
+   notes; the export's grouped or shortened trigger parentheticals
+   ("C-A2-5 to C-A2-7 (self-contained tokens)", C-A6-5 and C-A6-7 under one
+   "(ASVS L3, …)", "delegated transactions", "search, filter or sort",
+   "postMessage"); C-A11-6's dual L2/L3 listing with "(L2)"; the P1–P4
+   row's "All controls except C-P4-4" phrasing; and the "(code fixes lag)"
+   / "(mandatory for cardholder data)" parentheticals for C-P4-4 and
+   C-B4-3, whose `trigger.text` is null (judgment call 1). The generator
+   emits one entry per control with `trigger.text` verbatim, enumerates the
+   P1–P4 baseline instead of "All controls except", and merges the process
+   areas into a single "P1–P4 Process" row (asserting the four share rating
+   and summary, per split 3). Every ID stays present; the differences are
+   presentation-only and listed for stage 7.
+42. **Appendix A "Used in" and Appendix B "Cited by" render from the
+   regenerated values** (2026-10-16, stage 6; §5.6–5.7, R6). Used in:
+   regenerated areas then non-area section labels ("Reference stack",
+   "Threat evidence"), ", "-joined, "—" when empty — the front-matter
+   labels appear because §5.6's scan covers them. Cited by: the
+   regenerated citation set ", "-joined in plain sorted order (the export
+   grouped F-ids first and used "; " between groups), "—" when empty. The
+   18/107 mismatches print during generation from the same `check.py`
+   functions as warning 1 and never fail the run. In `catalogue.json`,
+   fact records carry the regenerated `used_in` (areas only) and
+   `used_in_text` is not emitted; reference records additionally carry
+   `opened` and the regenerated `cited_by`.
+43. **Stamp placement per format** (2026-10-16, stage 6). Markdown and text
+   outputs start with the stamp line. `catalogue.json` carries
+   version/commit/built in `meta` (JSON admits no text prefix, and the
+   schema's `meta` forbids extra keys). Every `catalogue.jsonl` record
+   carries `catalogue_version`/`built`/`commit` keys — a text prefix would
+   break the one-object-per-line format. `schema.json` carries the stamp as
+   a leading `$comment` key (valid JSON Schema, no validation effect; a
+   JSON file cannot start with the stamp line and remain parseable).
+   `features.yaml` carries a leading `#` comment above a byte-identical
+   copy of `data/features.yaml`.
+44. **AGENTS.md composition, usage_contract, llms.txt** (2026-10-16,
+   stage 6). §5.5 supplies the seven bullets and no framing text beyond
+   "The usage contract. Write it as follows:", so `AGENTS.md` is the stamp,
+   an H1 "Usage contract" (the section's own name), and the seven bullets
+   verbatim. `catalogue.json`'s `usage_contract` is the AGENTS.md body
+   without the stamp line (the stamp values already live in `meta`;
+   embedding the dated stamp would make the contract text
+   build-dependent). The `llms.txt` description paragraph is new
+   connective text describing the outputs (the brief calls for one
+   paragraph); no catalogue content is reworded to write it.
+45. **Full-edition assembly mechanics** (2026-10-16, stage 6). Section order
+   is §5.8's, fixed in `tools/templates/catalogue-full.md.j2` and verified
+   programmatically. Front-matter sections and Appendix C embed with their
+   stored H1 replaced by the section H2 ("How to use this catalogue" …
+   "Appendix C: Maintenance procedure"), the seam blank lines normalised to
+   one (stage-3 note 4 stored H1 plus two blank lines). Per-area files,
+   summaries and appendices use H1 when standalone and H2 when embedded
+   (one template per section kind, heading level as a parameter). The
+   merged process row keeps the export's en dash ("P1–P4 Process").
+46. **Appendix B link rendering** (2026-10-16, stage 6; R4). A Reference
+   cell renders `[title](url)` when the stored title carries no markdown;
+   the two-link titles (R-19, R-125, judgment call 7) render verbatim; R-107
+   (no url) renders as plain text. Six cells whose export form placed a
+   trailing qualifier outside the link ("[…](url) (Pang et al.)" — R-4,
+   R-9, R-11, R-21, R-49, R-63) render with the qualifier inside the link
+   text, because the qualifier is part of the stored title (judgment call
+   7); no text is lost, only the link's extent — a link-syntax class for
+   stage-7 normalisation.
 
 ## Splits and merges
 

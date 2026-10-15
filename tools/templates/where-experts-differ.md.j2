@@ -1,0 +1,11 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Where experts differ
+
+Items marked Disputed in the areas link here. Each row states the positions as their holders do; the catalogue stance says how controls are written while the dispute stands.
+
+| Topic | One position | Other position | Catalogue stance | IDs |
+| --- | --- | --- | --- | --- |
+{% for row in rows %}
+| {{ row.topic }} | {{ row.position_a }} | {{ row.position_b }} | {{ row.stance }} | {{ row.ids }} |
+{% endfor %}

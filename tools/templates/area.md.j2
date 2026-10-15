@@ -1,0 +1,48 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} {{ area.id }} {{ area.title }}
+
+{{ area.lead }}
+
+**Applies when.** {{ area.applies_when_text }}
+{% for table in area.extra_tables %}
+
+{% if table.title %}
+{{ table.title }}
+
+{% endif %}
+{{ table.header }}
+{% for row in table.rows %}
+{{ row }}
+{% endfor %}
+{% endfor %}
+
+**Threats**
+
+| ID | Threat | Mechanism | Reference |
+| --- | --- | --- | --- |
+{% for t in area.threats %}
+| {{ t.cell_id }} | {{ t.name }} | {{ t.mechanism }} | {{ t.refs }} |
+{% endfor %}
+{% if area.cross_references %}
+
+{{ area.cross_references }}
+
+{% endif %}
+**Controls**
+
+| ID | Control | Addresses | ASVS 5.0 | Type |
+| --- | --- | --- | --- | --- |
+{% for c in area.controls %}
+| {{ c.cell_id }} | {{ c.statement }} | {{ c.addresses }} | {{ c.asvs }} | {{ c.type_text }} |
+{% endfor %}
+{% for note in area.notes %}
+
+{{ note }}
+{% endfor %}
+
+**Residual risk.** {{ area.residual_risk }}
+
+**Facts and sources.**{% if area.facts %} Facts: {{ area.facts_list }}.{% endif %} Sources: {{ area.sources_list }}.
+
+**Last reviewed** {{ area.last_reviewed_pretty }} · **Watch:** {{ area.watch }}

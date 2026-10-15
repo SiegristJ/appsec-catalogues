@@ -1,0 +1,11 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Baseline and conditional controls
+
+Baseline controls apply to every application in an area’s scope; conditional controls apply when the trigger in brackets is present. Use this table to check that a spec has pulled everything its architecture requires. Derived: regenerate after area edits.
+
+| Area | Baseline | Conditional (trigger) |
+| --- | --- | --- |
+{% for row in rows %}
+| {{ row.area }} | {{ row.baseline }} | {{ row.conditional }} |
+{% endfor %}

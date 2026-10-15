@@ -1,0 +1,11 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Appendix A: Volatile facts index
+
+Every figure, rank, edition or date that will change lives here once. When a source issues a new edition, update the row, then every location in its “Used in” column. Derived: regenerate after area edits.
+
+| F-ID | Fact | Value | As of | Source | Used in |
+| --- | --- | --- | --- | --- | --- |
+{% for row in rows %}
+| {{ row.id }} | {{ row.fact }} | {{ row.value }} | {{ row.as_of }} | {{ row.sources }} | {{ row.used_in }} |
+{% endfor %}

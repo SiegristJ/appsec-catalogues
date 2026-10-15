@@ -1,0 +1,11 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Residual-risk summary
+
+Three ratings describe how far an area’s controls close its threats. **Closable** means the class can be eliminated by construction. **Strong if verified** means the controls work when correctly implemented, and verification is the hard part. **Partial** means only detection or blast-radius reduction is available for part of the area. Derived: regenerate after area edits.
+
+| Area | Rating | What remains |
+| --- | --- | --- |
+{% for row in rows %}
+| {{ row.area }} | {{ row.rating }} | {{ row.remains }} |
+{% endfor %}

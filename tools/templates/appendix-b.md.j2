@@ -1,0 +1,11 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Appendix B: References
+
+Every source cited by an area, with its evidence tier (defined in the audit register). Derived: regenerate after area edits.
+
+| R-ID | Reference | Issuer | Edition or date | Tier | Opened | Cited by |
+| --- | --- | --- | --- | --- | --- | --- |
+{% for row in rows %}
+| {{ row.id }} | {{ row.reference }} | {{ row.issuer }} | {{ row.edition }} | {{ row.tier }} | {{ row.opened }} | {{ row.cited_by }} |
+{% endfor %}

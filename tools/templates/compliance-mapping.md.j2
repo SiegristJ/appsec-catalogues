@@ -1,0 +1,11 @@
+{% if stamp %}{{ stamp }}
+
+{% endif %}{{ "#" * h }} Compliance mapping
+
+Compliance regimes set a floor and an evidence obligation; they are not threat models. This table maps their web-relevant requirements to catalogue controls. Derived: regenerate after area edits.
+
+| Regime | Web-relevant requirement | Catalogue controls | Status |
+| --- | --- | --- | --- |
+{% for row in rows %}
+| {{ row.regime }} | {{ row.requirement }} | {{ row.controls }} | {{ row.status }} |
+{% endfor %}
