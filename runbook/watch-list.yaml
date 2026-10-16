@@ -1,0 +1,42 @@
+# Maintenance watch list (stage 9, SETUP-INSTRUCTIONS 10.1 owner setup).
+#
+# One entry per area, keyed by area ID; each value is that area's `watch`
+# line from data/areas/<area>.yaml, VERBATIM. This file is a view over the
+# corpus, not a second source of truth: regenerate it whenever an area's
+# watch line changes, from the repository root, with
+#
+#     python -c "import glob, yaml; from pathlib import Path; \
+#       print(yaml.safe_dump({yaml.safe_load(Path(p).read_text())['id']: \
+#         yaml.safe_load(Path(p).read_text())['watch'] \
+#         for p in sorted(glob.glob('data/areas/*.yaml'))}, \
+#         allow_unicode=True, sort_keys=True, width=9999))" \
+#       > runbook/watch-list.yaml
+#
+# (write the header comment back first). The owner reviews this list on the
+# maintenance cadence (data/maintenance.md, rendered as Appendix C, and
+# runbook/maintenance-runbook.md). Fast-moving material that is not yet in
+# standards belongs in emerging/emerging-threats.md instead, under its own
+# evidentiary standard.
+A1: OAuth 2.1 published; NIST SP 800-63B revision; FIDO Alliance guidance on passkey sync and recovery; new SAML library CVEs.
+A10: OWASP Automated Threats project updates; ASVS V2 updates.
+A11: new Shai-Hulud-family waves; npm and other registries’ install-script and publishing policy changes; SLSA Source track adoption; PCI DSS guidance on 6.4.3 and 11.6.1.
+A12: next OWASP LLM and Agentic Top 10 editions; NCSC and NIST AI guidance; Veracode annual report; tool-protocol security specifications.
+A13: ASVS V14 and V16 updates; changes to privacy regulation affecting logging and retention.
+A2: browser support for device-bound session credentials; ASVS V7 and V9 updates; OAuth 2.1 publication.
+A3: next OWASP Top 10 edition; revision of the OWASP API Security Top 10 (2023 edition); ASVS 5.x updates to V8; annual CWE Top 25.
+A4: annual CWE Top 25; PortSwigger top ten; OWASP cheat-sheet revisions for injection and deserialisation.
+A5: browser changes to cookie and isolation defaults; new XS-Leak classes; CSP Level 3 and Trusted Types specification updates.
+A6: browser changes to isolation defaults; ASVS V3 updates.
+A7: CDN and proxy support for upstream HTTP/2; new desync research; PortSwigger top ten.
+A8: revision of the OWASP API Security Top 10 (2023 edition); ASVS V4 updates.
+A9: NIST IR 8547 final; browser and root-program enforcement of the certificate schedule; OWASP Password Storage Cheat Sheet parameters; CNSA 2.0 and BSI TR-02102 updates.
+B1: annual DBIR; CISA KEV directives; EPSS model updates.
+B2: cloud providers’ default changes for metadata services and public access; annual DBIR.
+B3: Kubernetes Security Response Committee announcements; Pod Security Standards revisions; cloud function runtime changes.
+B4: WAF bypass research; PCI DSS 6.4.2 guidance; registrar and DNS security practice.
+B5: 'annual DBIR ransomware figures; CISA #StopRansomware guidance.'
+B6: NIST SP 800-63B revision; CISA guidance on phishing-resistant MFA.
+P1: SSDF v1.2 final; OWASP SAMM releases.
+P2: OWASP WSTG releases; ASVS updates.
+P3: CI platform security changes; OWASP CI/CD Top 10 revisions; SSDF v1.2 final (update-integrity practices).
+P4: NIST CSF and SP 800-61 updates; MITRE ATT&CK releases.

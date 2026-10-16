@@ -1,0 +1,10 @@
+# Code owners (SETUP-INSTRUCTIONS 10).
+#
+# Roles are not yet assigned: @SPECIALIST_REVIEWER is a placeholder that
+# the owner must replace with the real specialist reviewer account or team
+# before it is relied on. Until then these lines only document the intent:
+# changes to the corpus areas and to the claims that carry their evidence
+# need specialist review (see register/governance.md).
+
+data/areas/ @SPECIALIST_REVIEWER
+data/claims/ @SPECIALIST_REVIEWER

@@ -1,0 +1,128 @@
+# Release (SETUP-INSTRUCTIONS 10.1): a tag is a release, and only a release
+# is deployed. Pre-release tags (v1.0.0-beta.N) deploy to the live site
+# while the catalogue is in beta and are marked as pre-releases on GitHub.
+#
+# Two jobs:
+#   release — build, check in release mode, publish the GitHub Release with
+#             build/out/* and a zip of build/ai/ attached;
+#   deploy  — needs release, environment production, rebuilds the tag and
+#             deploys build/site with wrangler. The only place Cloudflare
+#             credentials appear.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+env:
+  PANDOC_VERSION: "3.12"
+  TYPST_VERSION: "0.15.1"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # create the GitHub Release for the tag
+    steps:
+      - name: Check out the tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # tags too: check.py rules 6 and 9 compare against them
+          fetch-tags: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install pinned Pandoc
+        run: |
+          curl -fsSL -o pandoc.deb \
+            "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          sudo dpkg -i pandoc.deb
+          pandoc --version | head -1
+
+      - name: Install pinned Typst
+        run: |
+          curl -fsSL -o typst.tar.xz \
+            "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz"
+          tar -xf typst.tar.xz
+          sudo install -m 0755 "typst-x86_64-unknown-linux-musl/typst" /usr/local/bin/typst
+          typst --version
+
+      - name: Build (renders, evidence pack, site step)
+        run: python tools/build.py
+
+      - name: Check the corpus in release mode
+        run: python tools/check.py --release "${GITHUB_REF_NAME}"
+
+      - name: Zip the AI outputs
+        run: |
+          cd build
+          zip -r "catalogue-ai-${GITHUB_REF_NAME}.zip" ai
+          mv "catalogue-ai-${GITHUB_REF_NAME}.zip" .
+
+      - name: Create the GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          generate_release_notes: true
+          files: |
+            build/out/*
+            build/catalogue-ai-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: release
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # Rebuild from the tag rather than reusing CI's artifact: what goes
+      # live is always a tag, built and release-checked in this workflow.
+      - name: Check out the tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install pinned Pandoc
+        run: |
+          curl -fsSL -o pandoc.deb \
+            "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          sudo dpkg -i pandoc.deb
+          pandoc --version | head -1
+
+      - name: Install pinned Typst
+        run: |
+          curl -fsSL -o typst.tar.xz \
+            "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz"
+          tar -xf typst.tar.xz
+          sudo install -m 0755 "typst-x86_64-unknown-linux-musl/typst" /usr/local/bin/typst
+          typst --version
+
+      - name: Build the site
+        run: python tools/build.py
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          command: deploy
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

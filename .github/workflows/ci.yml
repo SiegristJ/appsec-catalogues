@@ -1,0 +1,72 @@
+# CI (SETUP-INSTRUCTIONS 10.1): build and check every pull request and
+# every push to main. Merges to main are built and checked but never
+# published; only a tag is deployed (see release.yml).
+#
+# This job uses no secrets, so it also runs for pull requests from forks.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  PANDOC_VERSION: "3.12"
+  TYPST_VERSION: "0.15.1"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # tags too: check.py rules 6 and 9 compare against them
+          fetch-tags: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install pinned Pandoc
+        run: |
+          curl -fsSL -o pandoc.deb \
+            "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          sudo dpkg -i pandoc.deb
+          pandoc --version | head -1
+
+      - name: Install pinned Typst
+        run: |
+          curl -fsSL -o typst.tar.xz \
+            "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz"
+          tar -xf typst.tar.xz
+          sudo install -m 0755 "typst-x86_64-unknown-linux-musl/typst" /usr/local/bin/typst
+          typst --version
+
+      - name: Short commit sha (for the artifact name)
+        id: sha
+        run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Check the corpus
+        run: python tools/check.py
+
+      - name: Generate the editions
+        run: python tools/generate.py
+
+      - name: Build (renders, evidence pack, site step)
+        run: python tools/build.py
+
+      - name: Upload the site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-${{ steps.sha.outputs.short }}
+          path: build/site/
+          if-no-files-found: error

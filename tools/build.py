@@ -56,6 +56,38 @@ range the export carries ("T-B2-1 to C-B2-6", spanning the threat and
 control families of one area), which expands to that area's existing
 threats numbered >= the start number and controls numbered <= the end
 number. The reading is recorded in IMPORT-NOTES.
+
+Site step (SETUP-INSTRUCTIONS 10.1 "Site assembly"). Step 4 below
+assembles build/site/ from an explicit allowlist, defined once in
+site_allowlist() and re-used by check.py's release-mode rule 11, so the
+builder and the checker cannot drift. Catalogue content lives under
+build/site/web/; the landing files (index.html, llms.txt, robots.txt,
+404.html, _headers) are generated from templates in site/root/, kept
+separate from the catalogue templates in tools/templates/ (SETUP 10.1:
+"Generate the root files from a small template in site/root/"); the
+catalogue's own index page comes from site/web/index.html.j2. Nothing
+outside the allowlist is copied — archive/ and data/ are never published
+(build_site raises if either name appears anywhere in the tree, and
+check.py rule 11 re-proves it against the allowlist on its own).
+
+Two inputs are new relative to stage 8, both recorded in IMPORT-NOTES:
+the hosted-catalogue list for the landing page, read from catalogues/*.yaml
+(the manifests are already corpus inputs), and the GitHub releases URL for
+web/index.html, derived from the origin remote (no remote is configured
+yet, so the URL is a documented placeholder until the owner sets one).
+HISTORY.md renders through the same Pandoc pipeline, with its repository
+relative links (data/, register/, archive/...) de-linked, because those
+paths exist in the repository, not on the published site.
+
+Version stamp, two forms. §5's stamp (generate.py, untouched) governs
+build/md, build/ai and the download files: the tag when HEAD is exactly at
+one, otherwise "untagged". §10.1 asks the published pages for more — the
+tag, or "<last tag>+<short sha>" between tags — so the site step computes
+site_version() and applies it to every published HTML page (the two
+rendered copies from build/out/ are rewritten, history.html is rendered
+with it directly, and the template pages get it in their stamp and status
+line). The two forms coexist on purpose: the corpus editions keep the §5
+form, the site shows what a spec author should cite for a live page.
 """
 
 from __future__ import annotations
@@ -64,11 +96,13 @@ import datetime as _dt
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 import yaml
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check  # noqa: E402  (tools/check.py — Corpus and ID helpers)
@@ -79,6 +113,29 @@ MD = BUILD / "md"
 AI = BUILD / "ai"
 OUT = BUILD / "out"
 PANDOC_DIR = BUILD / "pandoc"
+SITE = BUILD / "site"
+SITE_ROOT_TEMPLATES = ROOT / "site" / "root"
+SITE_WEB_TEMPLATES = ROOT / "site" / "web"
+
+# The published site's own framing (SETUP 10.1): the hostname hosts several
+# catalogues; this repository is that host.
+SITE_TITLE = "appsec.complects.com — security reference catalogues"
+SITE_LINE = ("Version-controlled security reference catalogues, generated "
+             "from structured data and published one per path; every page "
+             "carries the version it was built from.")
+# web/index.html's status line (SETUP 10.1). Same statement as the README's
+# Status paragraph; kept here so the page is generated, not hand-edited.
+# The version slot is filled with the §10.1 site version (site_version),
+# so the status line never shows a newer version than the page was built
+# from: 1.0.0-beta.1 once tagged, "<last tag>+<sha>" between tags,
+# "untagged" before the first tag.
+SITE_STATUS = ("Status {version} — verified against its cited sources "
+               "but not yet independently reviewed or specialist-signed-off; "
+               "not suitable for risk acceptance or compliance assertions.")
+# web/index.html links the GitHub releases page (SETUP 10.1). No origin
+# remote is configured during import, so this stands in until the owner
+# sets one; build_site prints a warning while it is in use.
+RELEASES_FALLBACK = "https://github.com/OWNER/REPOSITORY/releases"
 
 # The anchor filter body. Kept as source here and written to build/pandoc/
 # at run time: stage 8's file set is exactly tools/build.py, tools/extract.py
@@ -525,6 +582,270 @@ def base_args(markdown: Path, out: Path, title: str, meta: dict,
              "-o", str(out)] + extra)
 
 
+# --------------------------------------------------------------------------
+# site step (SETUP-INSTRUCTIONS 10.1)
+# --------------------------------------------------------------------------
+
+def site_catalogues(root: Path | None = None) -> list:
+    """The hosted catalogues for the landing pages: every manifest in
+    catalogues/*.yaml (SETUP 10.1: "The root lists every manifest in
+    catalogues/"), as {id, title, path, href}, sorted by manifest name."""
+    root = root or ROOT
+    entries = []
+    for path in sorted((root / "catalogues").glob("*.yaml")):
+        manifest = yaml.safe_load(path.read_text(encoding="utf-8"))
+        entries.append({
+            "id": manifest.get("id", path.stem),
+            "title": manifest["title"],
+            "path": manifest["path"],           # the published path, "/web/"
+            "href": manifest["path"].lstrip("/"),  # the relative link, "web/"
+        })
+    if not entries:
+        raise SystemExit("no catalogue manifests in catalogues/")
+    return entries
+
+
+def site_version(root: Path | None = None) -> str:
+    """The version a published page displays (SETUP 10.1 "Version stamp").
+
+      HEAD tagged      -> that tag (the highest, by version ordering, if
+                          several point at HEAD);
+      untagged, tags   -> "<last tag>+<short sha>";
+      exist
+      no tags at all   -> "untagged" (the commit is already in the stamp).
+
+    "Last tag" is check.py's previous_tag(): the highest-version v* tag
+    that is an ancestor of HEAD. That is git-describe's semantics — the
+    most recent reachable tag — expressed in the version ordering this
+    repository already uses for check.py rules 6 and 9, and it is a
+    release ordering (v0.9.0 released after v0.10.0 cannot happen in a
+    tag-is-a-release model), so version order is the right tiebreak rather
+    than commit topology.
+
+    §5's stamp (generate.py, untouched) governs build/md and build/ai and
+    shows "untagged" whenever HEAD is not exactly at a tag; this §10.1
+    form is applied to the published pages only, in the site step."""
+    root = root or ROOT
+    head_tags = sorted(
+        (tag for tag in check.git(["tag", "--points-at", "HEAD"], root)
+         .stdout.split() if check.version_key(tag)),
+        key=check.version_key)
+    if head_tags:
+        return head_tags[-1]
+    tag = check.previous_tag(root)
+    if tag is None:
+        return "untagged"
+    commit = check.git(["rev-parse", "--short", "HEAD"], root).stdout.strip()
+    return f"{tag}+{commit}"
+
+
+def site_stamp_line(meta: dict, version: str) -> str:
+    """stamp_line with the §10.1 site version instead of §5's."""
+    return (f"Catalogue version {version}, built {meta['built']} "
+            f"from commit {meta['commit']}")
+
+
+def rewrite_site_version(text: str, old_version: str, new_version: str) -> str:
+    """Swap the §5 stamp's version token for the §10.1 site version in a
+    rendered page. Whitespace-tolerant because pandoc hard-wraps the
+    subtitle line at ~72 columns; HTML collapses that whitespace when
+    rendered, and pandoc never inserts a tag inside the paragraph. Every
+    occurrence is replaced (subtitle and any body stamp line). Raises if
+    nothing matched, so a change in the stamp wording cannot silently
+    leave a §5 version on a published page."""
+    pattern = re.compile(r"Catalogue\s+version\s+" + re.escape(old_version)
+                         + r"\b")
+    replaced, count = pattern.subn(
+        lambda _match: f"Catalogue version {new_version}", text)
+    if count == 0:
+        raise SystemExit(f"site version rewrite found no "
+                         f"'Catalogue version {old_version}' to replace — "
+                         f"the stamp wording changed; update the rewrite")
+    return replaced
+
+
+def releases_url() -> tuple:
+    """(url, is_placeholder) for the GitHub releases page (SETUP 10.1).
+    Derived from the origin remote so the published page links this
+    repository's releases without a hard-coded slug; a repository with no
+    remote gets the documented placeholder and a printed warning."""
+    proc = subprocess.run(["git", "remote", "get-url", "origin"],
+                          capture_output=True, text=True, check=False)
+    remote = proc.stdout.strip() if proc.returncode == 0 else ""
+    match = re.search(r"[:/]([^/:]+/[^/]+?)(?:\.git)?$", remote) if remote else None
+    if match:
+        return f"https://github.com/{match.group(1)}/releases", False
+    return RELEASES_FALLBACK, True
+
+
+def site_allowlist(root: Path | None = None, ai_names: list | None = None) -> list:
+    """Every file the site step may write, relative to build/site/. This is
+    the single definition of the allowlist: build_site assembles exactly
+    these files and check.py's site rule (SETUP 10.1, release-mode error)
+    compares build/site/ against this list. `ai_names` lets a caller pass
+    the build/ai file names instead of reading them from disk (check.py
+    does, when it runs with --root against a copied tree)."""
+    root = root or ROOT
+    if ai_names is None:
+        ai_dir = root / "build" / "ai"
+        if not ai_dir.is_dir():
+            raise SystemExit("build/ai is missing; the site copies everything "
+                             "in it (run tools/generate.py first)")
+        ai_names = [p.name for p in sorted(ai_dir.iterdir()) if p.is_file()]
+    files = [
+        # landing files at the site root, from site/root/ templates
+        "404.html", "_headers", "index.html", "llms.txt", "robots.txt",
+        # catalogue pages under web/
+        "web/AGENTS.md", "web/catalogue.html", "web/evidence-pack.html",
+        "web/history.html", "web/index.html", "web/llms.txt",
+        "web/downloads/catalogue.docx", "web/downloads/catalogue.pdf",
+        "web/downloads/evidence-pack.md",
+    ] + [f"web/ai/{name}" for name in ai_names]
+    return sorted(files)
+
+
+def site_env(directory: Path) -> Environment:
+    """A Jinja environment over one site template directory. Root and
+    catalogue templates are separate directories (SETUP 10.1), each with
+    its own environment so an index.html.j2 in one can never shadow the
+    other's."""
+    return Environment(loader=FileSystemLoader(str(directory)),
+                       undefined=StrictUndefined, trim_blocks=True,
+                       lstrip_blocks=True, keep_trailing_newline=True)
+
+
+def render_site(env: Environment, template: str, target: Path, **context) -> None:
+    text = env.get_template(template).render(**context)
+    if not text.endswith("\n"):
+        text += "\n"
+    target.write_text(text, encoding="utf-8")
+
+
+# HISTORY.md links repository paths (data/, register/, archive/origin/...)
+# that exist in the repository, not on the published site (archive/ is
+# never published). Repository-relative links render as their label text;
+# absolute http(s) links and in-page anchors stay links.
+MD_LINK = re.compile(r"\[(?P<label>[^\]]+)\]\((?P<target>[^)\s]+)(?:#[^)]*)?\)")
+ABSOLUTE_TARGET = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
+
+
+def publish_history_text(text: str) -> str:
+    def repl(match):
+        if ABSOLUTE_TARGET.match(match.group("target")):
+            return match.group(0)
+        return match.group("label")
+    return MD_LINK.sub(repl, text)
+
+
+def build_site(meta: dict) -> None:
+    """Assemble build/site/ from the allowlist (SETUP 10.1). The directory
+    is rebuilt from scratch every run, so a stale file can never survive a
+    change to the allowlist."""
+    if SITE.exists():
+        shutil.rmtree(SITE)
+    web = SITE / "web"
+    (web / "downloads").mkdir(parents=True)
+    (web / "ai").mkdir(parents=True)
+
+    # the §10.1 site version (tag / <last tag>+<sha> / untagged); §5's
+    # stamp in meta['version'] stays on build/md, build/ai and the
+    # download files, which generate.py and the renders own
+    version = site_version()
+    stamp = site_stamp_line(meta, version)
+
+    # web/: the catalogue renders and the evidence pack, from build/out/,
+    # with their existing relative links (pandoc anchors are in-page), the
+    # stamp's version swapped for the §10.1 form
+    for name in ("catalogue.html", "evidence-pack.html"):
+        (web / name).write_text(
+            rewrite_site_version((OUT / name).read_text(encoding="utf-8"),
+                                 meta["version"], version), encoding="utf-8")
+    shutil.copy2(OUT / "catalogue.pdf", web / "downloads" / "catalogue.pdf")
+    shutil.copy2(OUT / "catalogue.docx", web / "downloads" / "catalogue.docx")
+    shutil.copy2(OUT / "evidence-pack.md",
+                 web / "downloads" / "evidence-pack.md")
+
+    # web/ai/: everything in build/ai/ ...
+    for path in sorted(AI.iterdir()):
+        if path.is_file():
+            shutil.copy2(path, web / "ai" / path.name)
+    # ... and web/llms.txt and web/AGENTS.md, named separately by SETUP 10.1
+    # as the catalogue's AI entry points (the same files as ai/llms.txt and
+    # ai/AGENTS.md; the spec lists both locations)
+    shutil.copy2(AI / "llms.txt", web / "llms.txt")
+    shutil.copy2(AI / "AGENTS.md", web / "AGENTS.md")
+
+    # web/history.html: HISTORY.md rendered through the same pipeline
+    scratch = PANDOC_DIR / "history-for-site.md"
+    scratch.write_text(publish_history_text(
+        (ROOT / "HISTORY.md").read_text(encoding="utf-8")), encoding="utf-8")
+    run(["pandoc", "-f", "markdown-citations", str(scratch),
+         "--standalone", "--metadata", "title=History and provenance",
+         "--metadata", f"subtitle={site_stamp_line(meta, version)}",
+         "-o", str(web / "history.html")], pandoc_env(meta["built"]))
+
+    # web/index.html and the landing files, from the site templates
+    manifest = catalogue_manifest()
+    catalogues = site_catalogues()
+    releases, placeholder = releases_url()
+    env = site_env(SITE_ROOT_TEMPLATES)
+    common = {"site_title": SITE_TITLE, "site_line": SITE_LINE,
+              "catalogues": catalogues, "stamp": stamp}
+    render_site(env, "index.html.j2", SITE / "index.html", **common)
+    render_site(env, "llms.txt.j2", SITE / "llms.txt", **common)
+    render_site(env, "robots.txt.j2", SITE / "robots.txt", **common)
+    render_site(env, "404.html.j2", SITE / "404.html", **common)
+    render_site(env, "_headers.j2", SITE / "_headers", **common)
+    render_site(site_env(SITE_WEB_TEMPLATES), "index.html.j2",
+                web / "index.html", title=manifest["title"],
+                status_line=SITE_STATUS.format(version=version), stamp=stamp,
+                releases_url=releases,
+                ai_files=sorted(p.name for p in AI.iterdir() if p.is_file()))
+
+    # allowlist audit: the built tree is exactly the allowlist, and no
+    # archive/ or data/ path exists anywhere in it (SETUP 10.1). check.py
+    # rule 11 re-proves this independently in release mode.
+    built = sorted(str(path.relative_to(SITE)) for path in SITE.rglob("*")
+                   if path.is_file())
+    expected = site_allowlist()
+    if built != expected:
+        extra = sorted(set(built) - set(expected))
+        missing = sorted(set(expected) - set(built))
+        raise SystemExit(f"site allowlist violated: extra={extra} "
+                         f"missing={missing}")
+    for path in built:
+        if "archive" in Path(path).parts or "data" in Path(path).parts:
+            raise SystemExit(f"site contains {path}: archive/ and data/ are "
+                             "never published (SETUP 10.1)")
+    print(f"site: {len(built)} files in {SITE} (allowlist audit clean), "
+          f"site version {version}"
+          + (" (§5 stamp: " + meta["version"] + ")"
+             if version != meta["version"] else ""))
+    if placeholder:
+        print(f"site: WARNING releases link is the placeholder "
+              f"{RELEASES_FALLBACK} — set an origin remote so web/index.html "
+              f"links this repository's releases (IMPORT-NOTES, stage 9)")
+
+
+def site_tree(site: Path | None = None) -> str:
+    """The site directory as an indented listing, for reports and CI logs."""
+    site = site or SITE
+    if not site.is_dir():
+        return f"(no site at {site})"
+
+    def walk(directory: Path, prefix: str, lines: list) -> None:
+        for path in sorted(directory.iterdir(), key=lambda p: (p.is_file(), p.name)):
+            if path.is_dir():
+                lines.append(f"{prefix}{path.name}/")
+                walk(path, prefix + "  ", lines)
+            else:
+                lines.append(f"{prefix}{path.name}")
+
+    lines: list = []
+    walk(site, "", lines)
+    return "\n".join(lines)
+
+
 def main() -> int:
     # 1. generate (deterministic; prints check warnings 1a/1b)
     run([sys.executable, str(ROOT / "tools" / "generate.py")])
@@ -552,6 +873,10 @@ def main() -> int:
     pack_path.write_text(pack_md, encoding="utf-8")
     run(base_args(pack_path, OUT / "evidence-pack.html",
                   f"Evidence pack — {title}", meta, ["--standalone"]), env)
+
+    # 4. the site step: build/site from the allowlist (SETUP 10.1)
+    build_site(meta)
+    print(site_tree())
 
     print(f"built: catalogue.html, catalogue.pdf, catalogue.docx, "
           f"evidence-pack.md, evidence-pack.html in {OUT}")

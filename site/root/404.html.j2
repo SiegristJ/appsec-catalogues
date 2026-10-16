@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — {{ site_title }}</title>
+<style>
+  body { font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+         margin: 0 auto; max-width: 46rem; padding: 2rem 1.25rem 4rem; color: #16191d; }
+  h1 { font-size: 1.6rem; }
+  footer { border-top: 1px solid #d8dce3; margin-top: 3rem; padding-top: 0.75rem;
+           color: #5b6270; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>404 — not found</h1>
+<p>There is no page at this address. Catalogue URLs are cited by
+specifications and stay stable across releases; if a link here is broken,
+that is a bug worth reporting.</p>
+<p><a href="/">Start at the catalogues landing page</a>{% for catalogue in catalogues %},
+  or go straight to <a href="{{ catalogue.href }}">{{ catalogue.title }}</a>{% endfor %}.</p>
+<footer>{{ stamp }}</footer>
+</body>
+</html>

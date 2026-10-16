@@ -1,0 +1,5 @@
+- [ ] Claims records added or updated for every changed ID
+- [ ] Change-log row added
+- [ ] Sources verified first-hand, R-IDs recorded
+- [ ] `check.py` passes
+- [ ] Specialist review requested if controls or residual risk changed

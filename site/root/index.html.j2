@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ site_title }}</title>
+<style>
+  body { font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+         margin: 0 auto; max-width: 46rem; padding: 2rem 1.25rem 4rem; color: #16191d; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.1rem; margin-top: 2rem; }
+  p.what { color: #3d4451; }
+  ul { padding-left: 1.1rem; }
+  li { margin: 0.35rem 0; }
+  .path { color: #3d4451; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  footer { border-top: 1px solid #d8dce3; margin-top: 3rem; padding-top: 0.75rem;
+           color: #5b6270; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>{{ site_title }}</h1>
+<p class="what">{{ site_line }}</p>
+<h2>Catalogues</h2>
+<ul>
+{% for catalogue in catalogues %}
+  <li><a href="{{ catalogue.href }}">{{ catalogue.title }}</a>
+    &rarr; <span class="path">{{ catalogue.path }}</span></li>
+{% endfor %}
+</ul>
+<footer>{{ stamp }}</footer>
+</body>
+</html>

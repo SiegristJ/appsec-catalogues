@@ -741,3 +741,234 @@ C-P4-4) needing vocabulary when the owner adds one.
     areas. Red matrix proves all three error paths: undeclared feature
     (names graphql), unknown key (names graph_ql), version mismatch
     (names both values).
+
+## Snapshot tool, published site and repository mechanics (stage 9)
+
+59. **Site allowlist — contents, and one definition reused by the checker**
+    (2026-10-16, stage 9; §10.1 "assembles `build/site/` from an explicit
+    allowlist" and "Add a `check.py` release-mode error if ..."). The
+    allowlist is defined once, as `site_allowlist()` in `tools/build.py`,
+    and is used in three places that therefore cannot drift: `build_site()`
+    assembles exactly those files and raises if the built tree differs;
+    `check.py` rule 11 imports the same function and re-proves the built
+    tree; and the build prints the audit line. The 20 files (plus whatever
+    `build/ai/` holds, currently 6): root `index.html`, `llms.txt`,
+    `robots.txt`, `404.html`, `_headers`; `web/index.html`,
+    `web/catalogue.html`, `web/evidence-pack.html`, `web/history.html`,
+    `web/llms.txt`, `web/AGENTS.md`, `web/downloads/catalogue.pdf`,
+    `web/downloads/catalogue.docx`, `web/downloads/evidence-pack.md`, and
+    `web/ai/<every file in build/ai/>`. `build_site()` deletes and rebuilds
+    `build/site/` each run, so a file dropped from the allowlist cannot
+    survive a rebuild. Judgment call: §10.1 names `web/llms.txt` and
+    `web/AGENTS.md` as separate bullets *and* says `ai/` holds everything
+    in `build/ai/` (which contains both files), so both locations are
+    populated — the two root-level copies are deliberate duplicates of
+    `web/ai/llms.txt` and `web/ai/AGENTS.md`. Root templates live in
+    `site/root/` (five templates, one per root file, as §10.1 requires);
+    the catalogue's own index template lives in `site/web/index.html.j2`,
+    a second directory rather than `tools/templates/`, so catalogue and
+    landing templates stay separate as §10.1 intends.
+60. **check.py rule 11 — the site allowlist rule (classified:
+    spec-mandated, §10.1; the one authorised change to an earlier-stage
+    tool)** (2026-10-16, stage 9). Adds rule 11: any path under `archive/`
+    anywhere in `build/site/` (file or directory), and any file not
+    produced by the allowlist, is an **error in release mode** and a
+    **warning in normal mode**; the rule is skipped with a NOTE when the
+    site has not been built, because CI runs `check.py` before
+    `build.py`. The allowlist is imported lazily from `tools/build.py`
+    inside the rule (never at module import, so `build.py`'s own
+    `import check` cannot recurse), and `site_allowlist(root, ai_names)`
+    takes the root so the rule works under `--root` against a copied tree.
+    `data/` leaks are caught by the allowlist clause (any file not produced
+    by it), which is how §10.1 words it. Red-first proof in a `/tmp` copy:
+    planted `build/site/archive/leak.html` → release ERROR (file and
+    directory both named) / normal WARNING (2 warnings, exit 0); planted
+    unlisted `build/site/stray-notes.txt` → release ERROR / normal
+    WARNING; planted `build/site/web/data/x.json` → release ERROR via the
+    allowlist clause; clean tree → 0 errors / 543 warnings, no rule-11
+    output. Diff: 61 insertions, 1 deletion (the deletion is the docstring
+    usage line "adds rules 7, 8 and 9" → "7, 8, 9 and 11").
+61. **snapshot.py design decisions, rule-cited** (2026-10-16, stage 9;
+    §7). Written, never run against the network (ground rule 5); verified
+    by code review plus an offline mocked dry-run in `/tmp` (fetch and the
+    clock replaced; `urllib.request.urlopen` armed to raise, so a bypass
+    of the chokepoint would fail loudly). Decisions:
+    (a) *Mode order* — github, then PCI SSC, then the SP 800-53 mirror
+    TODO, then tier 4, then download; the GitHub rule has no licence
+    exception because recording a commit copies nothing (§7 bullet 2 gives
+    none).
+    (b) *GitHub hosts matched exactly* (`github.com`, `www.github.com`,
+    `raw.githubusercontent.com`), not by suffix, so look-alike domains are
+    never treated as GitHub; `github.blog` and `docs.github.com`
+    (R-33, R-109) are therefore ordinary downloads.
+    (c) *A github.com URL that names no file* (R-72's security-advisory
+    page) records the repository's default-branch HEAD commit via
+    `/repos/{o}/{r}` + `/commits/{branch}`, and `meta.yaml` says so in
+    `commit_scope`; §7 says "the current commit hash of the file", and a
+    page has no file path.
+    (d) *SP 800-53 detection is host-scoped to csf.tools* (§7: "currently
+    cited through csf.tools"). The first draft also matched titles
+    containing "SP 800-53", which wrongly parked R-16 — a direct
+    `csrc.nist.gov` release-summary PDF — behind the OSCAL TODO; R-16 is
+    an ordinary NIST download. The TODO text (archive from
+    `usnistgov/oscal-content`, recorded by commit) is written to
+    `meta.yaml`, to the `references.yaml` snapshot licence, and printed.
+    (e) *Tier 4* is keyed on the reference's `tier` field (§7: "vendor
+    blogs and news sites (tier 4)"); `--include-copyrighted` overrides it
+    and is documented in the help and docstring as private-repository-only
+    (§7's own words), with a printed reminder when used.
+    (f) *Licences* — §7 requires a licence field the tool cannot read from
+    pages it is told not to download. Pointer modes carry the rule's own
+    note as the licence; `--licence R-<n>=<text>` records an owner-given
+    licence; otherwise `licence: null` plus a TODO in `meta.yaml`. Nothing
+    is invented.
+    (g) *meta.yaml* always carries url, retrieved UTC, sha256-or-commit,
+    content type and licence (§7 bullet 4), plus id, title, mode, rule and
+    any TODO so the archive explains itself.
+    (h) *references.yaml update is surgical*: the record's `snapshot` key
+    is replaced in place (regex on the record block), the edited file is
+    parsed back and every record compared before it is written, so the
+    file's formatting and the other 143 records stay byte-identical —
+    proved by the `--all` mock run (schema-valid, and identical outside
+    the `snapshot` keys). The written value matches
+    `schema/references.schema.json` (`{commit, retrieved, licence?}` for
+    github, `{path, sha256, retrieved, licence?}` for downloads,
+    `{retrieved, licence}` for pointers).
+    (i) *R-107* (no URL, §12.2) fails loudly and counts as a failure, so
+    `--all` exits 1 with 143 of 144 processed.
+62. **README completion — judgment calls** (2026-10-16, stage 9; §10).
+    The Deployment section carries the six §10.1 owner-setup bullets
+    verbatim (checked word for word against the spec), preceded by three
+    sentences of deployment framing (release model, the three workflows,
+    nothing from `archive/` or `data/` published) and followed by a pointer
+    to the runbook's token-expiry task. The system-dependency versions are
+    the ones actually used: Python 3.14.6, Pandoc 3.12, Typst 0.15.1 (a
+    table, since §10 asks for the versions used and the CI pins the same
+    two). The extract section notes that `catalogue_version` must exactly
+    match the build stamp and that the stamp reads "untagged" until the
+    repository is tagged (IMPORT-NOTES 56). Beyond §10's required links,
+    Further reading also links `CHANGELOG.md` and `ROADMAP.md`, both of
+    which stage 9 creates. The purpose, status, three-outputs, corpus and
+    versioning text is unchanged from the committed skeleton (compared
+    word for word after whitespace normalisation).
+63. **ROADMAP.md — byte-exact, zero normalisation** (2026-10-16, stage 9;
+    Appendix R). Extracted programmatically from between
+    `<!-- ROADMAP START -->` and `<!-- ROADMAP END -->` in
+    `../SETUP-INSTRUCTIONS.md`, dropping only the `~~~~markdown` fence
+    lines; `diff` against the extracted text is empty, so no Markdown
+    normalisation was applied at all (gate 6).
+64. **CHANGELOG.md** (2026-10-16, stage 9; §10). Exactly one entry with
+    the required heading string `v1.0.0-beta.1 — 2026-10-12 — initial
+    import` (em dashes, as in the spec), a two-sentence summary of what
+    the import contains, and the link to `register/change-log.md` for
+    detail. No second heading, no per-record rows.
+65. **Releases URL is a placeholder until an origin remote exists**
+    (2026-10-16, stage 9; §10.1 web/index.html bullet). The catalogue
+    index links the GitHub releases page; the repository has no origin
+    remote during import and SETUP nowhere names the repository slug, so
+    `releases_url()` derives it from `git remote get-url origin` when one
+    exists and otherwise emits `https://github.com/OWNER/REPOSITORY/releases`,
+    with a warning printed by the build. This is the one site input that
+    is a function of the remote rather than the corpus; it is deterministic
+    for a given clone (proved by the two-run determinism check). Owner
+    action: set the origin remote before the first release. Related: §10.1's
+    version stamp says untagged builds show `<last tag>+<short sha>`;
+    generate.py (read-only at this stage) stamps "untagged" plus the short
+    commit, and no tag exists yet, so nothing distinguishes the two forms.
+    Flagged for the owner rather than changed: making generate.py emit
+    `<last tag>+<sha>` is a stage-10-or-later decision.
+66. **HISTORY.md rendered for the site with repository-relative links
+    de-linked** (2026-10-16, stage 9; §10.1 web/index.html bullet
+    "HISTORY.md (rendered)"). HISTORY.md links `data/`, `register/`,
+    `archive/origin/...`, `archive/sources/`, `emerging/` and `runbook/` —
+    repository paths, and `archive/` must never be published. Rendering
+    for the site keeps the link labels as text and leaves absolute
+    http(s) links live; there are no http(s) links in HISTORY.md, so the
+    published `web/history.html` carries no href at all. The repository's
+    own HISTORY.md is untouched.
+67. **Version stamp on every published HTML page** (2026-10-16, stage 9;
+    §10.1 "Version stamp"). The catalogue, evidence pack and history pages
+    carry the stamp as the Pandoc subtitle (the same mechanism stage 8
+    used); the two index pages and the 404 page render it in a footer
+    from the template. The site audit checks all 20 files' HTML pages
+    contain the stamp string (pandoc wraps the subtitle line, so the
+    check normalises whitespace).
+68. **Workflow judgment calls** (2026-10-16, stage 9; §10.1). The deploy
+    job **rebuilds from the tag** rather than downloading the `release`
+    job's artifact — §10.1 allows either ("Rebuild, or download the site
+    artifact from release"); rebuilding keeps "what is live is always a
+    tag" true without artifact plumbing, and the same workflow already
+    release-checked that tree. The AI zip is named
+    `catalogue-ai-<tag>.zip`. `CLOUDFLARE_ACCOUNT_ID` is read with
+    `vars.` (§10.1 owner setup calls it a *variable*; `CLOUDFLARE_API_TOKEN`
+    with `secrets.`), and both appear only in the two deploy jobs (proved
+    by grep with job-block attribution). The release job uses
+    `secrets.GITHUB_TOKEN` to create the GitHub Release — not a Cloudflare
+    secret, and `ci.yml` uses no secret at all (`permissions: contents:
+    read`), so fork PRs work. Checkouts in `ci.yml` and the release job
+    use `fetch-depth: 0` + `fetch-tags` so check.py rules 6 and 9 can see
+    previous tags. Pandoc 3.12 and Typst 0.15.1 are pinned in workflow
+    `env:` and installed from their upstream release artifacts.
+69. **watch-list, emerging and runbook** (2026-10-16, stage 9; stage-9
+    brief l–m). `runbook/watch-list.yaml` is generated from the 23 areas'
+    `watch` lines (values verbatim, keyed by area ID, round-trip compared
+    in the generator and re-proved by the gate script) and carries a
+    header saying how to regenerate it, since it is a view over the corpus
+    rather than a second source of truth. `emerging/emerging-threats.md`
+    states both halves of its scope — fast-moving threat material *and*
+    volatile or pre-standard reference sources — and leaves the
+    evidentiary standard to the owner. `runbook/maintenance-runbook.md`
+    names the Cloudflare API token expiry check as the first task with
+    blank date fields for the owner, plus the stage-9 TODOs (run
+    `tools/snapshot.py --all`, replace `@SPECIALIST_REVIEWER`, define the
+    emerging evidentiary standard).
+70. **robots.txt and _headers specifics** (2026-10-16, stage 9; §10.1).
+    robots.txt allows `User-agent: *` and repeats `Allow: /` for the
+    common AI crawlers by name, so "allow all, including AI crawlers" is
+    explicit rather than implied; no sitemap is declared because none is
+    built. `_headers` sets `Content-Type` for `*.jsonl`
+    (`application/x-ndjson`) and for `llms.txt` at both levels where it
+    exists, and `Cache-Control: public, max-age=300` for HTML at the root
+    and `/web/` levels specifically — Cloudflare's `_headers` wildcard
+    semantics across path levels are not relied on, so a second catalogue
+    adds its own line (the file says so).
+71. **Two version-stamp forms: §5 for the corpus editions, §10.1 for the
+    published site pages** (2026-10-16, stage 9, follow-up; rule-classified
+    — §10.1 "Version stamp": "Every HTML page ... shows the version (from
+    the tag, or `<last tag>+<short sha>` for untagged builds), the commit
+    and the build date"). `generate.py` is untouched, so §5's stamp still
+    governs `build/md`, `build/ai` and the download files: the tag when
+    `git describe --exact-match` finds one, otherwise "untagged". The site
+    step computes `site_version()` in `build.py` and applies it to every
+    published HTML page: the two renders copied from `build/out/`
+    (`catalogue.html`, `evidence-pack.html`) are rewritten in place by a
+    whitespace-tolerant replacement of the stamp's version token (pandoc
+    hard-wraps the subtitle line; the rewrite raises if it matches
+    nothing, so a stamp-wording change cannot silently leave a §5 version
+    on a page), `history.html` is rendered with the §10.1 form directly,
+    and the template pages (`web/index.html`, root `index.html`,
+    `404.html`) receive it in their stamp footer — with
+    `web/index.html`'s **status line** taking the same version in its
+    "Status {version} — ..." slot, so the page never claims a newer
+    version than it was built from. The AI edition and the downloads
+    (`web/ai/*`, `web/AGENTS.md`, `evidence-pack.md`, PDF, DOCX) keep §5's
+    form; the PDF and DOCX are out of scope for this follow-up (their
+    first-page stamp is §5's, showing the commit), which is the one part
+    of §10.1's stamp sentence not yet realised. *Ordering choice:* "last
+    tag" is check.py's `previous_tag()` — the highest-version `v*` tag that
+    is an ancestor of HEAD — i.e. git-describe's most-recent-reachable-tag
+    semantics expressed in the version ordering the repository already
+    uses for rules 6 and 9; version order rather than commit order is the
+    tiebreak because in a tag-is-a-release model a lower version cannot be
+    released after a higher one. Several tags on HEAD resolve to the
+    highest. Red-first in three `/tmp` git fixtures, each a full
+    `build.py` run asserted on all six HTML pages plus the status line:
+    (a) no tags → **untagged** everywhere, §5 form identical; (b) tag
+    `v0.1.0` at HEAD → **v0.1.0** everywhere; (c) tag `v0.1.0` plus one
+    later commit → **v0.1.0+18065ef** on every HTML page and the status
+    line, while `web/ai/llms.txt`, `web/AGENTS.md` and the downloaded
+    evidence pack still say "untagged" (§5), and no §5 form remains on any
+    HTML page. Gate re-runs after the change: site allowlist/link audit
+    clean (now checked against the §10.1 stamp), two consecutive builds
+    byte-identical, `check.py` normal 0 errors / 543 warnings,
+    `generate.py` byte-identical to `HEAD`.

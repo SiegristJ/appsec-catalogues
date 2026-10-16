@@ -1,0 +1,9 @@
+{{ site_title }}
+
+> {{ site_line }}
+
+Catalogues hosted here, each with its own AI-optimised edition:
+
+{% for catalogue in catalogues %}
+- {{ catalogue.title }}: {{ catalogue.path }}llms.txt
+{% endfor %}

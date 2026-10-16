@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<style>
+  body { font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+         margin: 0 auto; max-width: 46rem; padding: 2rem 1.25rem 4rem; color: #16191d; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+  p.status { color: #3d4451; max-width: 40rem; }
+  p.stamp { color: #5b6270; font-size: 0.85rem; margin-top: 0; }
+  ul { padding-left: 1.1rem; }
+  li { margin: 0.45rem 0; }
+  li p { margin: 0.1rem 0 0; color: #3d4451; font-size: 0.95rem; }
+  footer { border-top: 1px solid #d8dce3; margin-top: 3rem; padding-top: 0.75rem;
+           color: #5b6270; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<h1>{{ title }}</h1>
+<p class="status">{{ status_line }}</p>
+<p class="stamp">{{ stamp }}</p>
+<ul>
+  <li><a href="catalogue.html">Catalogue (HTML)</a>
+    <p>The full reference edition, with a table of contents and an anchor on
+    every threat, control, fact and reference ID, so specifications can
+    deep-link.</p></li>
+  <li><a href="evidence-pack.html">Evidence pack</a>
+    <p>One section per ID: its claim record, its references with tier, URL
+    and snapshot status, and the change-log rows that mention it.</p></li>
+  <li>Downloads
+    <p><a href="downloads/catalogue.pdf">catalogue.pdf</a> &middot;
+    <a href="downloads/catalogue.docx">catalogue.docx</a> &middot;
+    <a href="downloads/evidence-pack.md">evidence-pack.md</a></p></li>
+  <li><a href="ai/llms.txt">AI-optimised edition</a>
+    <p>{% for name in ai_files %}<a href="ai/{{ name }}">{{ name }}</a>{% if not loop.last %} &middot;
+    {% endif %}{% endfor %}</p></li>
+  <li><a href="history.html">History and provenance</a>
+    <p>Where the catalogue came from and what beta means
+    (HISTORY.md, rendered).</p></li>
+  <li><a href="{{ releases_url }}">GitHub releases</a>
+    <p>Earlier versions of the catalogue, tagged and archived.</p></li>
+</ul>
+<footer>{{ stamp }}</footer>
+</body>
+</html>

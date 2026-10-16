@@ -1,0 +1,30 @@
+# Cloudflare _headers for {{ site_title }} (SETUP-INSTRUCTIONS 10.1).
+#
+# Content-Type for the machine-readable files that a static host could
+# otherwise serve as application/octet-stream (.jsonl) or mis-label
+# (llms.txt), and short cache lifetimes for HTML so a new release is
+# visible quickly. Everything else (PDF, DOCX, JSON) keeps the platform
+# default, which is already correct and content-addressed by release.
+#
+# A new catalogue adds its own path level here.
+
+/*.html
+  Cache-Control: public, max-age=300
+
+{% for catalogue in catalogues %}{{ catalogue.path }}*.html
+  Cache-Control: public, max-age=300
+
+{% endfor %}
+/
+  Cache-Control: public, max-age=300
+
+/*.jsonl
+  Content-Type: application/x-ndjson
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+{% for catalogue in catalogues %}{{ catalogue.path }}llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+{% endfor %}

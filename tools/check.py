@@ -4,7 +4,7 @@
 Implements SETUP-INSTRUCTIONS section 6 exactly. Run on every commit (CI):
 
     python tools/check.py                  # normal mode
-    python tools/check.py --release 1.0.0  # adds rules 7, 8 and 9
+    python tools/check.py --release 1.0.0  # adds rules 7, 8, 9 and 11
 
 Exits non-zero on any error. Warnings print and pass. Output is
 deterministic: the same tree produces byte-identical output.
@@ -22,6 +22,13 @@ Rules (section 6 numbering):
    8  release only: normative-form claims have tier 1 and "Verified — primary"
    9  release only: per-record last_changed correct vs the previous tag
   10  manifest areas exist; every area belongs to at least one catalogue
+  11  SETUP 10.1 (outside section 6's numbering): build/site/ contains only
+      files the site allowlist produces and no path under archive/.
+      Error in release mode, warning in normal mode. Skipped with a NOTE
+      when build/site/ has not been built (check.py runs before build.py
+      in CI). The allowlist is defined once, in tools/build.py
+      site_allowlist(), and imported here so builder and checker cannot
+      drift.
 
   Warnings
    1  used_in and "Cited by" differ from the regenerated values
@@ -633,6 +640,51 @@ def rule_10_manifests(corpus: Corpus) -> list[str]:
     return errors
 
 
+def rule_11_site_allowlist(corpus: Corpus) -> tuple[list[str], list[str]]:
+    """SETUP 10.1: build/site/ holds only what the site allowlist produces,
+    and no path under archive/ (archive/ and data/ are never published).
+
+    Returns (findings, notices). The caller decides severity: an error in
+    release mode, a warning otherwise (SETUP 10.1 "Add a check.py
+    release-mode error"; the normal-mode warning keeps the rule visible
+    during development). build.py's own site step audits the tree it just
+    built; this rule re-proves it independently, against the allowlist
+    imported from tools/build.py so the two cannot drift."""
+    site = corpus.root / "build" / "site"
+    if not site.is_dir():
+        return [], ["build/site not built, rule 11 (site allowlist) skipped — "
+                    "run tools/build.py to assemble it"]
+
+    tools_dir = Path(__file__).resolve().parent
+    if str(tools_dir) not in sys.path:
+        sys.path.insert(0, str(tools_dir))
+    import build  # noqa: E402  (tools/build.py — site_allowlist, one definition)
+
+    notices: list[str] = []
+    ai_dir = corpus.root / "build" / "ai"
+    if ai_dir.is_dir():
+        ai_names = [p.name for p in sorted(ai_dir.iterdir()) if p.is_file()]
+    else:
+        ai_names = []
+        notices.append("build/ai is missing, rule 11 compared without the "
+                       "web/ai/ subtree of the allowlist")
+    expected = set(build.site_allowlist(corpus.root, ai_names))
+
+    findings: list[str] = []
+    for path in sorted(site.rglob("*")):
+        rel_path = str(path.relative_to(site))
+        parts = Path(rel_path).parts
+        if "archive" in parts:
+            kind = "directory" if path.is_dir() else "file"
+            findings.append(f"build/site/{rel_path}: {kind} under archive/ — "
+                            "archive/ is never published (SETUP 10.1)")
+            continue
+        if path.is_file() and rel_path not in expected:
+            findings.append(f"build/site/{rel_path}: not produced by the site "
+                            "allowlist (SETUP 10.1)")
+    return findings, notices
+
+
 # --------------------------------------------------------------------------
 # warning rules
 # --------------------------------------------------------------------------
@@ -750,6 +802,14 @@ def run(release: str | None = None, root: Path | None = None) -> int:
     add_errors(6, rule6_errors)
     notices.extend(rule6_notices)
     add_errors(10, rule_10_manifests(corpus))
+
+    site_findings, site_notices = rule_11_site_allowlist(corpus)
+    notices.extend(site_notices)
+    if release:
+        add_errors(11, site_findings)
+    else:
+        for message in site_findings:
+            warnings.append(("site (11)", message))
 
     if release:
         add_errors(7, rule_7_no_unverified(corpus))
