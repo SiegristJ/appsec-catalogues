@@ -1502,3 +1502,29 @@ C-P4-4) needing vocabulary when the owner adds one.
     errors / 543 warnings; roundtrip exit 0 (i3/ii125/iii62/iv0,
     class (iv) empty); two consecutive full builds byte-identical;
     allowlist 21 files.
+99. **Licences landed — Apache-2.0 (code), CC BY 4.0 (corpus and
+    generated content)** (2026-10-16, pre-registered licence step,
+    WORK-INSTRUCTIONS Appendix; owner ruled conclude-and-release).
+    LICENSE is the canonical Apache License 2.0 text fetched from
+    apache.org, with the appendix boilerplate's copyright line filled
+    per the license's own instructions as "Copyright AppSec Catalogues
+    contributors" (no year, per the ruling's plain standard form);
+    everything else verbatim. LICENSE-DATA is the canonical CC BY 4.0
+    legal code (creativecommons.org legalcode.txt) behind a short
+    header stating what it covers: the YAML corpus under data/ and
+    register/, and the generated catalogue editions and site content;
+    code is pointed at LICENSE. README gained a two-line "Licences"
+    section immediately before "Further reading". Licence files are
+    repository-root only — not site files (allowlist unchanged at 21).
+    Gates: check 0 errors / 543 warnings; roundtrip --exports
+    ../import-2026-10/inputs exit 0, class (iv) empty; determinism
+    proved stronger than usual — two consecutive builds byte-identical
+    with the licences present, byte-identical again with the licence
+    files and README section temporarily removed, and identical once
+    more after restoring (the licence step is provably output-neutral;
+    the one-time output hash shift observed mid-step was the
+    controller's IA-pass commit b5cf187 landing underneath — the
+    stamp's commit field moved 1f4fa6d → b5cf187, version "untagged",
+    which is a build input change, not a licence effect). Working tree
+    delta for the controller's commit: LICENSE, LICENSE-DATA (new) and
+    the README section; nothing committed here.
