@@ -12,7 +12,7 @@
 # serverless.
 
 review: Example application
-catalogue_version: untagged
+catalogue_version: v1.0.0-beta.1
 features:
   user_login: present
   federated_login: present

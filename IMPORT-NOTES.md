@@ -972,3 +972,41 @@ C-P4-4) needing vocabulary when the owner adds one.
     clean (now checked against the §10.1 stamp), two consecutive builds
     byte-identical, `check.py` normal 0 errors / 543 warnings,
     `generate.py` byte-identical to `HEAD`.
+
+## Release-mode check and tag preparation (stage 10)
+
+72. **Release-mode check passes §11.10; example checklist pinned to
+    v1.0.0-beta.1; tag prepared for the controller** (2026-10-16, stage 10).
+    `tools/check.py --release 1.0.0-beta.1` on the stage-10 working tree
+    prints "catalogue check (release 1.0.0-beta.1): 1 errors, 543
+    warnings", "NOTE: no previous tag, rule 6 (disappeared IDs) skipped",
+    "NOTE: no previous tag, rule 9 skipped", the standing warning counts
+    ("W1 (cited by)=107, W1 (used_in)=18, W2=166, W3=50, W4=144, W5=36,
+    W6=22"), and exactly one error, verbatim:
+    "ERROR [rule 8] data/claims/B04.yaml: F-53: normative-form claim
+    (contains requires) has tier 4 and verification 'Verified — secondary',
+    expected tier 1 and \"Verified — primary\"." F-53's claim reads
+    "PCI DSS 6.4.2 requires an automated technical solution in front of
+    public-facing web applications" — tier 4, verification
+    "Verified — secondary". Rule 7 is clean (no verification starts
+    "Unverified"; T-B6-4, the near-rule-7 shape, starts "Verified —
+    primary"), and rules 6/9 print the no-previous-tag skip notices. This
+    is the §11.10 allowed state — rules 7–8 failures only, each listed
+    here, and the list is exactly one item (F-53) — so the tag may proceed.
+    Housekeeping executed alongside (the IMPORT-NOTES 56 one-line change):
+    `reviews/example-checklist.yaml` `catalogue_version:` flipped from
+    "untagged" to "v1.0.0-beta.1", so a build from the tag and the
+    checklist agree and `extract.py reviews/example-checklist.yaml`
+    matches the tag stamp; the file's header comment documenting the
+    import-era pin is untouched. Tag plan: the stage-10 executor neither
+    commits nor tags; the controller commits the two stage-10 files
+    ("Stage 10: release-mode check recorded, example checklist pinned to
+    v1.0.0-beta.1"), re-runs `check.py --release` on the committed HEAD
+    and, if the result still satisfies §11.10, creates the annotated tag
+    `v1.0.0-beta.1` ("Web Application Security Reference Catalogue,
+    initial import"). Nothing is pushed — pushing triggers release+deploy
+    and is the owner's, after their §10.1 setup. Rules 6 and 9: their
+    first real exercise is deferred to the second release; at this tag
+    there is no previous tag to compare against, and both previous-tag
+    code paths are fixture-proven only (IMPORT-NOTES 34, the stage-5
+    tagged-fixture re-proof).
