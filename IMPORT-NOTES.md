@@ -1010,3 +1010,495 @@ C-P4-4) needing vocabulary when the owner adds one.
     there is no previous tag to compare against, and both previous-tag
     code paths are fixture-proven only (IMPORT-NOTES 34, the stage-5
     tagged-fixture re-proof).
+
+## Information-architecture pass (post-import)
+
+73. **Orientation single source — `tools/orientation.py`** (2026-10-16, IA
+    pass; ruling IA-1 — the deck is approved verbatim). All shared blocks
+    (B1 full/short/one-liner, B2, B3 framing, B4) and the wrappers' copy
+    live in one build-side module, consumed by generate.py (full-edition
+    front section; AGENTS.md vocabulary; catalogue.json's usage_contract
+    through agents_body), build.py (evidence-pack orientation, web-index
+    context, the root doorway `site_line`), extract.py (preamble), check.py
+    (rule 12, the README sync) and roundtrip.py (byte-verification of the
+    front section). No orientation prose is duplicated in a template. The
+    site URL has one build-side source: `orientation.SITE_URL`
+    ("https://appsec.complects.com/", the deployment URL in the README and
+    wrangler.jsonc), rendered by the front section's "Where everything
+    lives" and enforced in the README by rule 12. Determinism: module
+    constants plus parses of frozen files plus the stamp's version in the
+    citation example — no new non-content input (entries 36/51 line). The
+    web index's HTML forms (B2, the role intro, B4 with links applied — the
+    deck's "links are applied by each template") are checked by an
+    assertion that strips tags and compares against the canonical copy, so
+    the two forms cannot drift.
+74. **Governance parse — one parser, one consumer path, hard error on
+    nothing found** (2026-10-16, IA pass; content freeze).
+    `orientation.parse_governance()` extracts the tier table (after
+    "**Evidence tiers**"), the verification-status table (after
+    "**Verification statuses**") and the two numbered rules (after "Two
+    rules follow:") from `register/governance.md`, captions included;
+    `register/governance.md` itself is never edited. A missing marker, an
+    empty table, or fewer than two rules is a SystemExit ("a parse that
+    finds nothing is a hard build error"), never a silent skip. Every
+    legend — evidence pack, full edition, AGENTS.md (and therefore the
+    usage_contract) — renders from this one parse. At this corpus: 5 tier
+    rows, 5 status rows, 2 rules, byte-verbatim including governance.md's
+    curly quotes and ellipses.
+75. **Reading-paths table rendered from data** (2026-10-16, IA pass; IA-1
+    sub-decision 2, "render from data/front/00-how-to-use.md at build
+    time"). `orientation.parse_reading_paths()` finds the table after
+    "**Reading paths by role.**"; the web index renders its header and 7
+    rows verbatim (frozen data, never restated). A missing marker or empty
+    table is a SystemExit.
+76. **Full-edition front section and its round-trip status** (2026-10-16,
+    IA pass; deck W2). generate.py embeds
+    `orientation.about_edition_section(version, gov)` as
+    "## About this edition" between the title stamp and "How to use this
+    catalogue" (`tools/templates/catalogue-full.md.j2`); HTML, PDF and DOCX
+    inherit it through the existing renders. The section therefore enters
+    `build/md/catalogue-full.md` by design, and `roundtrip.py` treats it as
+    a **sanctioned insertion, byte-verified — never a blind skip**:
+    `verify_orientation_insertion()` re-renders the expected section from
+    the orientation module for the version in the generated stamp line and
+    requires byte equality. A match is recorded as class (i) (catalogue
+    class (i) is now 3); a mismatch or an absent section is class (iv) and
+    the run exits 1. Red-first in /tmp copies with `--skip-generate`:
+    corrupting one byte of the rendered section ("areas," → "areaz,") →
+    exit 1 with one class (iv) "orientation section mismatch" naming the
+    section; deleting the section → exit 1 with class (iv) "missing
+    orientation section"; clean control → exit 0. The citation example
+    renders the stamp's version ("C-A3-1, appsec-catalogues v1.0.0-beta.1"
+    at this tag; "untagged" between tags).
+77. **ID → evidence deep-links are HTML-only, applied to the site copy**
+    (2026-10-16, IA pass; owner-ruled degradation). `build_site` wraps each
+    of the 347 defining T/C/F `<span id>`s in `web/catalogue.html` with
+    `<a href="evidence-pack.html#<ID>">` — plain relative links; the anchors
+    already existed on both sides (entries 50, 55), so this is link
+    rendering only. The rewrite runs on the site copy after the §10.1
+    version rewrite; `build/out/catalogue.html`, the PDF/DOCX and
+    `build/md/catalogue-full.md` stay link-free (the round trip compares
+    the .md against the export; the .md gained no link markup, only the
+    sanctioned section of entry 76). The rewrite raises unless it finds
+    exactly the corpus's T/C/F total (128 + 166 + 53 = 347), so a change
+    in the anchor rendering can never silently unlink IDs. A lone
+    catalogue.html simply has non-resolving links.
+78. **Evidence pack redesign** (2026-10-16, IA pass; deck W3; grouping and
+    framing are presentation, R4 — the per-ID content is unchanged). New
+    order: stamp; H1; the W3 orientation header (what this is; "How to
+    check a claim" in three steps); the B3 legend from the governance
+    parse; "## Contents" — a grouped table of contents by area (23 area
+    rows plus Facts) with section counts and change-log hit counts, each
+    row linked to its H2 anchor (`{#A1}` … `{#facts}`); the "Where the
+    evidence is weakest" index with three linked lists; the kind summary
+    table; then the body grouped **by area** (one H2 per area with
+    threat/control counts, H3 per ID as before) and a Facts group. The old
+    intro paragraph and the Threats/Controls/Facts H2 grouping are
+    superseded. The 256 "No change-log row mentions <ID>." sentences
+    collapsed to the marker "no change-log mentions" in each section's
+    meta line. The build prints the weakest-index counts each run
+    (deterministic text; entry 36 line).
+79. **Counts recomputed, not trusted** (2026-10-16, IA pass; the counts
+    are claims). Recomputed from the corpus and the build: the W5
+    qualifier set **36** = 19 C- + 9 F- + 8 T-ID claims (check.py warning
+    5's own set); disputed controls **5** (C-A1-2, C-A7-5, C-A9-6,
+    C-B2-4, C-B4-3); IDs with change-log mentions **91** = 27 threats +
+    35 controls + 29 facts (whole-row mention rule with range expansion,
+    entry 54 — recomputed via `build.change_log_mentions`, identical
+    split); no-change-log markers **256** = 347 − 91; total **347** =
+    128 T + 166 C + 53 F. All five match the brief's expected values; none
+    was silently absorbed.
+80. **README sync — check.py rule 12, silent when in sync, red-first**
+    (2026-10-16, IA pass; ruling IA-2 — "drift is a check error, not a
+    silent divergence"). New error rule, both modes: README.md must
+    contain, after whitespace collapse (the README wraps lines), the
+    canonical B2 paragraph and the three-outputs lead-in from
+    tools/orientation.py, and the SITE_URL. Silent when in sync — no
+    output, no warning, the total stays 543; ERROR on drift. Red-first in
+    a /tmp copy: one word changed in the README's beta paragraph →
+    "1 errors, 543 warnings", exit 1, verbatim "ERROR [rule 12]
+    README.md: beta-status paragraph (deck block B2) does not match the
+    canonical orientation source (tools/orientation.py) — sync the README
+    to it (rule 12, IA pass ruling IA-2)".
+81. **README edits** (2026-10-16, IA pass; deck W7, ruling IA-2). Status
+    de-staled: a "**Status: 1.0.0-beta.1.**" line plus the B2 paragraph
+    verbatim (the README is hand-written, so the version is plain text
+    maintained by hand; the B2 text is rule-12-enforced). "The three
+    outputs" gains the one-line lead-in "Three ways to use it: pull a spec
+    from it, read it end to end, or consume it as an agent." — assembled
+    from B4's three titles, the deck's instruction being "B4's use-framing
+    as a one-line lead-in". Deployment: the six owner-setup bullets and
+    their lead-in were verified byte-verbatim against
+    `owner-ops/deployment-owner-setup.md` (workspace; created by ruling
+    IA-2 before this pass) and removed from the README, replaced by the
+    approved sentence ("Deployment is owner-operated. The workflows above
+    are the whole public contract; owner-side account setup is kept by the
+    owner, outside this repository."); the runbook token-expiry pointer
+    stays; Further reading gains the live-site URL bullet. Nothing else in
+    the README changed.
+82. **Site doorway and index decisions** (2026-10-16, IA pass; deck W5/
+    W1). `SITE_LINE` (the `site_line` slot the brief names for the root
+    index) is now `orientation.ONE_LINER`; the root llms.txt's blockquote
+    renders the same slot and changes with it (single source). The
+    superseded host-level line ("Version-controlled security reference
+    catalogues, generated from structured data and published one per path;
+    every page carries the version it was built from") is replaced while
+    exactly one catalogue is hosted; the version claim it carried is
+    realised by the stamp footer on every page (entry 67), and the line
+    should be revisited when a second catalogue is hosted. web/index.html:
+    the §10.1 status line is kept (it is the version-bearing slot, entry
+    71) with B2 added under "What this is"; B4's items apply the existing
+    artifact links inline (catalogue.html, PDF, DOCX, ai/*) as the means to
+    each use; the artifact list below is kept unchanged (link text and
+    targets unchanged) as the complete inventory; the role-table intro
+    carries its own bold lead, so no duplicate H2 was added above it.
+83. **Extract preamble; AGENTS.md vocabulary; catalogue.json**
+    (2026-10-16, IA pass; deck W4/W6). extract.py inserts the preamble
+    after the stamp and title, before the existing "Generated from …"
+    sentence: B1 short form, then the two lines; the HTML output is
+    pandoc's render of the .md, so both carry it. AGENTS.md is the stamp,
+    "# Usage contract", the seven §5.5 bullets (unchanged), then
+    "## Evidence vocabulary" (the W6 framing, the parsed legend, the
+    carry-qualifiers paragraph); catalogue.json's `usage_contract` is
+    agents_body minus the stamp (entry 44), so the vocabulary flows in
+    automatically — the JSON was re-validated against
+    `schema/catalogue.schema.json` after the change (Draft 2020-12 with
+    the format checker; valid).
+84. **Gates after the IA pass** (2026-10-16). `check.py` 0 errors / 543
+    warnings (rule 12 silent); `roundtrip.py --exports
+    ../import-2026-10/inputs` exit 0 with class (iv) empty — catalogue
+    (i) 3 / (ii) 125 / (iii) 62, claims 0/0/0/0, change log 1/0/0/0; two
+    consecutive full builds byte-identical across build/md, build/ai,
+    build/out and build/site; site allowlist audit clean at 20 files, site
+    version v1.0.0-beta.1 on every page (the tag is local-only; the known
+    CI/local stamp mismatch is entry-level expected and not touched);
+    `extract.py reviews/example-checklist.yaml` runs clean with the
+    preamble in both outputs. OD-7 (process areas in extracts) untouched —
+    only the preamble was added; no known open item from WORK-INSTRUCTIONS
+    §0 was fixed.
+85. **Role table hyperlinked on the web index** (2026-10-16, IA pass
+    follow-up; owner ruling IA-4, click-through gate). The seven-role
+    reading-paths table on `web/index.html` links per a build-side mapping,
+    `orientation.ROLE_TABLE_LINKS`, placed next to the table render in
+    tools/orientation.py. Cell text stays verbatim from
+    data/front/00-how-to-use.md — links wrap whole cells (or, for the
+    operations row's two-target "Then" cell, each comma-joined mapped
+    segment, all-or-nothing per cell); nothing is reworded. Mapping: the
+    five named derived sections link their catalogue.html anchors; P2/P3/P4
+    link their area-heading anchors; the range "B1–B6" links its first
+    member only (B1's anchor); "Audit register (claims, sources, change
+    history)" links evidence-pack.html (page-level, no anchor); "Linked
+    ASVS chapters" and the instructional phrases stay plain (external
+    target / no single target). Area anchors use the built page's full-title
+    ids (e.g. p2-security-testing-and-verification,
+    b1-hardening-misconfiguration-and-patch-management). Web rendering
+    only: the edition's embedded how-to-use section and build/md are
+    untouched. **Target verification:** build_site proves every mapped
+    anchor exists in the built page it names — mapped-but-missing is a
+    SystemExit naming the cell and target (the same discipline as the
+    347-anchor deep-link check); unmapped cells degrade silently to plain
+    text. Red-first in a /tmp copy: one mapping anchor changed to a
+    nonexistent id → SystemExit "role-table link target missing:
+    'Applicability index' maps to catalogue.html#applicability-index-x …";
+    clean control passes. Rendered result: **9 of 14** non-role cells
+    linked (**10** links; the operations "Then" cell carries two), the
+    other 5 plain per the rules; the build prints the count each run.
+86. **Site-root project-level introduction** (2026-10-16, IA pass
+    follow-up; owner ruling IA-5, click-through gate; owner-approved copy
+    pending word-level confirm — not reworded). The root `index.html`
+    doorway gains the "What this is / What it's for / One catalogue is
+    published today" block, replacing the one-liner `<p>` under the title
+    and preceding the Catalogues list; the page stays a single doorway (no
+    new file; allowlist still exactly 20). The copy lives in
+    tools/orientation.py as a site-level, catalogue-agnostic block
+    (`SITE_DOORWAY_PARAGRAPHS` + `site_doorway_published_today`): the
+    published-today sentence's count word and title render from the
+    catalogue manifests (data, not hardcoded prose) — at one catalogue the
+    owner's sentence reproduces exactly; the n>1 form is mechanical (count
+    word, plural, title join) and is reviewed when a second catalogue
+    lands (same revisit flag as entry 82). Root-only by construction: only
+    the root index render consumes it, and the block appears in exactly
+    one built file, build/site/index.html (grep-verified across build/);
+    the root llms.txt keeps the orientation one-liner, and no
+    catalogue-level surface or edition output changed.
+87. **Site re-layer** (2026-10-16, IA pass follow-up; owner ruling IA-6,
+    click-through gate; copy owner-approved pending word-level confirm —
+    not reworded). Root `index.html` gains three sections after the IA-5
+    block and before the Catalogues list — "How to access it", "Who it's
+    for", "Where it's going" — from
+    `orientation.SITE_DOORWAY_PARAGRAPHS_IA6`; the leads are bolded to
+    match the IA-5 block's house style (presentation, not wording; the
+    ruling's copy carried plain leads). Supersession inside IA-5: the
+    published-today sentence now ends at "currently in beta." — the
+    further-catalogues clause lives only in "Where it's going". The
+    catalogue index (`web/index.html`) slims to: h1; the one-liner
+    (`orientation.ONE_LINER`, the text formerly in the root `site_line`,
+    which the root llms.txt still renders); the §10.1 version-bearing
+    status line (kept by law, entry 71); a project pointer up to the root
+    page ("New to the project? What it is and how to access and use it:
+    start at the project page.", href="/" — navigational chrome, executor
+    wording per the ruling); the hyperlinked role table (IA-4, unchanged);
+    the artifacts list (unchanged, link text/targets untouched); the stamp
+    footer. B1/B2/B4 retired from the web page: B1 and B2 stay in
+    tools/orientation.py (the edition front section W2 and the README sync
+    rule 12 consume them); **B4 is removed** — after the re-layer nothing
+    renders it and its content is carried by the root "Who it's for"
+    section; `README_THREE_OUTPUTS_LEAD_IN` remains (the owner-approved
+    README line, rule-12-enforced). Downloadable artifacts untouched by
+    construction and by proof: W2/W3/W4/W6 outputs hash-identical before
+    and after the re-layer (build/md, build/ai, catalogue.html/pdf/docx,
+    evidence-pack.md/html). Allowlist still exactly 20 files.
+88. **Evidence-pack URL cells hyperlinked** (2026-10-16, IA pass
+    follow-up; owner ruling IA-7, click-through gate). The per-ID
+    reference tables' URL cell renders as a markdown link with the URL as
+    both text and target — one source (references_table in build.py)
+    flowing to evidence-pack.md and .html; no separate HTML handling.
+    Corpus check first: no stored URL contains ")", whitespace or a
+    newline, so every URL is markdown-link-safe as stored (R1 — no
+    normalisation needed). Counts, stated precisely (verifier finding 1,
+    corrected): **143 of 144 references carry a URL; 139 URL cells render
+    in the pack** — R-3, R-27, R-28 and R-36 are cited at area level only
+    (no claim section, so no references-table row), exactly like R-107's
+    no-URL case (url null, judgment call 6; cited only by area P2) — and
+    **every rendered cell is linked**. The "— (no URL)" code path is
+    unchanged and fires if a claim ever cites R-107. The reference
+    **titles** stay plain in the pack (owner
+    considered and did not ask); Appendix B keeps its own linked-title
+    rendering, untouched. The evidence pack is not round-trip-compared and
+    build/md is untouched.
+89. **Claim-record Sources cells link to Appendix B** (2026-10-16, IA pass
+    follow-up; owner ruling IA-8, click-through gate). In the 347
+    claim-record tables, the Sources cell's R-ID tokens render as
+    [R-n](catalogue.html#R-n) — relative, markdown source flowing to both
+    outputs; degradation is the established deliverable-6 model (live
+    where the pair travels, non-resolving alone). Scope kept: the per-ID
+    references-table ID column stays **plain** (owner considered and did
+    not ask); catalogue/Appendix B rendering untouched; no roundtrip-
+    compared file changes. Build-time proof: verify_pack_link_targets()
+    (build.py) reads the catalogue.html rendered in step 2 and requires
+    every emitted R-target's `id="R-n"` to exist — mapped-but-missing is a
+    SystemExit naming the IDs (the role-table discipline); it returns the
+    token count, printed each build. **Counts: 481 linked tokens** (sum of
+    sources-list lengths across the 347 claim records; 139 distinct
+    R-IDs, all verified present as anchors). Red-first in a /tmp copy:
+    one anchor id corrupted in the built catalogue.html → SystemExit
+    "… no Appendix B anchor in catalogue.html for: R-35 …"; clean control
+    returns 481.
+90. **References page — the third site artifact** (2026-10-16, IA pass
+    follow-up; owner ruling IA-9, click-through gate).
+    `web/references.html` renders Appendix B per reference as its own page,
+    from `build.references_page_markdown()` through the shared Pandoc
+    pipeline (scratch in build/pandoc/, §10.1 stamp as the subtitle, the
+    Lua filter keying on the table's "R-ID" header so **every one of the
+    144 rows anchors per R-ID** — the page is the deep-link target for
+    R-IDs). Page order: the orientation line ("Every source cited by the
+    catalogue, with its tier, link and citation reach — Appendix B rendered
+    per reference." — the ruling's own phrasing), the evidence legend from
+    the same parsed governance source as every other surface, then the
+    144-row table. Title cells link exactly as Appendix B links them
+    (generate.py's reference_cell, imported — one implementation; R-107
+    stays plain text, no URL); tier (with tier_note) and opened as the
+    appendix carries them. **Cited-by cells:** T-/C-/F-ID tokens link to
+    evidence-pack.html#<ID> — **481 tokens linked** — while area tokens and
+    section labels stay plain (11 tokens; the established degradation
+    model). **Ruled allowlist amendment: 20 → 21 files** — site_allowlist()
+    gains web/references.html (builder and checker share the one
+    definition, entry 59; the ia-1 brief's gate said "exactly 20", amended
+    by this ruling). **Supersessions of in-flight work:** IA-8's
+    claim-record Sources cells retarget from catalogue.html#R-… to
+    references.html#R-… (481 tokens, unchanged count), and the evidence
+    pack's per-ID reference-table ID column — plain per IA-8's scope note —
+    now links each R-ID to references.html#<ID> (481 tokens, the same
+    token set). **Build-time proofs** (mapped-but-missing is a hard error):
+    the rendered page must carry exactly 144 R-row anchors;
+    verify_pack_link_targets now runs against the references page and
+    covers both R-link surfaces (139 distinct R-IDs); and every cited-by
+    T/C/F target must exist as an anchor in the built evidence-pack.html
+    (294 distinct T/C plus the F set — all verified). The web index's
+    artifacts list gains a References entry ("Every cited source with its
+    tier, link and citation reach (Appendix B, rendered)." — the ruling's
+    caption, a list caption not orientation prose). Editions keep
+    Appendix B unchanged: build/md, the PDF and the DOCX are untouched
+    (the page renders from a site-side scratch file, not the edition
+    tree), so determinism and the round trip are unaffected by
+    construction.
+91. **Root page "Why this exists"** (2026-10-16, IA pass follow-up; owner
+    ruling IA-10, click-through gate; owner-confirmed verbatim — not
+    reworded). Four paragraphs added to the root doorway block as
+    `SITE_DOORWAY_PARAGRAPHS_IA10`, placed between the IA-5 block (with
+    its published-today sentence, kept in place) and "How to access it" —
+    the root now reads What this is / What it's for / published-today /
+    Why this exists / Expected usage (IA-11) / How to access it / Who
+    it's for / Where it's going. The "Why this exists." lead is bolded
+    (house style, presentation only); the three continuation paragraphs
+    carry no lead. Root page only: the section renders from
+    site_doorway_paragraphs_html, whose sole consumer is
+    site/root/index.html.j2, and grep across build/ finds its text in
+    exactly one built file (build/site/index.html). No other artifact
+    changed; build/md, build/ai and the downloads are untouched.
+92. **Root page "Expected usage"** (2026-10-16, IA pass follow-up;
+    owner ruling IA-11, click-through gate; owner-confirmed verbatim with
+    the added closing sentence — not reworded). Two paragraphs added as
+    `SITE_DOORWAY_PARAGRAPHS_IA11`, placed immediately after "Why this
+    exists" (IA-10). The "Expected usage." lead is bolded (house style);
+    the closing sentence ("Each catalogue page carries the full
+    start-here-by-role table with links.") is the owner's added text. Same
+    isolation proof as IA-10: root render only, one built file, nothing
+    else changed. Alongside these, verifier finding 1 was applied as a
+    wording fix, no behavior change: the build print and entry 88 now
+    state the IA-7 counts precisely — 143 of 144 references carry a URL;
+    139 URL cells render in the pack (R-3, R-27, R-28 and R-36 are cited
+    at area level only, so no pack row, exactly like R-107's no-URL case);
+    every rendered cell is linked.
+93. **Web page widths** (2026-10-16, IA pass follow-up; owner ruling
+    IA-13, click-through gate — the "for web" read applied broadly).
+    The three Pandoc-rendered pages (catalogue.html, evidence-pack.html,
+    references.html) drop the default template's 36em body cap via a CSS
+    override passed only to the HTML invocations
+    (--include-in-header, build/pandoc/web-header.html written at run time
+    from the WEB_HEADER_HTML constant — the anchors.lua pattern; static
+    CSS, determinism preserved). The override is exactly `body {
+    max-width: none; }` and `table { width: 100%; }`, appended after the
+    template's own style block (verified: later position, equal
+    specificity, so it wins); the template's padding (50px; 12px under
+    the 600px media query), line-height, colours and the small-screen
+    media query stand untouched. The two hand-built pages
+    (site/root/index.html.j2, site/web/index.html.j2) lose their 46rem
+    body cap, and the web index's 40rem prose caps on p.what/p.status go
+    with it (prose width limits); padding logic unchanged. **Byte-proof:
+    build/md, build/ai, catalogue.pdf and catalogue.docx hash-identical
+    before and after** — the PDF and DOCX invocations carry no header
+    argument, so the print editions are untouched by construction; the
+    extract HTML is out of the ruling's named scope and unchanged. No new
+    site files (allowlist stays 21); no markdown change (round trip
+    unaffected).
+94. **PDF table defects: page-boundary overlap and column widths — diagnosed, proven latent at the tag, fixed build-side** (2026-10-16, owner defect reports from the click-through gate). **Reproduction:** pdftotext -bbox geometry on the built PDF showed table rows printed on top of each other at page bottoms — page 28's T-A5-9 and T-A5-10 rows share baselines from y=705 into the margin (y~780; the text region ends near 742), pages 93/95 likewise; 29 pages carried content past the bottom margin, and Appendix B's 144-row table was compressed into roughly two unreadable pages. **Diagnosis:** a minimal generator-agnostic reproduction (a #figure-wrapped table breaking across a page boundary) reproduces the overlap with plain typst 0.15.1 — pandoc's writer is not at fault; the align(center) wrapper and the caption show-rules were each tested and exonerated. The second report (equal 33.33%/25%/20% columns cramming prose) is the writer's fixed-percentage emission. **Provenance:** rebuilt from tag v1.0.0-beta.1 in a /tmp copy (git archive, same pinned toolchain): the same defect at pages 26/91/93 — latent at the tag, surfaced to the owner only by the About-section pagination shift; not introduced by the IA pass. **Fix (no version change):** the PDF pipeline is now two-step — pandoc writes build/pandoc/catalogue.typ, postprocess_typst() (a) de-figures every table (a bare #table breaks correctly; a surviving figure-wrapped table is a hard error) and (b) rebalances each table's columns from its cells (0.45 x longest token + 0.55 x average length, clamped to [4%, 45%], normalised; header rows split per cell, hline args skipped), then typst compiles with --creation-timestamp pinned to the same SOURCE_DATE_EPOCH value (entry 51's determinism reading; proved — two consecutive full builds byte-identical including the PDF). The .typ diff is exactly the de-figure and the column tuples; DOCX and HTML renders untouched. Result: 80 pages (was 96 defective), 0 overprint words (was 7), 0 pages into the margin (was 29), Appendix B spans from page 65 readably; the defective build had been hiding text — pdftotext recovers 22,367 words after vs 19,526 before (clipped under the overlaps). **Proof:** before/after/landscape renders under build/pandoc/pdf-proof/ (before.pdf, after.pdf, PNGs; the before set is the pre-fix build), inspected visually by a vision-model subagent per the owner's environment tip: doubling confirmed on before pages 28/93/95 and absent on every after page; widths judged readable (prose 1-3 lines per row; only the intrinsically long Cited-by lists still wrap); minor cosmetics noted for the owner (a header hyphenation, an Opened/Cited-by header collision, R-ID abutment). **Landscape (owner's choice, not flipped):** an Appendix-B landscape variant (build/pandoc/pdf-proof/appendixb-landscape.pdf; one line per reference; judged the most readable form) is staged; the inspector's assessment is that portrait-after is good enough (every reference in 1-2 lines, heading and table share the page) and landscape costs a near-blank heading page plus mixed orientation — pending the owner's word per the ruling's "do not unilaterally flip". README's PDF mechanism sentence updated to the two-step truth. Gates after: check 0 errors / 543 warnings; roundtrip exit 0 (i3/ii125/iii62/iv0); double build byte-identical; allowlist 21, stamps ok; extract clean.
+95. **README gains "Why this exists" and "Intended use"** (2026-10-16, IA
+    pass follow-up; owner rulings IA-12, IA-14 and IA-15, click-through
+    gate; owner-supplied text verbatim, with "catalog" normalized to
+    "catalogue" in IA-12's last sentence per the owner's explicit word).
+    Canonical in tools/orientation.py (README_WHY_PARAGRAPHS, two
+    paragraphs; README_INTENDED_PARAGRAPHS, three: IA-14's lead plus
+    IA-15's priors and mechanism paragraphs); rendered in README.md after
+    the status paragraph and before "The three outputs", bolded leads
+    matching the README's existing bold-lead style, no new headings. Rule
+    12's coverage extended to every new paragraph (each checked
+    whitespace-collapsed against the canonical source); red-first in a /tmp
+    copy: one word changed in "Why this exists" paragraph 1 → "1 errors,
+    543 warnings", exit 1, the ERROR naming the paragraph and ruling;
+    clean state silent at 0/543. Isolation: the IA-12 text appears in
+    README.md only ("illusion of reliability" grep across build/ and the
+    repository); the root page's IA-10 "Why this exists" is its own
+    owner-confirmed text and is unchanged — README and root carry their
+    own altitudes, per the ruling.
+96. **Root "Expected usage" rider** (2026-10-16, owner ruling IA-15 root
+    rider, owner-confirmed). A third paragraph appended to the root page's
+    "Expected usage" section after the by-role paragraph
+    (SITE_DOORWAY_IA11_RIDER in tools/orientation.py, root render only);
+    the root page's "Why this exists" is untouched. Isolation: the rider's
+    text appears in exactly one built file, build/site/index.html (grep
+    across build/). Gates after both entries: check 0 errors / 543
+    warnings with rule 12 silent; round-trip exit 0 (catalogue i3/ii125/
+    iii62/iv0); two consecutive builds byte-identical; allowlist 21 files,
+    stamps v1.0.0-beta.1; extract clean; the fixed PDF still scans clean
+    (80 pages, 0 overprint, 0 margin pages — entry 94 stands).
+97. **Appendix B column defects fixed — header-aware sizing; entry 94's
+    "cosmetics" reclassified as defects; landscape track dropped**
+    (2026-10-16, owner ruling IA-17). **Reclassification:** the owner's
+    inspection of the shipped portrait PDF found the R-ID column
+    overlapping the Reference column and the "Opened"/"Cited By" header
+    cells overlapping each other — the two items entry 94 had noted as
+    "minor cosmetics for the owner". Both are owner-ruled defects (the
+    owner's eyes are the final arbiter over sampled vision checks); the
+    same defect class was also latent in the Issuer column
+    ("PostQuantum.com", 84pt, in a 43pt column) wherever a cell's widest
+    unbreakable token exceeded its column. **Fix (build.py,
+    postprocess_typst):** column sizing is now header-aware and measured
+    in points, not character counts — a per-character width table
+    calibrated against the rendered PDF (Libertinus Serif 11pt; fitted to
+    the word bboxes of a built catalogue, median error 0.07pt, p95
+    0.56pt), inflated by a 1.05 safety factor. Every column's floor is
+    the widest unbreakable segment it must show whole: its header label
+    (one line where the text block affords it — headers wrap at word
+    boundaries only where it does not; Appendix B's "Edition or date" is
+    the one wrapped header) and its widest cell token (cited IDs R-100 /
+    C-A12-10 stay whole; other tokens may break after a hyphen, which
+    typst does). Floors carry the table insets; the remainder flexes to
+    the columns by content mass, so the Reference and Cited-by columns
+    absorb it. Appendix B's floors only fit at a 3.5pt gutter, so that
+    one table gets an explicit `inset: (x: 3.5pt, y: 6pt)` (the
+    template's 6pt everywhere else); a table whose floors cannot fit
+    even at 3.5pt is a hard build error, so the collision class cannot
+    recur silently. Cited IDs are additionally wrapped in `#box[…]`
+    (layout-only; glyphs and extracted text unchanged) because typst's
+    line breaker would otherwise split them after the hyphen, leaving
+    bare "C-"/"T-" fragments at line ends (260 occurrences in the first
+    fixed build; zero now). Appendix B tuple: 7.94 / 21.08 / 22.00 /
+    13.28 / 11.87 / 10.98 / 12.85. **Landscape dropped:** the staged
+    Appendix-B landscape variant (entry 94) is removed — the owner found
+    overlap there too; the shipped PDF is portrait-rebalanced (the
+    before/after proof set under build/pandoc/pdf-proof/ stands, minus
+    the landscape files). **Proof (upgraded standard):** every Appendix B
+    page (69–86 of 87; the verifier's independent pass extended the range
+    one page past this entry's original count and found it clean) plus a
+    300 dpi header-row close-up of each table
+    type (threats, controls, Appendix A, Appendix B) inspected by
+    vision-model subagents under the binding rule that header collisions
+    and column abutment are failures, never cosmetics — all pages PASS
+    (per-page results in the dispatching agent's report); corroborated
+    geometrically: 0 word-bbox overlaps in the whole document
+    (pdftotext -bbox pairwise intersection). Gates after: check 0 errors
+    / 543 warnings; roundtrip --exports ../import-2026-10/inputs exit 0
+    (i3/ii125/iii62/iv0, class (iv) empty); two consecutive full builds
+    byte-identical including the PDF; allowlist 21 files; extract
+    reviews/example-checklist.yaml clean.
+98. **Site survives mobile — evidence-pack URL cells wrap; references
+    R-table CSS-unfixable readably, escalated (IA-18)** (2026-10-16,
+    owner ruling IA-18, on-device check; mid-run rescope — the owner's
+    device findings: catalogue pages good, not to be churned; evidence
+    pack and references fail — tables that do not compress scroll
+    across). **Measurements (Playwright, 390×844 / 820×1180 /
+    1440×900):** root, web index, catalogue — no page pan, prose
+    reflows (catalogue keeps wide-table crush the owner has approved
+    on-device). Evidence pack — 383 of 789 tables overflowed their box
+    (widest 796px in 366px); diagnosis confirmed: 481 raw-URL cells
+    (links whose display text is the URL — one unbreakable token
+    forcing min-content past the viewport). References — the 7-column
+    R-table at 535px min-content in a 362px box; diagnosis NOT
+    confirmed there: zero raw-URL cells (grep), the drivers are plain
+    tokens (issuer names, title words) in seven fixed columns.
+    **Shipped fix (CSS-only, IA-13's include-in-header location):
+    evidence pack only** — `td a[href^="http"], th a[href^="http"] {
+    overflow-wrap: anywhere; }` plus a phone-width `table {
+    font-size: 0.85em }` step under the template's own 600px
+    breakpoint (web_header() gained a urlwrap variant writing
+    build/pandoc/web-header-urlwrap.html; static CSS, determinism
+    proved). `anywhere` on external-target links alone — unlike the
+    body's inherited break-word it counts in min-content sizing, so
+    URL tables shrink to the viewport and wrap the URL in place;
+    ordinary prose never breaks mid-word. Result at 390: 780/789
+    tables fit (URL cells wrap, e.g. a 73px column carrying its URL
+    over ~10 lines); 9 six-column change-history tables still exceed
+    their box by ≤27px and scroll within their region (the pandoc
+    template's own unconditional display:block/overflow-x:auto —
+    pre-existing, un-churned); page never pans. At 820: 0 over.
+    Desktop unchanged: at 1440 the rule toggles 0 table widths
+    (measured), no caps reintroduced. Catalogue untouched: byte-
+    identical build (site diff = evidence-pack.html only) and
+    pixel-identical 390px screenshots before/after (cmp).
+    **References — attempted and rejected:** the prescribed wrap
+    applied to all cells makes the R-table fit 390px by shattering
+    every word (~50px columns; vision check FAIL: "MITR/E",
+    "Securi/tyWee/k", fragments needing stitching); with hyphenation
+    enabled (lang injection test) "PostQuantum.com" still shatters
+    into six fragments — 7 readable columns need ~490px > 390. A
+    readable CSS-only fit does not exist; the page therefore keeps
+    its byte-identical approved rendering (R-table region-scrolls by
+    the template's own rule) — ESCALATED for an owner decision:
+    accept region scrolling, accept word-shattering, or a non-CSS
+    stacked layout (needs markup). Screenshot evidence at the
+    workspace root (ia18-final-*.png, ia18-*-390-*.png),
+    vision-checked by a vision-model subagent. Gates after: check 0
+    errors / 543 warnings; roundtrip exit 0 (i3/ii125/iii62/iv0,
+    class (iv) empty); two consecutive full builds byte-identical;
+    allowlist 21 files.

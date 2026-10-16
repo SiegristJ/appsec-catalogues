@@ -66,6 +66,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build  # noqa: E402  (tools/build.py — shared build/pandoc/changelog helpers)
 import check  # noqa: E402  (tools/check.py — Corpus)
+import orientation  # noqa: E402  (tools/orientation.py — single source of orientation copy, IA pass)
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "build" / "out"
@@ -248,6 +249,11 @@ def main(argv=None) -> int:
     # -- markdown ----------------------------------------------------------
     lines = [build.stamp_line(meta), "",
              f"# Architecture review extract — {review}", ""]
+    # The orientation preamble (IA pass, deck W4), after the stamp: B1 short
+    # form, then the two lines. Single source: tools/orientation.py.
+    for paragraph in orientation.extract_preamble_paragraphs():
+        lines.append(paragraph)
+        lines.append("")
     lines.append(f"Generated from the {manifest['title']} "
                  f"(`catalogues/{manifest['id']}.yaml`). Conditional "
                  "controls are listed with their trigger text for manual "

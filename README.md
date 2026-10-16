@@ -8,12 +8,50 @@ never hand-edited. The catalogue exists to be selected from: a reviewer declares
 application's architecture features and pulls the applicable threats and controls into
 a specification by ID.
 
-**Status: 1.0.0-beta.1 (import in progress).** This is beta material: it has been
-verified against its cited sources but has not yet had independent review or specialist
-sign-off. It is not yet suitable for risk acceptance or compliance assertions; the
-evidence status of every claim is recorded in the audit register.
+**Status: 1.0.0-beta.1.**
+
+**Beta.** Every claim in this catalogue has been verified against its cited
+sources, but the catalogue has not yet had independent review or specialist
+sign-off. It is not yet suitable for risk acceptance or compliance assertions.
+The evidence behind every claim — sources, tiers, verification status, change
+history — is recorded and open to inspection.
+
+**Why this exists.** Building a reliable knowledge asset is intensive; using
+one is cheap. However, in the age of AI agents, knowledge assets can be easily
+and inexpensively built that provide only an illusion of reliability but in
+reality are unable to be trusted.
+
+This security catalogue is designed to make the knowledge asset reliable not
+because it is published by a trusted authority but because of how it is
+constructed with its contents able to be easily verified against primary
+sources. This construction is further carried out by AI processing through a
+documented, reproducible process, and the corpus and provenance information
+are published along with the catalogue so that this construction process may
+also be reviewed, used and improved upon.
+
+**Intended use.** The catalogue is expected to be accessed as an anchoring
+resource for design and development activities, either by human architects
+and engineers or directly by AI agents. Right now, the contents are organised
+functionally, based on where they may surface in the design and security
+conversations about an application.
+
+There is a reason anchors matter here. AI coding agents draw on priors formed
+from internet code, and those priors are not necessarily strong on security.
+But when a specification carries good anchors — controls and requirements
+cited by ID — the agent knows enough about secure coding practices to
+integrate them effectively into the system. The catalogue's job is to make
+those anchors precise, applicable and evidence-backed.
+
+The mechanism is the prompt: what it contains is what pulls out the agent's
+general knowledge. Ask only for a behavior, and you get code that implements
+the behavior — the security edge cases go unconsidered until the process makes
+the agent handle them. An anchored specification is that process: it puts the
+controls in the prompt's path, where the agent has to work with them.
 
 ## The three outputs
+
+Three ways to use it: pull a spec from it, read it end to end, or consume it
+as an agent.
 
 | Output | Serves |
 | --- | --- |
@@ -61,7 +99,9 @@ Python 3.11+, Pandoc (3.1.2 or later) and Typst. Versions used for the initial b
 | Pandoc | 3.12 |
 | Typst | 0.15.1 |
 
-The PDF renders with `--pdf-engine=typst`. CI installs the same pinned versions.
+The PDF renders through Typst (pandoc's typst writer, post-processed by
+`tools/build.py` for table layout, then compiled with a pinned creation
+timestamp). CI installs the same pinned versions.
 
 ## Running an extract
 
@@ -107,20 +147,15 @@ release mode, creates the GitHub Release and deploys the tag, and `redeploy.yml`
 re-deploys a chosen tag by hand (the rollback path). Generated output is never
 committed, and nothing from `archive/` or `data/` is ever published.
 
-Owner setup, done by the owner and not by the tooling:
-
-- Create a Cloudflare API token from the "Edit Cloudflare Workers" template, scoped to the account and to the complects.com zone only, with an expiry date. If the first deploy cannot attach the custom domain, either add DNS edit on the zone or attach the domain once in the dashboard.
-- In GitHub, create environment `production`. Restrict deployments to tags matching `v*`, add secret `CLOUDFLARE_API_TOKEN` and variable `CLOUDFLARE_ACCOUNT_ID`.
-- Add a tag ruleset so that only the owner can create tags matching `v*`.
-- In Cloudflare, check the zone's bot and AI-crawler settings, so that `llms.txt` and `ai/` are not blocked.
-- Confirm nothing else is already bound to `appsec.complects.com` in the zone; the first deploy creates its DNS record.
-- Record the token's expiry date in `runbook/` as a maintenance task.
-
-The token's expiry check is the first named task in
+Deployment is owner-operated. The workflows above are the whole public
+contract; owner-side account setup is kept by the owner, outside this
+repository. The token's expiry check is the first named task in
 [`runbook/maintenance-runbook.md`](runbook/maintenance-runbook.md).
 
 ## Further reading
 
+- [appsec.complects.com](https://appsec.complects.com/) — the published
+  catalogue, evidence pack and AI editions
 - [`HISTORY.md`](HISTORY.md) — where the catalogue came from and what beta means
 - [`register/governance.md`](register/governance.md) — evidence tiers, verification
   statuses, roles and the change procedure

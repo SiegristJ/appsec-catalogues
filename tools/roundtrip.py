@@ -33,7 +33,10 @@ BOTH sides, and each is a pure function of its input):
 Difference taxonomy (every difference in exactly one class):
 
   (i)    allowed merges (Appendix A/B table merges, reordered rows, change-log
-         addendum merge)
+         addendum merge) and the IA pass's sanctioned "About this edition"
+         insertion — recorded as sanctioned only after byte-verification
+         against the orientation source render (see
+         verify_orientation_insertion); any mismatch there is class (iv)
   (ii)   spec-mandated regeneration: Appendix A "Used in" (18 facts) and
          Appendix B "Cited by" (107 references) render the values regenerated
          per SETUP 5.6-5.7; the sets must reconcile with check.py warning 1
@@ -64,6 +67,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check  # noqa: E402  (tools/check.py — Corpus and regeneration functions)
+import orientation  # noqa: E402  (tools/orientation.py — orientation single source, IA pass)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -744,6 +748,66 @@ def compare_appendix_b(comparison: str, exp_blocks: list, gen_blocks: list,
                           id_prefix="R", links=True)
 
 
+STAMP_VERSION_RE = re.compile(
+    r"^Catalogue version (.+), built \d{4}-\d{2}-\d{2} from commit \S+$")
+
+
+def verify_orientation_insertion(gen_text: str, corpus: check.Corpus,
+                                 diffs: list[Diff]) -> bool:
+    """Recognise the generated "About this edition" section as a sanctioned
+    IA-pass insertion — byte-verified, never a blind skip.
+
+    The expected section is regenerated from tools/orientation.py (which
+    parses register/governance.md) for the version in the generated stamp
+    line, and must be byte-identical to the section actually embedded in
+    build/md/catalogue-full.md. A match is recorded as class (i) (sanctioned);
+    a mismatch or a missing section is class (iv) and fails the run — the
+    deep-link markup that must never enter this file is HTML-only, so any
+    other generated-only content in this section is unexplained.
+
+    Returns True when the section was found (matched or not), so the caller
+    consumes it from the section comparison either way.
+    """
+    comparison = "catalogue"
+    found = re.search(rf"^## {re.escape(orientation.ABOUT_HEADING)}$",
+                      gen_text, re.M)
+    if found is None:
+        diffs.append(Diff(comparison, "iv", "missing orientation section",
+                          f"section '{orientation.ABOUT_HEADING}'",
+                          "the sanctioned IA-pass insertion is absent from "
+                          "the generated edition — generate.py must embed "
+                          "orientation.about_edition_section"))
+        return False
+    boundary = re.search(r"^## ", gen_text[found.end():], re.M)
+    actual = gen_text[found.end() - len(f"## {orientation.ABOUT_HEADING}"):
+                      (found.end() + boundary.start()) if boundary
+                      else len(gen_text)].rstrip("\n")
+    stamp = STAMP_VERSION_RE.match(gen_text.split("\n", 1)[0].strip())
+    if stamp is None:
+        raise SystemExit("roundtrip: the generated catalogue's stamp line "
+                         "does not parse; cannot verify the orientation "
+                         "section")
+    expected = orientation.about_edition_section(
+        stamp.group(1), orientation.parse_governance(corpus.root))
+    if actual != expected:
+        diffs.append(Diff(comparison, "iv", "orientation section mismatch",
+                          f"section '{orientation.ABOUT_HEADING}'",
+                          "the generated section is not byte-identical to "
+                          "the orientation source's render for this stamp "
+                          "(tools/orientation.py)",
+                          export_text=expected, generated_text=actual))
+        return True
+    diffs.append(Diff(comparison, "i",
+                      "sanctioned orientation insertion (IA pass, deck W2; "
+                      "byte-verified against tools/orientation.py)",
+                      f"section '{orientation.ABOUT_HEADING}'",
+                      "generated-only section between the title stamp and "
+                      "'How to use this catalogue'; verified byte-identical "
+                      "to the orientation source's render for this stamp's "
+                      "version"))
+    return True
+
+
 def compare_catalogue(gen_text: str, exp_text: str, corpus: check.Corpus,
                       diffs: list[Diff]) -> None:
     comparison = "catalogue"
@@ -752,6 +816,13 @@ def compare_catalogue(gen_text: str, exp_text: str, corpus: check.Corpus,
                            if aid.startswith("P")}
     esections = sections(exp_text)
     gsections = sections(gen_text)
+
+    # The IA pass inserts a generated "About this edition" section between
+    # the title stamp and "How to use this catalogue" (deck W2). It is a
+    # sanctioned insertion — but only when byte-identical to the orientation
+    # source's render for this stamp; anything else is class (iv).
+    if verify_orientation_insertion(gen_text, corpus, diffs):
+        gsections.pop(orientation.ABOUT_HEADING, None)
 
     for heading in esections:
         if heading != "<title>" and heading not in gsections:

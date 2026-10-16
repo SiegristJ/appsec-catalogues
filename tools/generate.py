@@ -44,6 +44,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import check  # noqa: E402  (tools/check.py — Corpus and regeneration functions)
+import orientation  # noqa: E402  (tools/orientation.py — single source of orientation copy, IA pass)
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / "tools" / "templates"
@@ -522,6 +523,8 @@ def main() -> int:
           render(env, "catalogue-full.md.j2",
                  stamp_line=stamp,
                  catalogue_title=catalogue_title,
+                 about_this_edition=orientation.about_edition_section(
+                     version, orientation.parse_governance(ROOT)),
                  how_to_use=how_to_use,
                  applicability_index=render(env, "applicability-index.md.j2",
                                             stamp=None, h=2, **applicability_ctx).rstrip("\n"),
@@ -545,7 +548,15 @@ def main() -> int:
 
     # -- AI outputs ---------------------------------------------------------
 
-    agents_body = "# Usage contract\n\n" + "\n".join(f"- {b}" for b in AGENTS_BULLETS)
+    # The usage contract plus the "Evidence vocabulary" section (IA pass,
+    # deck W6): the parsed governance legend makes the AI edition
+    # self-describing. catalogue.json's usage_contract is agents_body without
+    # the stamp line, so the vocabulary flows into it automatically.
+    agents_body = ("# Usage contract\n\n"
+                   + "\n".join(f"- {b}" for b in AGENTS_BULLETS)
+                   + "\n\n"
+                   + orientation.agents_evidence_vocabulary(
+                       orientation.parse_governance(ROOT)))
     write(AI / "AGENTS.md", f"{stamp}\n\n{agents_body}\n")
 
     llms = (f"{stamp}\n\n# {catalogue_title}\n\n> {LLMS_DESCRIPTION}\n\n"

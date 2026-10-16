@@ -29,6 +29,14 @@ Rules (section 6 numbering):
       in CI). The allowlist is defined once, in tools/build.py
       site_allowlist(), and imported here so builder and checker cannot
       drift.
+  12  IA pass (owner ruling IA-2, extended by IA-12/14/15): the README's
+      orientation text matches the canonical orientation source,
+      tools/orientation.py — the same module every other artifact renders —
+      so the hand-written README cannot silently drift from the generated
+      orientation. Checked pieces: the beta-status paragraph (deck B2), the
+      "Why this exists" paragraphs (IA-12), the "Intended use" paragraphs
+      (IA-14/IA-15), the "three outputs" lead-in (deck B4) and the live
+      site URL. Silent (no output, no warning) when in sync; ERROR on drift.
 
   Warnings
    1  used_in and "Cited by" differ from the regenerated values
@@ -686,6 +694,51 @@ def rule_11_site_allowlist(corpus: Corpus) -> tuple[list[str], list[str]]:
 
 
 # --------------------------------------------------------------------------
+# rule 12: README orientation sync (IA pass, ruling IA-2)
+# --------------------------------------------------------------------------
+
+def rule_12_readme_orientation(corpus: Corpus) -> list[str]:
+    """The README's orientation text must match tools/orientation.py, the
+    single source every generated artifact renders. The README is
+    hand-written (no build step), so this rule is what keeps it in sync:
+    silent when in sync, an error on drift. Whitespace is collapsed on both
+    sides before comparison (the README wraps lines); everything else,
+    including the markdown bold markers, must match byte for byte."""
+    tools_dir = Path(__file__).resolve().parent
+    if str(tools_dir) not in sys.path:
+        sys.path.insert(0, str(tools_dir))
+    import orientation  # noqa: E402  (tools/orientation.py — the canonical copy)
+
+    readme = corpus.root / "README.md"
+    if not readme.exists():
+        return [f"{rel(readme)}: missing — the README orientation sync rule "
+                "(12) cannot run"]
+    text = normalise_whitespace(readme.read_text(encoding="utf-8"))
+
+    errors = []
+    expected_pieces = (
+        [("beta-status paragraph (deck block B2)", orientation.B2)]
+        + [(f"'Why this exists' paragraph {n} (IA-12)", paragraph)
+           for n, paragraph in enumerate(orientation.README_WHY_PARAGRAPHS, 1)]
+        + [(f"'Intended use' paragraph {n} (IA-14/IA-15)", paragraph)
+           for n, paragraph in enumerate(orientation.README_INTENDED_PARAGRAPHS, 1)]
+        + [("'The three outputs' lead-in (deck block B4)",
+            orientation.README_THREE_OUTPUTS_LEAD_IN)]
+    )
+    for label, expected in expected_pieces:
+        if normalise_whitespace(expected) not in text:
+            errors.append(f"README.md: {label} does not match the canonical "
+                          "orientation source (tools/orientation.py) — sync "
+                          "the README to it (rule 12, IA pass ruling IA-2)")
+    if orientation.SITE_URL not in text:
+        errors.append("README.md: the live site URL "
+                      f"({orientation.SITE_URL}, tools/orientation.py's "
+                      "SITE_URL) is absent from Further reading — sync the "
+                      "README (rule 12, IA pass ruling IA-2)")
+    return errors
+
+
+# --------------------------------------------------------------------------
 # warning rules
 # --------------------------------------------------------------------------
 
@@ -802,6 +855,7 @@ def run(release: str | None = None, root: Path | None = None) -> int:
     add_errors(6, rule6_errors)
     notices.extend(rule6_notices)
     add_errors(10, rule_10_manifests(corpus))
+    add_errors(12, rule_12_readme_orientation(corpus))
 
     site_findings, site_notices = rule_11_site_allowlist(corpus)
     notices.extend(site_notices)

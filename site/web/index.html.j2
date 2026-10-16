@@ -6,21 +6,43 @@
 <title>{{ title }}</title>
 <style>
   body { font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-         margin: 0 auto; max-width: 46rem; padding: 2rem 1.25rem 4rem; color: #16191d; }
+         margin: 0 auto; padding: 2rem 1.25rem 4rem; color: #16191d; }
   h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
-  p.status { color: #3d4451; max-width: 40rem; }
+  h2 { font-size: 1.1rem; margin-top: 2rem; }
+  p.what { color: #3d4451; }
+  p.status { color: #3d4451; }
   p.stamp { color: #5b6270; font-size: 0.85rem; margin-top: 0; }
+  p.project { color: #5b6270; font-size: 0.95rem; }
+  p.role-intro { margin-top: 2rem; }
+  table.roles { border-collapse: collapse; font-size: 0.95rem; }
+  table.roles th, table.roles td { text-align: left; padding: 0.35rem 0.75rem 0.35rem 0;
+                                   border-bottom: 1px solid #d8dce3; vertical-align: top; }
+  table.roles thead th { border-bottom: 1px solid #9aa1ad; }
   ul { padding-left: 1.1rem; }
   li { margin: 0.45rem 0; }
   li p { margin: 0.1rem 0 0; color: #3d4451; font-size: 0.95rem; }
+  code { font-size: 0.9em; }
   footer { border-top: 1px solid #d8dce3; margin-top: 3rem; padding-top: 0.75rem;
            color: #5b6270; font-size: 0.85rem; }
 </style>
 </head>
 <body>
 <h1>{{ title }}</h1>
+<p class="what">{{ one_liner }}</p>
 <p class="status">{{ status_line }}</p>
-<p class="stamp">{{ stamp }}</p>
+<p class="project"><a href="/">New to the project? What it is and how to access and use it: start at the project page.</a></p>
+<p class="role-intro">{{ role_intro_html }}</p>
+<table class="roles">
+  <thead>
+    <tr>{% for column in role_table_header %}<th>{{ column }}</th>{% endfor %}</tr>
+  </thead>
+  <tbody>
+{% for row in role_table_rows_html %}
+    <tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
+{% endfor %}
+  </tbody>
+</table>
+<h2>Artifacts</h2>
 <ul>
   <li><a href="catalogue.html">Catalogue (HTML)</a>
     <p>The full reference edition, with a table of contents and an anchor on
@@ -29,6 +51,9 @@
   <li><a href="evidence-pack.html">Evidence pack</a>
     <p>One section per ID: its claim record, its references with tier, URL
     and snapshot status, and the change-log rows that mention it.</p></li>
+  <li><a href="references.html">References</a>
+    <p>Every cited source with its tier, link and citation reach
+    (Appendix B, rendered).</p></li>
   <li>Downloads
     <p><a href="downloads/catalogue.pdf">catalogue.pdf</a> &middot;
     <a href="downloads/catalogue.docx">catalogue.docx</a> &middot;
