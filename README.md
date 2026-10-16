@@ -152,6 +152,12 @@ contract; owner-side account setup is kept by the owner, outside this
 repository. The token's expiry check is the first named task in
 [`runbook/maintenance-runbook.md`](runbook/maintenance-runbook.md).
 
+## Licences
+
+Code is licensed under the Apache License 2.0 ([`LICENSE`](LICENSE)).
+The corpus and the generated catalogue editions and site content are
+licensed under CC BY 4.0 ([`LICENSE-DATA`](LICENSE-DATA)).
+
 ## Further reading
 
 - [appsec.complects.com](https://appsec.complects.com/) — the published
